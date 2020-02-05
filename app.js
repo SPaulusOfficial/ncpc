@@ -171,7 +171,7 @@ app.get('/package', async function(req, res, next) {
       console.log(packageConfig.rows,languages.rows);
       var package = {};
       package.config = packageConfig.rows;
-      package.languages = languages.row;
+      package.languages = languages.rows;
       console.log(package);
 
       res.render('package', {
