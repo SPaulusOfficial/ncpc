@@ -1,0 +1,24 @@
+{% if lang == 'EN-US' %}
+  <div class="pc-sidebar-links">
+    <a href="#subscription-profile">Subscription Profile</a>
+    <a href="#my-interests">My Interests</a>
+    <a href="#my-subscriptions">My Subscriptions</a>
+    <button class="btn btn-green btn-large" id="pc-save" data-text="Save" data-saving-text="Saving..."></button>
+  </div>
+{% endif %}
+
+{% if lang == 'EN-CA' %}
+  <div class="pc-sidebar-links">
+    <a href="#subscription-profile">Subscription Profile</a>
+    <a href="#my-subscriptions">My Subscriptions</a>
+    <button class="btn btn-green btn-large" id="pc-save" data-text="Save" data-saving-text="Saving..."></button>
+  </div>
+{% endif %}
+
+{% if lang == 'FR-CA' %}
+  <div class="pc-sidebar-links">
+    <a href="#subscription-profile">Profil d'abonnement</a>
+    <a href="#my-subscriptions">Mes inscriptions</a>
+    <button class="btn btn-green btn-large" id="pc-save" data-text="Sauvegarder" data-saving-text="Le Sauvetage..."></button>
+  </div>
+{% endif %}

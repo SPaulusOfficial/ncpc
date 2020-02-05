@@ -1,0 +1,28 @@
+{
+  "name": "ncpc",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-util": "^3.0.7",
+    "gulp-atom-downloader": "^0.2.1",
+    "gulp-nodemon": "^2.0.6",
+    "gulp-livereload": "^3.8.1",
+    "gulp-env": "^0.4.0"
+  },
+  "dependencies": {
+    "@sentry/node": "^5.11.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dateformat": "^3.0.3",
+    "ejs": "^3.0.1",
+    "express": "^4.13.4",
+    "jsforce": "^1.9.3",
+    "node-salesforce": "^0.8.0",
+    "nunjucks": "^3.2.0",
+    "pg": "^7.17.0",
+    "uuid": "^3.4.0"
+  }
+}

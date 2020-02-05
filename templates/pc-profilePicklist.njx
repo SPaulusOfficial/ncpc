@@ -1,0 +1,24 @@
+<div class="row profile-field-options">
+{% for field in ProfileFieldOptions | sort(false, true, "order") %}
+  {# Set language #}
+  {% set label = field.englishLabel %}
+  {% set placeholder = field.englishPlaceholder %}
+
+  {% if language == "FR-CA" %}
+    {% set label = field.frenchLabel %}
+    {% set placeholder = field.frenchPlaceholder %}
+  {% endif %}
+  {% if field.fieldType == "Multi-Picklist" %}
+    <div class="form-group col-sm-6">
+      <label for="{{ field.mappedField }}">{{ label }}</label>
+          <select type="{{ field.fieldType }}" multiple="multiple" class="multi-select" data-mapped-field="{{ field.mappedField }}">
+              {% for key, item in field.fieldOptions[0] %}
+                <option value="{{ item }}">{{ item }}</option>
+              {% endfor %}
+          </select>
+    </div>
+      {% endif %}
+    {% endfor %}
+
+</div>
+

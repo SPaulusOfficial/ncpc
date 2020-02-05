@@ -1,0 +1,43 @@
+{% set unsubscribe = 'Unsubscribe All' %}
+{% if lang == "FR-CA" %}
+  {% set unsubscribe = 'Se désabonner de tout' %}
+{% endif %}
+<hr class="hr-large">
+<div class="row">
+  <div class="col">
+    <h2 id="interests">My Interests</h2>
+  </div>
+</div>
+<div class="interest-cards">
+  <div>
+    {% for int in Interest | sort(false, true, "order") %}
+      {% set checked = '' %}
+      {% set active = '' %}
+      {% set title = int.ncpc__Display_Text__c %}
+      {% set description = int.ncpc__Display_Description__c %}
+      {% set unsubscribe = 'Unsubscribe All' %}
+      {% if int.fieldValue %}
+        {% set checked = 'checked' %}
+        {% set active = 'active' %}
+      {% endif %}
+        <div class="interest-card {{ active }}">
+          <div>
+          {% if int.ncpc__Icon_URL__c %}
+            <a>
+                <img class="img-fluid" src="{{ int.ncpc__Icon_URL__c | safe }}" alt="">
+          {% else %}
+            <a class="nullImg">
+          {% endif %}
+              <div class="form-check">
+                  <input type="checkbox" {{ checked }} data-customer-int-id="{{ int.contactIntId }}" data-available-int-id="{{ int.Id }}" class="form-check-input form-field">
+                  
+                  <label class="form-check-label" for="{{ int.Id }}">{{ title | safe }}
+                  <p>{{ description | safe }}</p>
+                  </label>
+              </div>
+            </a>
+          </div>
+        </div>     
+    {% endfor %}
+  </div>
+</div>

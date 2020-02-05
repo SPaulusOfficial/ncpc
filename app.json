@@ -1,0 +1,7 @@
+{
+  "name": "NoCode Preference Center",
+  "description": "The No-Code Preference Center package gives you the framework to scalable manage your customers subscriptions with clicks, not code. This package includes the ability to manage subscriptions, interests, questions & answers, and profile information.",
+  "repository": "https://github.com/ssmyth-horizontal/ncpc-postgres-horizontal",
+  "website": "http://www.horizontal.com",
+  "addons": ["papertrail"]
+}

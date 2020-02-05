@@ -1,0 +1,84 @@
+{% set unsubscribe = 'Unsubscribe All' %}
+<hr class="hr-large">
+<div class="row">
+  <div class="col">
+    <h2 id="subscriptions">My Subscriptions</h2>
+  </div>
+</div>
+<!-- add 'wide' class below for full width cards -->
+<div class="subscription-cards {{ config.layout }}">
+  {% for cat in Categories | sort(false, true, "order") %}
+    {% set catTitle = cat.ncpc__Category_Display_Text__c %}
+    {% set collapseId  = cat.ncpc__Display_Category__c %}
+      <div class="section">
+        <div class="category collapsed" data-toggle="collapse" href="#collapse{{ collapseId }}" aria-expanded="false" aria-controls="collapse{{ collapseId }}">
+          <h3>{{catTitle}}</h3> <span class="chevron bottom"></span>
+        </div>
+        <div class="collapse" id="collapse{{ collapseId }}">
+          <div class="row">
+            {% for sub in cat.Subscription | sort(false, true, "order") %}
+              {% set checked = '' %}
+              {% set disabled = '' %}
+              {% set title = sub.ncpc__Display_Text__c %}
+              {% set description = sub.ncpc__Display_Description__c %}
+              {% set unsubscribe = 'Unsubscribe All' %}
+              {% if sub.fieldValue %}
+                {% set checked = 'checked' %}
+              {% endif %}
+
+              {% if config.layout == 'wide' %}
+                <div class="subscription-card">
+                  <div class="subscription-card-content">
+                    <div class="subscription-card-heading row">
+                      <div class="subscription-card-title">{{ title | safe }} 
+                        <p class="subscription-card-description">{{ description | safe }}</p>
+                      </div>
+                      {% if sub.ncpc__Channel__c == "SMS" %}
+                        <div class="label label-default sms"><span>{{ sub.ncpc__Channel__c }}</span></div>
+                      {% else %}
+                        <div class="label label-default email"><span>{{ sub.ncpc__Channel__c }}</span></div>
+                      {% endif %}
+                      <div class="subscription-card-toggle">
+                        <label class="switch">
+                          <input class="{{ sub.ncpc__Channel__c | lower }}" type="checkbox" {{ checked }} {% if sub.disabled %} disabled {% endif %} data-customer-sub-id="{{ sub.contactSubId }}" data-available-sub-id="{{ sub.subId }}">
+                          <span class="slider"></span>
+                          <span class="switch-indicator" data-subscribed="Subscribed!" data-unsubscribed="Unsubscribed"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% else %}
+                <div class="subscription-card col-lg-4">
+                  <div class="subscription-card-content">
+                    <div class="subscription-card-heading row">
+                      <div class="subscription-card-title"">{{ title | safe }}</div>
+                      {% if sub.ncpc__Channel__c == "SMS" %}
+                        <div class="label label-default sms"><span>{{ sub.ncpc__Channel__c }}</span></div>
+                      {% else %}
+                        <div class="label label-default email"><span>{{ sub.ncpc__Channel__c }}</span></div>
+                      {% endif %}
+                    </div>
+                    <p class="subscription-card-description">{{ description | safe }}</p>
+                    <div class="subscription-card-toggle">
+                      <label class="switch">
+                        <input type="checkbox" {{ checked }} {% if sub.ncpc__Disabled__c %} disabled {% endif %} data-customer-sub-id="{{ sub.contactSubId }}" data-available-sub-id="{{ sub.Id }}">
+                        <span class="slider"></span>
+                        <span class="switch-indicator" data-subscribed="Subscribed!" data-unsubscribed="Unsubscribed"></span>
+                      </label>
+                    </div>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+  {% endfor %}
+</div>
+
+<div class="row">
+  <div class="col">
+    <button class="btn btn-dark-gray btn-large" href="#" id="unsubscribe-all">{{ unsubscribe }}</a>
+  </div>
+</div>

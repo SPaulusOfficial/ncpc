@@ -1,0 +1,11 @@
+{% if lang == 'EN-US' %}
+  CLIENT
+{% endif %}
+
+{% if lang == 'EN-CA' %}
+  CLIENT
+{% endif %}
+
+{% if lang == 'FR-CA' %}
+  CLIENT
+{% endif %}

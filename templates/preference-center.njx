@@ -1,0 +1,64 @@
+<div class="container preference-center">
+  <div class="row">
+    <div class="col-lg-3 pc-sidebar">
+      <a href="#subscription-profile">Subscription Profile</a>
+      <a href="#my-subscriptions">My Subscriptions</a>
+      <br><br>
+      <button class="btn btn-blue btn-large">Save Changes</button>
+    </div>
+
+    <div class="col-lg-9 pc-main-content">
+      <div class="row">
+        <div class="col-12">
+          <h2 id="subscription-profile">Subscription Profile</h2>
+          <p>We need your email for sure, but we also want to know you better by name as well!</p>
+
+      
+      </div>
+        </div>
+      </div>
+
+      <label>What is your name?</label>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" name="name" placeholder="First Name" value="{{ ProfileInfo.First_Name }}">
+        </div>
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" name="name" placeholder="Last Name" value="{{ ProfileInfo.Last_Name }}">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">What is your email address?</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter your email address" value="{{ ProfileInfo.Email }}">
+      </div>
+
+      <div class="form-group">
+        <label for="location">Where are you located?</label>
+        <input type="tel" class="form-control" id="location" placeholder="Enter your zip/postal code">
+      </div>
+      
+
+      <hr class="hr-large">
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group checkboxes">
+            <label>
+              <input type="checkbox" value="Architect and Design News"> Architect and Design News
+            </label>
+            <label>
+              <input type="checkbox" checked value="Fabricator News"> Fabricator News
+            </label>
+            <label>
+              <input type="checkbox" value="Homeowner News"> Homeowner News
+            </label>
+            <label>
+              <input type="checkbox" value="Kitchen and Bath News"> Kitchen and Bath News
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

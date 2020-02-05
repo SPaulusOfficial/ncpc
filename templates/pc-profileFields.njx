@@ -1,0 +1,29 @@
+<div class="row profile-field-fields">
+  {% for field in ProfileFields | sort(false, true, "order") %}
+    {# Set language #}
+    {% set label = field.englishLabel %}
+    {% set placeholder = field.englishPlaceholder %}
+
+    {% if language == "FR-CA" %}
+      {% set label = field.frenchLabel %}
+      {% set placeholder = field.frenchPlaceholder %}
+    {% endif %}
+
+    {% if field.fieldType !== "Multi-Picklist" %}
+      <div class="form-group col-sm-6">
+        <label for="{{ field.mappedField }}">{{ label }}</label>
+        <input required 
+          {% if field.disabled %} disabled {% endif %}  
+          type="{{ field.fieldType }}" 
+          name="{{ field.mappedField }}"
+          minlength="1"
+          maxlength="80"
+          class="form-control profile-input"
+          id="{{ field.mappedField }}"
+          placeholder="{{ placeholder }}"
+          value="{{ field.fieldValue }}"
+          data-mapped-field="{{ field.mappedField }}">
+      </div>
+    {% endif %}
+{% endfor %}
+</div>

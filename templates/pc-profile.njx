@@ -1,0 +1,43 @@
+
+<div class="row">
+  {% for field in ProfileFields | sort(false, true, "order") %}
+    {# Set language #}
+    {% set label = field.ncpc__Field_Text__c %}
+    {% set placeholder = field.ncpc__Field_Placeholder_Text__c%}
+
+    {% if language == "FR-CA" %}
+      {% set label = field.ncpc__Field_Text__c %}
+      {% set placeholder = field.ncpc__Field_Placeholder_Text__c %}
+    {% endif %}
+
+    {% if field.ncpc__Field_Type__c !== "Multi-Picklist" %}
+      <div class="form-group col-sm-6">
+        <label for="{{ field.ncpc__Contact_Mapped_Field__c }}">{{ label }}</label>
+        <input required 
+          {% if field.ncpc__Editable__c %} disabled {% endif %}  
+          type="{{ field.ncpc__Field_Type__c }}" 
+          name="{{ field.ncpc__Contact_Mapped_Field__c }}"
+          minlength="1"
+          maxlength="80"
+          class="form-control profile-input"
+          id="{{ field.ncpc__Contact_Mapped_Field__c }}"
+          placeholder="{{ placeholder }}"
+          value="{{ field.fieldValue }}"
+          data-mapped-field="{{ field.ncpc__Contact_Mapped_Field__c }}">
+      </div>
+      {% else %}
+      <div class="form-group col-sm-6">
+      <label for="{{ field.ncpc__Contact_Mapped_Field__c }}">{{ label }}</label>
+          <select type="{{ field.ncpc__Field_Type__c }}" multiple="multiple" class="multi-select" data-mapped-field="{{ field.ncpc__Contact_Mapped_Field__c }}">
+              {% for key, item in field.fieldOptions[0] %}
+                <option value="{{ item }}">{{ item }}</option>
+              {% endfor %}
+          </select>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+
+
+
+

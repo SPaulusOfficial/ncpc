@@ -1,0 +1,24 @@
+<div class="language-selector-container">
+  <div class="language-selector">
+    {% if profile.lang == "EN-US" %}
+      <div class="language-selector-toggle lang-us" href="#">English</span></div>
+    {% elif profile.lang == "EN-CA" %}
+      <a class="language-selector-toggle" href="#">English</span></a>
+    {% elif profile.lang == "FR-CA" %}
+      <a class="language-selector-toggle" href="#">French</span></a>
+    {% endif %}
+    
+
+    {% if profile.lang == "EN-US" %}
+    {# removed canada options if in US #}
+    {% elif profile.lang == "EN-CA" %}
+      <ul id="language-selector" class="language-selector-list">
+        <li><a href="{{ baseUrl }}?id={{ profile.id }}&bu=CA&lang=FR-CA" data-lang="FR-CA">French</a></li>
+      </ul>
+    {% elif profile.lang == "FR-CA" %}
+      <ul id="language-selector" class="language-selector-list">
+        <li><a href="{{ baseUrl }}?id={{ profile.id }}&bu=CA&lang=EN-CA" data-lang="EN-CA">English</a></li>
+      </ul>
+    {% endif %}
+  </div>
+</div>

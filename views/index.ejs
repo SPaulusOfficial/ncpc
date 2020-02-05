@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Preference Center</title>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0" />
+
+  <link rel="shortcut icon" href="/favicon.ico?v=1">
+  <link rel="stylesheet" href="css/main.css">
+
+  <!--DO NOT MODIFY-->
+  <link type="text/css" rel="stylesheet" href="//fast.fonts.net/cssapi/fc405c0c-c18d-4355-9790-6b6e34931df3.css" />
+  <script type="text/javascript" src="//fast.fonts.net/jsapi/fc405c0c-c18d-4355-9790-6b6e34931df3.js" async></script>
+  <style type="text/css">
+    body {
+      color: #333; }
+      body.loading:after {
+        border: 6px solid <%- config.ncpc__Brand_Color_Hex_Code__c %>;
+        border-bottom: 6px solid transparent; }
+      body a {
+        color: #000; }
+        body a:hover {
+          color: <%- config.ncpc__Brand_Color_Hex_Code__c %>; }
+      body .btn {
+        color: #fff; }
+        body .btn:hover {
+          color: #fff; }
+    
+    .interest-card {
+      color: #333; }
+      .interest-card p {
+        color: #333; }
+      .interest-card.active > div {
+        border: 1px solid <%- config.ncpc__Brand_Color_Hex_Code__c %>; }
+      .interest-card.active label.form-check-label {
+        color: <%- config.ncpc__Brand_Color_Hex_Code__c %>; }
+      .interest-card input[type="checkbox"]:checked + label::before {
+        background-color: <%- config.ncpc__Brand_Color_Hex_Code__c %>;
+        border: 1px <%- config.ncpc__Brand_Color_Hex_Code__c %> solid;
+        outline-color: <%- config.ncpc__Brand_Color_Hex_Code__c %>; }
+    
+    .subscription-card {
+      color: #333; }
+      .subscription-card div.label span {
+        color: white;
+        background-color: gray; }
+      .subscription-card .switch .slider {
+        background-color: rgb(100, 100, 100); }
+      .subscription-card input:checked + .slider {
+        background-color: <%- config.ncpc__Brand_Color_Hex_Code__c %>; }
+      .subscription-card input:disabled + .slider {
+        background-color: <%- config.ncpc__Disabled_Toggle_Color_Hex_Code__c %>; }
+    
+    .ms-options-wrap > .ms-options > ul input[type="checkbox"]:checked {
+      background-color: <%- config.ncpc__Brand_Color_Hex_Code__c %>;
+      border: 1px <%- config.ncpc__Brand_Color_Hex_Code__c %> solid;
+      outline-color: <%- config.ncpc__Brand_Color_Hex_Code__c %>; }
+    
+    .ms-options-wrap > .ms-options {
+      border: 1px solid <%- config.ncpc__Brand_Color_Hex_Code__c %>;
+      left: initial;
+      min-height: initial !important;
+      border-radius: 8px; }
+
+    .hero {
+      background: url("<%- config.ncpc__Banner_Url__c %>") top center;
+      background-size: cover;
+      height: 300px; }  
+  </style>
+</head>
+
+<body class="loading">
+  <header class="header">
+  <div class="header-container">
+    <div class="header-branding">
+      <!--Logo-->  
+      <a href="<%- config.ncpc__Logo_Link_Url__c %>"><img class="navigation-logo" src='<%- config.ncpc__Logo_Url__c %>' alt="Logo"></a>
+    </div>
+
+    <div class="header-utility-nav"></div>
+  </div>
+</header>
+
+<main class="site-content">
+  <div class="hero">
+    <div class="hero-content">
+      <h1 class="hero-heading"><%- config.ncpc__Banner_Text_2__c %></h1></div></div>
+
+  <form id="profile-form">
+  <div class="container" id="preference-center">
+  <div class="row">
+      <div class="col-lg-3 pc-sidebar" id="pc-sidebar"></div>
+
+      <div class="col-lg-9 pc-main-content">
+          <h2><%- config.ncpc__Profile_Header__c %></h2>
+          <%- config.ncpc__Profile_Text__c %>
+          
+      <div id="subscription-profile"></div>
+      <div id="my-interests"></div>
+      <div id="my-subscriptions"></div>
+
+      </div>
+  </div>
+  </div>
+  </form>
+</main>
+ <footer class="footer">
+    <table cellpadding="0" cellspacing="0" width="100%" style="min-width: 100%; " class="stylingblock-content-wrapper">
+      <tbody><tr><td class="stylingblock-content-wrapper camarker-inner">
+        <div class="container">
+            <%- config.ncpc__Footer_Text__c %>
+        </div>
+      </td></tr>
+    </tbody>
+  </table>
+ </footer>
+  
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!-- Vendor -->
+  <script src="js/vendor.js"></script>
+  <!-- Template -->
+  <script src="js/templates.js"></script>
+  <!--Main.js-->
+  <script type="text/javascript" src="js/main.js"></script>
+  
+</body>
+</html>
