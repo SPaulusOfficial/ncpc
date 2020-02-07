@@ -51,7 +51,7 @@ class MyProfile extends React.Component {
 
       const $save = $('#btn-save');
 
-      let fieldValue = '';
+      let fieldValue = ' ';
       
       $save.attr('disabled', true);
 
@@ -59,6 +59,7 @@ class MyProfile extends React.Component {
         fieldValue = selections.map(selection => {
           return selection.label
         }).join(';');
+        if (fieldValue === '') { fieldValue = ' '; }
       } else if (selections !== null) {
         fieldValue = selections.label;
       }
