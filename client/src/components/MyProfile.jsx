@@ -142,7 +142,8 @@ class MyProfile extends React.Component {
       case 'Email':
         return <EmailInput callback={this.onBlurInput} defaultValue={attributes.value} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} placeholder={attributes.placeholder} />;
       case 'Multi-Picklist':
-        return <MultiSelect callback={this.onChangeMultiSelect} allowMultiple={attributes.allowMultiple} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} options={attributes.options} placeholder={attributes.placeholder} value={attributes.value} />;
+      case 'Picklist':
+        return <MultiSelect callback={this.onChangeMultiSelect} controlType={attributes.controlType} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} options={attributes.options} placeholder={attributes.placeholder} value={attributes.value} />;
       case 'Text':
         return <TextInput callback={this.onBlurInput} defaultValue={attributes.value} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} placeholder={attributes.placeholder} />;
       default:
