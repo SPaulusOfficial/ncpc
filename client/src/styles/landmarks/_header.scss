@@ -1,0 +1,40 @@
+header {
+  background: $color-background-light;
+  box-shadow: 0 0 30px 0 $header-shadow;
+  left: 0px;
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  z-index: 200;
+}
+
+header .container {
+  align-items: center;
+  display: flex;
+  height: 84px;
+}
+
+.header-locale {
+  @include font-primary('condensed');
+
+  flex: 1 1 0;
+  font-size: 14px;
+  margin-bottom: 0px;
+  text-align: right;
+}
+
+.header-logo {
+  width: 50px;
+
+  @media screen and (min-width: $screen-md-min) {
+    width: 68px;
+  }
+
+  @media screen and (min-width: $screen-lg-min) {
+    width: 72px;
+  }
+
+  @media screen and (min-width: $screen-xl-min) {
+    width: 88px;
+  }
+}

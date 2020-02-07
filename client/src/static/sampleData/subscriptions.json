@@ -1,0 +1,145 @@
+[
+  {
+    "catcontrolType": "formGroup",
+    "catid": "a002E00000Zkwaq",
+    "catlabel": "Sales Cloud",
+    "catorder": 1,
+    "subscriptions": [
+      {
+        "availableSubId": "a012E00000hJ2uKQAS",
+        "campaigns": [],
+        "channel": "Email",
+        "checked": null,
+        "controlType": "switch",
+        "description": "A quarterly newsletter discussing new innovations on nutrition",
+        "disabled": true,
+        "label": "Sales Cloud Webinar",
+        "order": 1,
+        "public": true,
+        "userSubId": null
+      },{
+        "availableSubId": "a012E00000hJ2uPQAS",
+        "campaigns": [],
+        "channel": "Email",
+        "checked": null,
+        "controlType": "switch",
+        "description": "A periodic email informing you of upcoming events in your local community",
+        "disabled": false,
+        "label": "Community Events",
+        "order": 0,
+        "public": true,
+        "userSubId": null
+      }
+    ]
+  },{
+    "catcontrolType": "formGroup",
+    "catid": "a002E00000Zkwag",
+    "catlabel": "General",
+    "catorder": 0,
+    "subscriptions": [
+      {
+        "availableSubId": "a012E00000jb02uQAA",
+        "campaigns": [
+          {
+            "campaignId": "7012E000005gjXoQAI",
+            "campaignUserId": null,
+            "checked": false,
+            "controlType": "facet",
+            "disabled": false,
+            "label": "Eagan Community Group",
+            "order": 4
+          },{
+            "campaignId": "7012E000004gjXoQAI",
+            "campaignUserId": null,
+            "checked": false,
+            "controlType": "facet",
+            "disabled": false,
+            "label": "Minneapolis Community Group",
+            "order": 3
+          },{
+            "campaignId": "7012E000003gjXoQAI",
+            "campaignUserId": null,
+            "checked": false,
+            "controlType": "facet",
+            "disabled": false,
+            "label": "Sales Cloud",
+            "order": 2
+          },{
+            "campaignId": "7012E000002gkAqQAI",
+            "campaignUserId": null,
+            "checked": false,
+            "controlType": "facet",
+            "disabled": false,
+            "label": "St Louis Park Community Group",
+            "order": 1
+          },{
+            "campaignId": "7012E000001gkAlQAI",
+            "campaignUserId": null,
+            "checked": false,
+            "controlType": "facet",
+            "disabled": false,
+            "label": "Bloomington Community Group",
+            "order": 0
+          }
+        ],
+        "channel": "Email",
+        "checked": true,
+        "controlType": "switch",
+        "description": "A periodic email informing you of upcoming events in your local community",
+        "disabled": false,
+        "label": "Community Group",
+        "order": 4,
+        "public": true,
+        "userSubId": null
+      },{
+        "availableSubId": "a012E00000hJ2uAQAS",
+        "campaigns": [],
+        "channel": "Email",
+        "checked": true,
+        "controlType": "switch",
+        "description": "A monthly newsletter discussing topics to help the world thrive",
+        "disabled": false,
+        "label": "Partner Program",
+        "order": 3,
+        "public": true,
+        "userSubId": null
+      },{
+        "availableSubId": "a012E00000hVs5pQAC",
+        "campaigns": [],
+        "channel": "Email",
+        "checked": null,
+        "controlType": "switch",
+        "description": "Join our webinars to see what's new! A monthly newsletter discussing topics to help the world thrive",
+        "disabled": false,
+        "label": "Marketing Cloud Release Webinars",
+        "order": 2,
+        "public": true,
+        "userSubId": null
+      },{
+        "availableSubId": "a012E00000jdlHvQAI",
+        "campaigns": [],
+        "channel": "sms",
+        "checked": false,
+        "controlType": "switch",
+        "description": "Alerts based on outages in the products & stacks associated to you. It's a great way to connect with your community",
+        "disabled": null,
+        "label": "Outage Notifications",
+        "order": 1,
+        "public": true,
+        "userSubId": null
+      },{
+        "availableSubId": "a012E00000hJ2IGQA0",
+        "campaigns": [],
+        "channel": "Email",
+        "checked": true,
+        "controlType": "switch",
+        "description": "A monthly newsletter sharing trends, insights and solutions for label-friendly formulations",
+        "disabled": false,
+        "label": "Analytics Champion Fireside",
+        "order": 0,
+        "public": true,
+        "userSubId": null
+      }
+    ]
+  }
+]

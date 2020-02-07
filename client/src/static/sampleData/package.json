@@ -1,0 +1,67 @@
+{
+  "languages": [
+    {
+      "ncpc__parameter__c": "EN-US", 
+      "ncpc__business_unit_parameter__c": "US", 
+      "_hc_lastop": null, 
+      "name": "English - AMEA", 
+      "ncpc__language__c": "a0a2E00000UBTVXQA5", 
+      "_hc_err": null, 
+      "ncpc__language_parameter__c": "EN", 
+      "ncpc__business_unit__c": "a0Z2E00000KXzS2UAL", 
+      "ncpc__default_language__c": true, 
+      "createddate": "2020-01-20T15:12:42.000Z", 
+      "systemmodstamp": "2020-01-20T15:15:15.000Z", 
+      "sfid": "a0g2E000007xOfRQAU", 
+      "id": 1, 
+      "isdeleted": false
+    }, 
+    {
+      "ncpc__parameter__c": "ES-US", 
+      "ncpc__business_unit_parameter__c": "US", 
+      "_hc_lastop": null, 
+      "name": "Spanish - AMEA", 
+      "ncpc__language__c": "a0a2E00000UBTVYQA5", 
+      "_hc_err": null, 
+      "ncpc__language_parameter__c": "ES", 
+      "ncpc__business_unit__c": "a0Z2E00000KXzS2UAL", 
+      "ncpc__default_language__c": false, 
+      "createddate": "2020-01-20T15:15:39.000Z", 
+      "systemmodstamp": "2020-01-24T15:51:49.000Z", 
+      "sfid": "a0g2E000007xOfWQAU", 
+      "id": 4, 
+      "isdeleted": false
+    }
+  ], 
+  "config": [
+    {
+      		"ncpc__active_toggle_color_hex_code__c": "#2275D3", 
+      "sfid": "a0X2E00000KxvUiUAJ", 
+      		"ncpc__brand_color_hex_code__c": "#2275D3", 
+      "_hc_lastop": null, 
+      "ncpc__inactive_toggle_color_hex_code__c": null, 
+      "ncpc__footer_text__c": "<p><a href=\"https://www.horizontal.com/page/privacy-center\" target=\"_blank\">Privacy Policy</a> <a href=\"https://www.horizontal.com/page/website-terms\" target=\"_blank\">Terms of Use</a> </p><p><br></p><p>Horizontal \u00ae</p><p>&copy; 2019 Horizontal</p>", 
+      		"ncpc__profile_header__c": "My Profile", 
+      "id": 3, 
+      "ncpc__subscription_layout__c": "List", 
+      		"ncpc__interest_header__c": "My Interests", 
+      "createddate": "2019-08-19T00:24:15.000Z", 
+      "ncpc__business_unit_language__c": "a0g2E000007xOfRQAU", 
+      "isdeleted": false, 
+      "ncpc__parameter__c": "EN-US", 
+      		"ncpc__subscription_intro__c": null, 
+      		"ncpc__logo_link_url__c": "https://www.salesforce.com", 
+      		"ncpc__banner_url__c": "https://image.s10.sfmc-content.com/lib/fe3215707564077a7c1c71/m/1/0b4a84c6-b2b5-4563-8f73-d8276bd9010c.png", 
+      		"ncpc__button_color_hex_code__c": "#2275D3", 
+      		"ncpc__profile_text__c": "<p>When you subscribe to our monthly newsletter, you&#39;ll receive news about products, trends and more. Update you newsletter subscription to select the newsletter that best fits you. You can change this at any time.</p>", 
+      		"ncpc__subscription_header__c": "My Subscriptions", 
+      "name": "PCPC-0001", 
+      "ncpc__disabled_toggle_color_hex_code__c": null, 
+      "_hc_err": null, 
+      "systemmodstamp": "2020-01-24T15:25:23.000Z", 
+      		"ncpc__logo_url__c": "https://image.s10.sfmc-content.com/lib/fe3215707564077a7c1c71/m/1/7ceedbbc-d950-45e8-997e-d3199e248ac4.png", 
+      		"ncpc__banner_text_2__c": "Manage Salesforce Subscriptions", 
+      		"ncpc__interest_text__c": null
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+.hero {
+  align-items: center;
+  background: url('https://image.s10.sfmc-content.com/lib/fe3215707564077a7c1c71/m/1/0b4a84c6-b2b5-4563-8f73-d8276bd9010c.png') top center;
+  background-size: cover;
+  display: flex;
+  height: 300px;
+  margin: 0 -15px;
+
+  @media screen and (min-width: $screen-lg-min) {
+    margin-bottom: $spacer-size * 8;
+  }
+}
+
+.hero-heading {
+  color: $color-brand-secondary;
+  margin-bottom: 0;
+  text-align: center;
+  @include font-primary('regular');
+}

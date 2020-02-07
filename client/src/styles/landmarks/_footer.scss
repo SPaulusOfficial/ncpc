@@ -1,0 +1,44 @@
+footer {
+  background: $color-background-dark;
+  color: $color-white;
+  margin-bottom: 52px;
+  padding: ($spacer-size * 4) 0px;
+
+  @media screen and (min-width: $screen-lg-min) {
+    margin-bottom: 0px;
+    margin-top: 64px;
+  }
+}
+
+.footer-legal {
+  font-size: 10px;
+  line-height: 1em;
+}
+
+.footer-nav {
+  @include font-primary('condensed');
+  
+  border-bottom: 1px solid $cta-light;
+  margin-bottom: $spacer-size * 3;
+
+  @media screen and (min-width: $screen-lg-min) {
+    border-bottom: none;
+    margin-bottom: 0px;
+  }
+}
+
+.footer-nav a {
+  color: $color-white;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.footer-nav .list-inline-item {
+  padding: $spacer-size * 2 0;
+}
+
+.footer-nav .list-inline-item + .list-inline-item {
+  padding-left: $spacer-size * 2;
+}

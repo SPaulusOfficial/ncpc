@@ -1,0 +1,66 @@
+.btn {
+  @include font-primary('bold');
+
+  border-radius: $spacer-size;
+  font-size: 12px;
+  padding: $spacer-size * 1.5;
+  transition: background-color 0.35s;
+}
+
+.btn-lg {
+  min-width: 140px;
+  padding: ($spacer-size * 2) ($spacer-size * 4);
+}
+
+.btn-primary {
+  background: var(--button-default);
+  border-color: var(--button-default);
+
+  &:hover {
+    background: var(--button-hover);
+    border-color: var(--button-hover);
+  }
+
+  &:disabled {
+    background: $color-gray;
+    border-color: $color-gray;
+    cursor: default;
+  }
+}
+
+#btn-save {
+  border-radius: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  transition: all $animation-duration;
+  width: 100%;
+  z-index: 100;
+
+  @media screen and (min-width: $screen-lg-min) {
+    border-radius: 8px;
+    position: relative;
+    width: auto;
+  }
+}
+
+#btn-save > * {
+  transition: all $animation-duration;
+}
+
+#btn-save .btn-save-label_active {
+  display: none;
+}
+
+#btn-save .btn-save-label_inactive {
+  display: inline;
+}
+
+#btn-save:disabled .btn-save-label_active {
+  display: inline;
+}
+
+#btn-save:disabled .btn-save-label_inactive {
+  display: none;
+}

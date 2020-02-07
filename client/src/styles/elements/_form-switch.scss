@@ -1,0 +1,118 @@
+.form-switch {
+  position: relative;
+}
+
+.form-switch-badge {
+  align-self: flex-start;
+  flex: 0 1 0;
+  font-size: 14px;
+  padding: spacer(1) spacer(1.5);
+  text-transform: capitalize;
+
+  @media screen and (min-width: $screen-lg-min) {
+    align-self: inherit;
+  }
+}
+
+.form-switch-campaigns > *:first-child {
+  margin-top: 1rem;
+}
+
+.form-switch-description {
+  font-size: 12px;
+  margin-bottom: 0px;
+
+  @media screen and (min-width: $screen-lg-min) {
+    font-size: 16px;
+  }
+}
+
+.form-switch-input {
+  height: 100%;
+  left: 0px;
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+
+.form-switch-label {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  position: relative;
+}
+
+.form-switch-label > * + * {
+  margin-left: spacer(1);
+
+  @media screen and (min-width: $screen-lg-min) {
+    margin-left: spacer(2);
+  }
+}
+
+.form-switch-text {
+  flex-grow: 1;
+}
+
+.form-switch-toggle {
+  align-self: flex-start;
+  background-color: var(--form-switch-default);
+  border-radius: 100px;
+  cursor: pointer;
+  display: inline-block;
+  flex: 0 1 0;
+  padding: 4px;
+  transition: all $animation-duration;
+  min-width: 60px;
+
+  @media screen and (min-width: $screen-lg-min) {
+    align-self: inherit;
+  }
+}
+
+.form-switch-toggle::after {
+  background-color: $color-white;
+  border-radius: 100%;
+  content: '';
+  display: inline-block;
+  height: 26px;
+  transition: all $animation-duration;
+  width: 26px;
+}
+
+// State: isActive
+
+.form-switch.isActive .form-switch-toggle {
+  background-color: var(--form-switch-active);
+}
+
+.form-switch.isActive:hover .form-switch-toggle {
+  background-color: var(--form-switch-hover);
+}
+
+.form-switch.isActive .form-switch-toggle::after {
+  margin-left: 26px;
+}
+
+// State: isDisabled
+
+.form-switch.isDisabled .form-switch-label {
+  cursor: not-allowed;
+}
+
+.form-switch.isDisabled .form-switch-toggle {
+  background-color: var(--form-switch-disabled);
+  cursor: not-allowed;
+}
+
+.form-switch.isDisabled:hover .form-switch-toggle {
+  background-color: var(--form-switch-disabled);
+}
+
+.form-switch.isActive.isDisabled .form-switch-toggle {
+  background-color: var(--form-switch-hover);
+  cursor: not-allowed;
+}
