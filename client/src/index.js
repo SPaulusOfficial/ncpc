@@ -44,7 +44,7 @@ class App extends React.Component {
         id: null,
         isValid: false,
         lang: null,
-        wsBaseUrl: 'http://localhost:8010/proxy'
+        wsBaseUrl: ''
       },
       strings: {
         badge_email: null,
