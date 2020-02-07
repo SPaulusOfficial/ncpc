@@ -158,11 +158,9 @@ app.get('/package', async function(req, res, next) {
       // get Business unit langauge records to identify what languages to show in drop down
       const languages = await db.query("SELECT * FROM "+schema+".ncpc__BusinessUnit_Language__c WHERE ncpc__Business_Unit_Parameter__c = '"+bu+"'");
 
-      console.log(packageConfig.rows,languages.rows);
       var package = {};
       package.config = packageConfig.rows;
       package.languages = languages.rows;
-      console.log(package);
 
       res.render('package', {
         config: package
