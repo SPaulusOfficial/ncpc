@@ -25,7 +25,7 @@ class MyProfile extends React.Component {
      */
 
     this.onBlurInput = (event, props, state) => {
-      console.log('onBlurInput()', props, state);
+      console.log('onBlurInput()');
 
       const $save = $('#btn-save');
 
@@ -50,13 +50,19 @@ class MyProfile extends React.Component {
       console.log('onChangeMultiSelect()');
 
       const $save = $('#btn-save');
+
+      let fieldValue = null;
       
       $save.attr('disabled', true);
 
-      const fieldValue = selections.map(selection => {
-        return selection.label
-      }).join(';');
-      
+      if (Array.isArray(selections)) {
+        fieldValue = selections.map(selection => {
+          return selection.label
+        }).join(';');
+      } else {
+        fieldValue = selections.label;
+      }
+
       this.wsEndpoint.post(props.mappedField, fieldValue)
         .then(response => {
           if (response.success === 'fail') {
