@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var dateFormat = require('dateformat');
 const cors = require('cors')
 const db = require("./db");
+const groupBy = require("./groupBy");
 const uuidv1 = require('uuid/v1');
 const schema = process.env.SCHEMA;
 const Sentry = require('@sentry/node');
@@ -16,7 +17,11 @@ app.set('view engine', 'ejs');
 app.enable('trust proxy');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-app.use(express.static(__dirname + '/client/build'));
+app.use(express.static(__dirname + '/public'));
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.end();
+});
 var whitelist = process.env.ENV_URL
 var corsOptions = {
   origin: function (origin, callback) {
@@ -37,20 +42,7 @@ app.get('/', async function(req, res, next) {
 
   try{
     if(id && langBU){
-      var split = langBU.split('-');
-      var lang = split[0];
-      var bu = split[1];
-      // get correct package configuration
-      const packageConfig = await db.query("SELECT * FROM "+schema+".ncpc__PC_Package_Configuration__c WHERE ncpc__parameter__c = '"+langBU+"'");
-      // get Business unit langauge records to identify what languages to show in drop down
-      const languages = await db.query("SELECT * FROM "+schema+".ncpc__BusinessUnit_Language__c WHERE ncpc__Business_Unit_Parameter__c = '"+bu+"'");
-
-      console.log(packageConfig.rows,languages.rows);
-
-      res.render('index', {
-        config: packageConfig.rows,
-        languages: languages.rows
-      });
+      res.render('index', {});
     }else{
       res.render('error', {});
     }
@@ -84,7 +76,7 @@ app.get('/subscriptions', async function(req, res, next) {
     const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
     //const groupedAvailsOnId = groupBySubscription(avails.rows, 'availableSubId');
 
-    const groupedAvails = groupBySubscription(avails.rows, 'ncpc__display_category__c');
+    const groupedAvails = groupBy.groupBySubscription(avails.rows, 'ncpc__display_category__c');
 
     res.render('subscriptions', {
       subscriptions: groupedAvails
@@ -108,7 +100,7 @@ app.get('/interests', async function(req, res, next) {
 
     const avails = await db.query("SELECT *, avail.sfid as availableIntId, (SELECT int.ncpc__selected__c FROM "+schema+".ncpc__PC_Interest__c as int WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = int.ncpc__interest_selected__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Interest__c as int WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = int.ncpc__Interest_Selected__c) as userIntId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Interest' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
     
-    const groupedAvails = groupByInterest(avails.rows, 'ncpc__display_category__c');
+    const groupedAvails = groupBy.groupByInterest(avails.rows, 'ncpc__display_category__c');
 
     res.render('interests', {
       interests: groupedAvails
@@ -133,7 +125,7 @@ app.get('/profiles', async function(req, res, next) {
     const profile = await db.query("SELECT prof.sfid as profid, prof.ncpc__Field_Type__c as fieldType, prof.ncpc__Editable__c as disabled, prof.ncpc__Order__c as order, variant.ncpc__Field_Text__c as label, variant.ncpc__Field_Placeholder_Text__c as placeholder, pOption.ncpc__Order__c as optionorder, pvOption.ncpc__Value__c as optionlabel, pOption.sfid as optionid, * FROM "+schema+".ncpc__PC_Profile_Field__c as prof INNER JOIN "+schema+".ncpc__Profile_Field_Variant__c as variant ON prof.sfid = variant.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__PC_Profile_Option__c as pOption ON prof.sfid = pOption.ncpc__Profile_Field__c LEFT JOIN "+schema+".ncpc__profile_option_variant__c as pvOption ON pOption.sfid = pvOption.ncpc__profile_option__c AND "+vpOptionLangBUClause+" WHERE prof.ncpc__Status__c = true AND "+variantLangBUClause+" ORDER BY prof.ncpc__order__c");
     var profileRows = profile.rows;
 
-    const groupedProfile = groupByProfile(profileRows, 'ncpc__'+leadOrContact+'_mapped_field__c');
+    const groupedProfile = groupBy.groupByProfile(profileRows, 'ncpc__'+leadOrContact+'_mapped_field__c');
     var profileArray = groupedProfile.map(groupedProfile => groupedProfile.mappedField).join(',');
 
     const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
@@ -199,8 +191,8 @@ app.post("/subscription", async function(req, res, next) {
   try {
     let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
     if(availableSubId && id){
-      if(customerSubId){
-        const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE sfid = '" + customerSubId + "'");
+      const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE sfid = '" + customerSubId + "'");
+      if(customerSubId || subs.rows.length > 0){
         var externalKey = subs.rows[0].ncpc__external_id__c === '' ? uuidv1() : subs.rows[0].ncpc__external_id__c;
         var dateField = value === 'true' ? 'ncpc__Opt_In_Date__c' : 'ncpc__Opt_Out_Date__c';
         // Subscription exists, update existing
@@ -260,8 +252,8 @@ app.post('/interest', async function(req, res, next) {
   try {
     let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
     if(availableIntId && id){
-      if(customerIntId){
-        const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Interest__c WHERE sfid = '" + customerIntId + "'");
+      const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Interest__c WHERE sfid = '" + customerIntId + "'");
+      if(customerSubId || subs.rows.length > 0){
         var externalKey = subs.rows[0].ncpc__external_id__c === '' ? uuidv1() : subs.rows[0].ncpc__external_id__c;
         // Interest exists, update existing
         if(externalKey){
@@ -383,140 +375,5 @@ app.post('/campaignMember', async function(req, res, next) {
     res.json({"success":"fail","status":401,"message":"Error Occured","body":e});
   }
 });
-
-
-/*========== Functions ===========*/
-
-const groupByProfile = (objectArray, ...properties) => {
-  return [...Object.values(objectArray.reduce((accumulator, object) => {
-    const key = JSON.stringify(properties.map((x) => object[x] || null));
-
-    if (!accumulator[key]) {
-      accumulator[key] = {
-        id: object['profid'],
-        controlType: object['fieldtype'],
-        label: object['label'],
-        placeholder: object['placeholder'],
-        disabled: object['disabled'],
-        order: object['order'],
-        value: object[''],
-        mappedField: object[''+properties+''],
-        options: []
-      };
-    }
-    
-    if(object['optionid']){
-      const filteredObject = {
-        id: object['optionid'],
-        label: object['optionlabel'],
-        order: object['optionorder']
-      };
-      
-      accumulator[key].options.push(filteredObject);
-    }
-
-    return accumulator;
-  }, {}))];
-}
-
-const groupByInterest = (objectArray, ...properties) => {
-  return [...Object.values(objectArray.reduce((accumulator, object) => {
-    const key = JSON.stringify(properties.map((x) => object[x] || null));
-
-    if (!accumulator[key]) {
-      accumulator[key] = {
-        catcontrolType: 'formGroup',
-        catid: object['ncpc__categoryid__c'],
-        catlabel: object['categoryname'],
-        catorder: object['ncpc__categoryorder__c'],
-        interests: []
-      };
-    }
-    
-    const filteredObject = {
-      userIntId: object['userintid'],
-      availableIntId: object['availableintid'],
-      controlType: 'checkbox',
-      label: object['ncpc__display_text__c'],
-      description: object['ncpc__display_description__c'],
-      checked: object['optinstate'],
-      disabled: object['ncpc__disabled__c'],
-      order: object['ncpc__order__c'],
-      url: object['ncpc__icon_url__c']
-    };
-    
-    accumulator[key].interests.push(filteredObject);
-    
-    return accumulator;
-  }, {}))];
-}
-
-const groupBySubscription = (objectArray, ...properties) => {
-  return [...Object.values(objectArray.reduce((accumulator, object) => {
-    const key = JSON.stringify(properties.map((x) => object[x] || null));
-
-    if (!accumulator[key]) {
-      accumulator[key] = {
-        catcontrolType: 'formGroup',
-        catid: object['ncpc__categoryid__c'],
-        catlabel: object['categoryname'],
-        catorder: object['catorder'],
-        subscriptions: []
-      };
-    }
-    
-    const filteredObject = {
-      userSubId: object['usersubid'],
-      availableSubId: object['availablesubid'],
-      controlType: 'switch',
-      label: object['ncpc__display_text__c'],
-      checked: object['optinstate'],
-      description: object['ncpc__display_description__c'],
-      channel: object['ncpc__channel__c'],
-      disabled: object['ncpc__disabled__c'],
-      public: object['ncpc__public__c'],
-      order: object['ncpc__order__c'],
-      campaigns: []
-    };
-    
-    accumulator[key].subscriptions.push(filteredObject);
-    
-    return accumulator;
-  }, {}))];
-}
-
-const groupBySubscriptionCampaign = (objectArray, ...properties) => {
-  return [...Object.values(objectArray.reduce((accumulator, object) => {
-    const key = JSON.stringify(properties.map((x) => object[x] || null));
-
-    if (!accumulator[key]) {
-      accumulator[key] = {
-        catcontrolType: 'formGroup',
-        catid: object['ncpc__categoryid__c'],
-        catlabel: object['categoryname'],
-        catorder: object['ncpc__categoryorder__c'],
-        subscriptions: []
-      };
-    }
-    
-    const filteredObject = {
-      userSubId: object['usersubid'],
-      availableSubId: object['availablesubid'],
-      controlType: 'switch',
-      label: object['ncpc__display_text__c'],
-      checked: object['optinstate'],
-      description: object['ncpc__display_description__c'],
-      channel: object['ncpc__channel__c'],
-      disabled: object['ncpc__disabled__c'],
-      public: object['ncpc__public__c'],
-      order: object['ncpc__order__c'],
-      campaigns: []
-    };
-    
-    accumulator[key].subscriptions.push(filteredObject);
-    
-    return accumulator;
-  }, {}))];
-}
 
 app.listen(process.env.PORT || 5000);
