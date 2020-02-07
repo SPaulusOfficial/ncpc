@@ -75,6 +75,7 @@
 
 .form-multiselect *[class*='-option'] {
   background-color: transparent;
+  color: $form-multiselect-color;
   cursor: pointer;
   font-size: 12px;
 
