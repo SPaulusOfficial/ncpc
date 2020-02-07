@@ -44,13 +44,13 @@ class App extends React.Component {
         id: null,
         isValid: false,
         lang: null,
+        strings: {
+          badge_email: null,
+          badge_sms: null,
+          button_submit: null,
+          button_unsubscribeAll: null
+        },
         wsBaseUrl: ''
-      },
-      strings: {
-        badge_email: null,
-        badge_sms: null,
-        button_submit: null,
-        button_unsubscribeAll: null
       }
     };
 
@@ -68,6 +68,12 @@ class App extends React.Component {
       this.wsEndpoint.wsBaseUrl = this.state.sharedContext.wsBaseUrl;
 
       this.wsEndpoint.get().then(data => {
+        // Move the "strings" object into sharedContext so it can be shared across components.
+        data.sharedContext = {
+          ...this.state.sharedContext,
+          strings: data.strings
+        };
+
         this.setState(data);
       });
     };
@@ -162,7 +168,7 @@ class App extends React.Component {
 
   renderMain() {
     if (this.state.sharedContext.isValid) {
-      return <Main bannerImg={this.state.images.banner.url} bannerText={this.state.banner} buttonSubmit={this.state.strings.button_submit} sections={this.state.sections} />;
+      return <Main bannerImg={this.state.images.banner.url} bannerText={this.state.banner} sections={this.state.sections} />;
     } else {
       return <Roadblock />;
     }

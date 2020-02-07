@@ -2,6 +2,8 @@ import React from 'react';
 
 import $ from 'jquery';
 
+import AppContext from '../AppContext';
+
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -42,7 +44,7 @@ class Sidebar extends React.Component {
           {listItems}
         </ul>
         <button className="btn btn-lg btn-primary" id="btn-save">
-          {this.props.buttonSubmit}
+          {this.context.value.strings.button_submit}
           {/* Sav
           <span className="btn-save-label_inactive">e</span>
           <span className="btn-save-label_active">ing...</span> */}
@@ -51,5 +53,7 @@ class Sidebar extends React.Component {
     )
   }
 }
+
+Sidebar.contextType = AppContext;
 
 export default Sidebar;
