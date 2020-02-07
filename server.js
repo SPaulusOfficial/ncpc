@@ -188,7 +188,7 @@ app.post("/subscription", async function(req, res, next) {
     let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
     if(availableSubId && id){
       //const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE sfid = '" + customerSubId + "'");
-      const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE ncpc__related_subscription_interest__c = '" + customerSubId + "' AND "+leadOrContact+" = '"+id+"'");
+      const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE ncpc__related_subscription_interest__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
       if(customerSubId || subs.rows.length > 0){
         var externalKey = subs.rows[0].ncpc__external_id__c === '' ? uuidv1() : subs.rows[0].ncpc__external_id__c;
         var dateField = value === 'true' ? 'ncpc__Opt_In_Date__c' : 'ncpc__Opt_Out_Date__c';
