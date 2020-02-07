@@ -240,7 +240,6 @@ app.post('/profile', async function(req, res, next) {
 });
 
 app.post('/interest', async function(req, res, next) {
-  var customerIntId = req.body.customerIntId;
   var availableIntId = req.body.availableIntId;
   var value = req.body.value;
   var id = req.body.id; 
@@ -249,23 +248,16 @@ app.post('/interest', async function(req, res, next) {
   try {
     let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
     if(availableIntId && id){
-      const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Interest__c WHERE sfid = '" + customerIntId + "'");
-      if(customerSubId || subs.rows.length > 0){
+      const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE ncpc__related_subscription_interest__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
+      if(subs.rows.length > 0){
+        var customerIntId = subs.rows[0].sfid;
         var externalKey = subs.rows[0].ncpc__external_id__c === '' ? uuidv1() : subs.rows[0].ncpc__external_id__c;
         // Interest exists, update existing
-        if(externalKey){
-          const result = await db.query(
-            "UPDATE "+schema+".ncpc__PC_Interest__c SET ncpc__Captured_Date__c=$1, ncpc__Selected__c=$2 WHERE sfid=$3 RETURNING *",
-            [today, value, customerIntId]
-          );
-          res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
-        }else{
-          const result = await db.query(
-            "UPDATE "+schema+".ncpc__PC_Interest__c SET ncpc__Captured_Date__c=$1, ncpc__Selected__c=$2, ncpc__External_Id__c=$3 WHERE sfid=$4 RETURNING *",
-            [today, value, externalKey, customerIntId]
-          );
-          res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
-        }
+        const result = await db.query(
+          "UPDATE "+schema+".ncpc__PC_Interest__c SET ncpc__Captured_Date__c=$1, ncpc__Selected__c=$2, ncpc__External_Id__c=$3 WHERE sfid=$4 RETURNING *",
+          [today, value, externalKey, customerIntId]
+        );
+        res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
       }else{
         // Net new Interest, create record
         const result = await db.query(
