@@ -248,7 +248,7 @@ app.post('/interest', async function(req, res, next) {
   try {
     let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
     if(availableIntId && id){
-      const ints = await db.query("SELECT * FROM "+schema+".ncpc__PC_Interest__c WHERE ncpc__Interest_Selected__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
+      const ints = await db.query("SELECT * FROM "+schema+".ncpc__PC_Interest__c WHERE ncpc__interest_selected__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
       if(ints.rows.length > 0){
         var customerIntId = ints.rows[0].sfid;
         var externalKey = ints.rows[0].ncpc__external_id__c === '' ? uuidv1() : ints.rows[0].ncpc__external_id__c;
