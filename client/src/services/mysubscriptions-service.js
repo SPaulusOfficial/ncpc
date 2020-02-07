@@ -94,19 +94,17 @@ class MySubscriptionsService {
    * PAYLOAD:
    * {
    *   "availableSubId":"{{ }}",
-   *   "customerSubId": "{{ }}",
    *   "id": "{{USER_ID}}",
    *   "value":"{{FIELD_VALUE}}"
    * }
    */
-  async postSubscription(availableSubId, customerSubId, fieldValue) {
-    console.log('MySubscriptionsService.postSubscription()', availableSubId, customerSubId, fieldValue);
+  async postSubscription(availableSubId, fieldValue) {
+    console.log('MySubscriptionsService.postSubscription()', availableSubId, fieldValue);
     
     const wsUri = this.wsBaseUrl + '/subscription';
 
     let body = {
       availableSubId: availableSubId,
-      customerSubId: customerSubId,
       id: this.id,
       value: fieldValue
     };

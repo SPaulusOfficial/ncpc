@@ -36,23 +36,21 @@ class MyInterestsService {
 
   /*
    * POST
-   * URI: https://ncpc-horizontal.herokuapp.com/interests
+   * URI: https://ncpc-horizontal.herokuapp.com/interest
    * PAYLOAD:
    * {
    *   "availableIntId": {{ }},
-   *   "customerIntId": {{ }},
    *   "id": {{USER_ID}},
    *   "value": fieldValue
    * }
    */
-  async post(availableIntId, userIntId, fieldValue) {
+  async post(availableIntId, fieldValue) {
     console.log('MyInterestsService.post()');
 
     const wsUri = this.wsBaseUrl + '/interest';
 
     let data = {
       availableIntId: availableIntId,
-      customerIntId: userIntId,
       id: this.id,
       value: fieldValue
     };

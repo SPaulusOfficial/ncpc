@@ -96,7 +96,13 @@ class ConfigService {
             "id": "my-subscriptions",
             "order": 2
           }
-        ]
+        ],
+        strings: {
+          badge_email: config.ncpc__email_channel_text__c,
+          badge_sms: config.ncpc__sms_channel_text__c,
+          button_submit: config.ncpc__save_button_text__c,
+          button_unsubscribeAll: config.ncpc__unsubscribe_all_button_text__c
+        }
       };
 
       return parsedData;

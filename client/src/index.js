@@ -44,7 +44,13 @@ class App extends React.Component {
         id: null,
         isValid: false,
         lang: null,
-        wsBaseUrl: ''
+        wsBaseUrl: 'http://localhost:8010/proxy'
+      },
+      strings: {
+        badge_email: null,
+        badge_sms: null,
+        button_submit: null,
+        button_unsubscribeAll: null
       }
     };
 
@@ -156,7 +162,7 @@ class App extends React.Component {
 
   renderMain() {
     if (this.state.sharedContext.isValid) {
-      return <Main bannerImg={this.state.images.banner.url} bannerText={this.state.banner} sections={this.state.sections} />;
+      return <Main bannerImg={this.state.images.banner.url} bannerText={this.state.banner} buttonSubmit={this.state.strings.button_submit} sections={this.state.sections} />;
     } else {
       return <Roadblock />;
     }

@@ -31,7 +31,7 @@ class MyInterests extends React.Component {
       
       $save.attr('disabled', true);
 
-      this.wsEndpoint.post(props.availableIntId, props.userIntId, state.checked)
+      this.wsEndpoint.post(props.availableIntId, state.checked)
         .then(response => {
           if (response.success === 'fail') {
             $('#exceptionModal').modal();

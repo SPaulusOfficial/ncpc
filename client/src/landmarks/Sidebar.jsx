@@ -42,9 +42,10 @@ class Sidebar extends React.Component {
           {listItems}
         </ul>
         <button className="btn btn-lg btn-primary" id="btn-save">
-          Sav
+          {this.props.buttonSubmit}
+          {/* Sav
           <span className="btn-save-label_inactive">e</span>
-          <span className="btn-save-label_active">ing...</span>
+          <span className="btn-save-label_active">ing...</span> */}
         </button>
       </div>
     )
