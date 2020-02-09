@@ -45,7 +45,7 @@ class MySubscriptions extends React.Component {
       
       $save.attr('disabled', true);
 
-      this.wsEndpoint.postSubscription(props.availableSubId, props.userSubId, state.checked)
+      this.wsEndpoint.postSubscription(props.availableSubId, state.checked)
         .then(response => {
           $save.attr('disabled', false);
         }
@@ -159,7 +159,7 @@ class MySubscriptions extends React.Component {
           Unable to retrieve profile information at this time. Please try again later.
         </div>
         {fieldGroups}
-        <button className="btn btn-large btn-secondary float-right" disabled={this.state.wsException} onClick={this.onClickUnsubscribeAll}>Unsubscribe All</button>
+        <button className="btn btn-large btn-secondary float-right" disabled={this.state.wsException} onClick={this.onClickUnsubscribeAll}>{this.context.value.strings.button_unsubscribeAll}</button>
       </div>
     )
   }

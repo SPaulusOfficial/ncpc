@@ -29,7 +29,7 @@ class Main extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-lg-3">
-                <Sidebar sections={this.props.sections} />
+                <Sidebar buttonSubmit={this.props.buttonSubmit} sections={this.props.sections} />
               </div>
               <div className="col-lg-9">
                 {sections}

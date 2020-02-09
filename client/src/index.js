@@ -44,6 +44,12 @@ class App extends React.Component {
         id: null,
         isValid: false,
         lang: null,
+        strings: {
+          badge_email: null,
+          badge_sms: null,
+          button_submit: null,
+          button_unsubscribeAll: null
+        },
         wsBaseUrl: ''
       }
     };
@@ -62,6 +68,12 @@ class App extends React.Component {
       this.wsEndpoint.wsBaseUrl = this.state.sharedContext.wsBaseUrl;
 
       this.wsEndpoint.get().then(data => {
+        // Move the "strings" object into sharedContext so it can be shared across components.
+        data.sharedContext = {
+          ...this.state.sharedContext,
+          strings: data.strings
+        };
+
         this.setState(data);
       });
     };

@@ -2,6 +2,8 @@ import React from 'react';
 
 import $ from 'jquery';
 
+import AppContext from '../AppContext';
+
 import { Badge } from '../components';
 
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -54,7 +56,7 @@ class Switch extends React.Component {
               {this.props.label}
               <p className="form-switch-description">{this.props.description}</p>
             </div>
-            <div className={"form-switch-badge badge badge-secondary" + (this.props.channel === 'sms' ? ' text-uppercase' : '')}>{this.props.channel}</div>
+            <div className={"form-switch-badge badge badge-secondary" + (this.props.channel === 'sms' ? ' text-uppercase' : '')}>{(this.props.channel === 'SMS') ? this.context.value.strings.badge_sms : this.context.value.strings.badge_email}</div>
             <div className="form-switch-toggle" />
           </label>
         </div>
@@ -65,5 +67,7 @@ class Switch extends React.Component {
     )
   }
 }
+
+Switch.contextType = AppContext;
 
 export default Switch;

@@ -25,7 +25,7 @@ class MyProfile extends React.Component {
      */
 
     this.onBlurInput = (event, props, state) => {
-      console.log('onBlurInput()', props, state);
+      console.log('onBlurInput()');
 
       const $save = $('#btn-save');
 
@@ -50,13 +50,20 @@ class MyProfile extends React.Component {
       console.log('onChangeMultiSelect()');
 
       const $save = $('#btn-save');
+
+      let fieldValue = ' ';
       
       $save.attr('disabled', true);
 
-      const fieldValue = selections.map(selection => {
-        return selection.label
-      }).join(';');
-      
+      if (Array.isArray(selections)) {
+        fieldValue = selections.map(selection => {
+          return selection.label
+        }).join(';');
+        if (fieldValue === '') { fieldValue = ' '; }
+      } else if (selections !== null) {
+        fieldValue = selections.label;
+      }
+
       this.wsEndpoint.post(props.mappedField, fieldValue)
         .then(response => {
           if (response.success === 'fail') {
@@ -142,7 +149,8 @@ class MyProfile extends React.Component {
       case 'Email':
         return <EmailInput callback={this.onBlurInput} defaultValue={attributes.value} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} placeholder={attributes.placeholder} />;
       case 'Multi-Picklist':
-        return <MultiSelect callback={this.onChangeMultiSelect} allowMultiple={attributes.allowMultiple} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} options={attributes.options} placeholder={attributes.placeholder} value={attributes.value} />;
+      case 'Picklist':
+        return <MultiSelect callback={this.onChangeMultiSelect} controlType={attributes.controlType} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} options={attributes.options} placeholder={attributes.placeholder} value={attributes.value} />;
       case 'Text':
         return <TextInput callback={this.onBlurInput} defaultValue={attributes.value} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} placeholder={attributes.placeholder} />;
       default:
