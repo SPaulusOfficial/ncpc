@@ -76,6 +76,8 @@ app.get('/subscriptions', async function(req, res, next) {
 
     const groupedAvails = groupBy.groupBySubscription(avails.rows, 'ncpc__display_category__c');
 
+    console.log(avails);
+
     res.render('subscriptions', {
       subscriptions: groupedAvails
     });
@@ -99,6 +101,8 @@ app.get('/interests', async function(req, res, next) {
     const avails = await db.query("SELECT *, avail.sfid as availableIntId, (SELECT int.ncpc__selected__c FROM "+schema+".ncpc__PC_Interest__c as int WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = int.ncpc__interest_selected__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Interest__c as int WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = int.ncpc__Interest_Selected__c) as userIntId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Interest' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
     
     const groupedAvails = groupBy.groupByInterest(avails.rows, 'ncpc__display_category__c');
+
+    console.log(avails);
 
     res.render('interests', {
       interests: groupedAvails
@@ -127,6 +131,8 @@ app.get('/profiles', async function(req, res, next) {
     var profileArray = groupedProfile.map(groupedProfile => groupedProfile.mappedField).join(',');
 
     const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
+
+    console.log(profile);
 
     var fieldKeys = Object.keys(user.rows[0])
     for (var i=0; i<fieldKeys.length; i++) {
@@ -161,6 +167,8 @@ app.get('/package', async function(req, res, next) {
       var package = {};
       package.config = packageConfig.rows;
       package.languages = languages.rows;
+
+      console.log(package);
 
       res.render('package', {
         config: package
