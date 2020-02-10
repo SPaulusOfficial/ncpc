@@ -121,10 +121,10 @@ app.get('/profiles', async function(req, res, next) {
     var split = langBU.split('-');
     var lang = split[0];
     var bu = split[1];
-    var variantLangBUClause = lang === '' ? "variant.ncpc__Default_Variant__c = 'true' AND variant.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "variant.ncpc__Parameter__c = '"+ langBU +"'";
-    var vpOptionLangBUClause = lang === '' ? "pvOption.ncpc__Default_Variant__c = 'true' AND pvOption.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "pvOption.ncpc__Parameter__c = '"+ langBU +"'";
+    var variantLangBUClause = lang === '' ? "variant.ncpc__default_variant__c = 'true' AND variant.ncpc__business_unit_parameter__c = '"+bu+"'" : "variant.ncpc__parameter__c = '"+ langBU +"'";
+    var vpOptionLangBUClause = lang === '' ? "pvOption.ncpc__default_variant__c = 'true' AND pvOption.ncpc__business_unit_parameter__c = '"+bu+"'" : "pvOption.ncpc__parameter__c = '"+ langBU +"'";
 
-    const profile = await db.query("SELECT prof.sfid as profid, prof.ncpc__Field_Type__c as fieldType, prof.ncpc__Editable__c as disabled, prof.ncpc__Order__c as order, variant.ncpc__Field_Text__c as label, variant.ncpc__Field_Placeholder_Text__c as placeholder, pOption.ncpc__Order__c as optionorder, pvOption.ncpc__Value__c as optionlabel, pOption.sfid as optionid, * FROM "+schema+".ncpc__PC_Profile_Field__c as prof INNER JOIN "+schema+".ncpc__Profile_Field_Variant__c as variant ON prof.sfid = variant.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__PC_Profile_Option__c as pOption ON prof.sfid = pOption.ncpc__Profile_Field__c LEFT JOIN "+schema+".ncpc__profile_option_variant__c as pvOption ON pOption.sfid = pvOption.ncpc__profile_option__c AND "+vpOptionLangBUClause+" WHERE prof.ncpc__Status__c = true AND "+variantLangBUClause+" ORDER BY prof.ncpc__order__c");
+    const profile = await db.query("SELECT prof.sfid as profid, prof.ncpc__field_type__c as fieldType, prof.ncpc__editable__c as disabled, prof.ncpc__order__c as order, variant.ncpc__field_text__c as label, variant.ncpc__field_placeholder_text__c as placeholder, pOption.ncpc__order__c as optionorder, pvOption.ncpc__value__c as optionlabel, pOption.sfid as optionid, * FROM "+schema+".ncpc__pc_profile_field__c as prof INNER JOIN "+schema+".ncpc__profile_field_variant__c as variant ON prof.sfid = variant.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__pc_profile_option__c as pOption ON prof.sfid = pOption.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__profile_option_variant__c as pvOption ON pOption.sfid = pvOption.ncpc__profile_option__c AND "+vpOptionLangBUClause+" WHERE prof.ncpc__status__c = true AND "+variantLangBUClause+" ORDER BY prof.ncpc__order__c");
     var profileRows = profile.rows;
 
     const groupedProfile = groupBy.groupByProfile(profileRows, 'ncpc__'+leadOrContact+'_mapped_field__c');
@@ -160,9 +160,9 @@ app.get('/package', async function(req, res, next) {
       var lang = split[0];
       var bu = split[1];
       // get correct package configuration
-      const packageConfig = await db.query("SELECT * FROM "+schema+".ncpc__PC_Package_Configuration__c WHERE ncpc__parameter__c = '"+langBU+"'");
+      const packageConfig = await db.query("SELECT * FROM "+schema+".ncpc__pc_package_configuration__c WHERE ncpc__parameter__c = '"+langBU+"'");
       // get Business unit langauge records to identify what languages to show in drop down
-      const languages = await db.query("SELECT * FROM "+schema+".ncpc__BusinessUnit_Language__c WHERE ncpc__Business_Unit_Parameter__c = '"+bu+"'");
+      const languages = await db.query("SELECT * FROM "+schema+".ncpc__businessunit_language__c WHERE ncpc__business_unit_parameter__c = '"+bu+"'");
 
       var package = {};
       package.config = packageConfig.rows;
@@ -230,7 +230,7 @@ app.post('/profile', async function(req, res, next) {
   var id = req.body.id; 
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'Contact' : 'Lead';
+    let leadOrContact = id.substring(0,3) == '003' ? 'contact' : 'lead';
     if(id && field && value){
       const updateProfile = await db.query(
         "UPDATE "+schema+"."+leadOrContact+" SET "+field+"=$1 WHERE sfid=$2 RETURNING *",
