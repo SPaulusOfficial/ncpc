@@ -13,7 +13,7 @@ class ConfigService {
    * URI: https://ncpc-horizontal.herokuapp.com/package?langBU={{BUSINESS_UNIT}}
    */
   async get() {
-    console.log('ConfigService.get()');
+    // console.log('ConfigService.get()');
 
     const wsUri = this.wsBaseUrl + '/package?langBU=' + this.lang + '-' + this.bu;
 

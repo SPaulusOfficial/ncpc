@@ -25,7 +25,7 @@ class MyInterests extends React.Component {
      */
 
     this.onClickCheckbox = (event, props, state) => {
-      console.log('onClickCheckbox()', props, state);
+      // console.log('onClickCheckbox()', props, state);
 
       const $save = $('#btn-save');
       

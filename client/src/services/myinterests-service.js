@@ -14,7 +14,7 @@ class MyInterestsService {
    * URI: https://ncpc-horizontal.herokuapp.com/interests?id={{USER_ID}}&langBU={{BUSINESS_UNIT}}
    */
   async get() {
-    console.log('MyInterestsService.get()');
+    // console.log('MyInterestsService.get()');
 
     const wsUri = this.wsBaseUrl + '/interests?id=' + this.id + '&langBU=' + this.lang + '-' + this.bu;
 
@@ -45,7 +45,7 @@ class MyInterestsService {
    * }
    */
   async post(availableIntId, fieldValue) {
-    console.log('MyInterestsService.post()');
+    // console.log('MyInterestsService.post()');
 
     const wsUri = this.wsBaseUrl + '/interest';
 

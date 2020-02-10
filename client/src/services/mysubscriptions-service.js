@@ -14,7 +14,7 @@ class MySubscriptionsService {
    * URI: https://ncpc-horizontal.herokuapp.com/subscriptions?id={{USER_ID}}&langBU={{BUSINESS_UNIT}}
    */
   async get() {
-    console.log('MySubscriptionsService.get()');
+    // console.log('MySubscriptionsService.get()');
 
     const wsUri = this.wsBaseUrl + '/subscriptions?id=' + this.id + '&langBU=' + this.lang + '-' + this.bu;
 
@@ -53,7 +53,7 @@ class MySubscriptionsService {
    * }
    */
   async postCampaign(campaignId, campaignMemberId) {
-    console.log('MySubscriptionsService.postCampaign()', campaignId, campaignMemberId);
+    // console.log('MySubscriptionsService.postCampaign()', campaignId, campaignMemberId);
     
     const wsUri = this.wsBaseUrl + '/campaign';
 
@@ -99,7 +99,7 @@ class MySubscriptionsService {
    * }
    */
   async postSubscription(availableSubId, fieldValue) {
-    console.log('MySubscriptionsService.postSubscription()', availableSubId, fieldValue);
+    // console.log('MySubscriptionsService.postSubscription()', availableSubId, fieldValue);
     
     const wsUri = this.wsBaseUrl + '/subscription';
 
@@ -142,7 +142,7 @@ class MySubscriptionsService {
    * }
    */
   async postUnsubscribeAll() {
-    console.log('MySubscriptionsService.postUnsubscribeAll()');
+    // console.log('MySubscriptionsService.postUnsubscribeAll()');
 
     const wsUri = this.wsBaseUrl + '/unsubscribeAll';
 

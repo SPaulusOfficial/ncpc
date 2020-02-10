@@ -14,7 +14,7 @@ class MyProfileService {
    * URI: https://ncpc-horizontal.herokuapp.com/profile?id={{USER_ID}}&langBU={{BUSINESS_UNIT}}
    */
   async get() {
-    console.log('MyProfileService.get()');
+    // console.log('MyProfileService.get()');
 
     const wsUri = this.wsBaseUrl + '/profiles?id=' + this.id + '&langBU=' + this.lang + '-' + this.bu;
 
@@ -45,7 +45,7 @@ class MyProfileService {
    * }
    */
   async post(fieldName, fieldValue) {
-    console.log('MyProfileService.post()', fieldName, fieldValue);
+    // console.log('MyProfileService.post()', fieldName, fieldValue);
 
     const wsUri = this.wsBaseUrl + '/profile';
 
