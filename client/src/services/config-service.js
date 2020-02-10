@@ -24,6 +24,10 @@ class ConfigService {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }
 
+        if (!Array.isArray(response.config) || !response.config.length || !Array.isArray(response.languages) || !response.languages.length) {
+          throw new Error();
+        }
+
         return this.parseResponseObject(response);
       })
       .catch(error => {
