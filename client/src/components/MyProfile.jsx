@@ -30,9 +30,11 @@ class MyProfile extends React.Component {
       const $save = $('#btn-save');
 
       if (state.value !== props.defaultValue) {
+        const value = (state.value.length) ? state.value : ' ';
+
         $save.attr('disabled', true);
 
-        this.wsEndpoint.post(props.mappedField, state.value)
+        this.wsEndpoint.post(props.mappedField, value)
           .then(response => {
             if (response.success === 'fail') {
               $('#exceptionModal').modal();

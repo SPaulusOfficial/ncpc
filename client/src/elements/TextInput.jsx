@@ -7,7 +7,7 @@ class TextInput extends React.Component {
     super(props);
     
     this.state = {
-      value: this.props.defaultValue
+      value: (this.props.defaultValue === ' ') ? null : this.props.defaultValue
     };
 
     /*
