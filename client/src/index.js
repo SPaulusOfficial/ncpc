@@ -107,7 +107,7 @@ class App extends React.Component {
 
     // id must exist and must be 18 characters in length.
     // bu must exist and must be 2 characters in length.
-    if (id && id.length === 18 && bu && bu.length === 2) {
+    if (id && bu && bu.length === 2) {
       isValid = true;
     }
 
