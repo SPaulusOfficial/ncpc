@@ -52,7 +52,7 @@ class MultiSelect extends React.Component {
     return (
       <div className="form-group">
         <label htmlFor={this.props.id}>{this.props.label}</label>
-        <Select className="form-multiselect" closeMenuOnSelect={false} isClearable={true} isMulti={this.state.isMulti} isSearchable={true} name={this.props.id} noOptionsMessag="No options" onChange={this.onChange} options={this.state.options} placeholder={this.props.placeholder} value={this.state.value} />
+        <Select className="form-multiselect" closeMenuOnSelect={!this.state.isMulti} isClearable={true} isMulti={this.state.isMulti} isSearchable={true} name={this.props.id} noOptionsMessag="No options" onChange={this.onChange} options={this.state.options} placeholder={this.props.placeholder} value={this.state.value} />
         {this.props.helpText ? <small className="form-text text-muted" id={this.props.id + '_help'}>{this.props.helpText}</small> : ''}
       </div>
     )
