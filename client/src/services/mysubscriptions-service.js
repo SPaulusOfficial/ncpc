@@ -28,6 +28,12 @@ class MySubscriptionsService {
     return fetch(wsUri, options)
       .then(response => response.json())
       .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }
@@ -75,6 +81,12 @@ class MySubscriptionsService {
     return fetch(wsUri, options)
       .then(response => response.json())
       .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }
@@ -120,6 +132,12 @@ class MySubscriptionsService {
     return fetch(wsUri, options)
       .then(response => response.json())
       .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }
@@ -161,6 +179,12 @@ class MySubscriptionsService {
     return fetch(wsUri, options)
       .then(response => response.json())
       .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }

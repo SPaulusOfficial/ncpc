@@ -1,4 +1,5 @@
 import LoggingService from './logging-service';
+import { ResponsiveEmbed } from 'react-bootstrap';
 
 class MyInterestsService {
   constructor(bu, id, lang, wsBaseUrl) {
@@ -21,6 +22,12 @@ class MyInterestsService {
     return fetch(wsUri)
       .then(response => response.json())
       .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }
@@ -66,6 +73,12 @@ class MyInterestsService {
     return fetch(wsUri, options)
       .then(response => response.json())
       .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }

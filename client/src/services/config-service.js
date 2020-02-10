@@ -20,12 +20,18 @@ class ConfigService {
     return fetch(wsUri)
       .then(response => response.json())
       .then(response => {
-        if (response.success && response.success === 'fail') {
+        if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
         }
 
         if (!Array.isArray(response.config) || !response.config.length || !Array.isArray(response.languages) || !response.languages.length) {
           throw new Error();
+        }
+
+        if (response.success && response.success === 'fail') {
+          this.logger.post(wsUri, response.message, response.status, response.body);
         }
 
         return this.parseResponseObject(response);
