@@ -34,12 +34,12 @@ var corsOptions = {
 }
 
 app.use((req, res, next) => {
-  res.append('Cache-Control', 'no-cache, no-stor');
-  res.append('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.append('Strict-Transport-Security', 'max-age=200');
-  res.append('X-Content-Type-Options', 'nosniff');
-  res.append('X-Frame-Options', 'Deny');
-  res.append('X-XSS-Protection', '1; mode=block');
+  res.set('Cache-Control', 'no-cache, no-stor');
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.set('Strict-Transport-Security', 'max-age=200');
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('X-Frame-Options', 'Deny');
+  res.set('X-XSS-Protection', '1; mode=block');
   next();
 });
 
