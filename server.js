@@ -33,21 +33,22 @@ var corsOptions = {
   }
 }
 
+app.use((req, res, next) => {
+  res.append('Cache-Control', 'no-cache, no-stor');
+  res.append('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.append('Strict-Transport-Security', 'max-age=200');
+  res.append('X-Content-Type-Options', 'nosniff');
+  res.append('X-Frame-Options', 'Deny');
+  res.append('X-XSS-Protection', '1; mode=block');
+  next();
+});
+
 /*=========================*/
 /*====== GET Routes =======*/
 /*=========================*/
 app.get('/', async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
-
-  res.set({
-    'Cache-Control': 'no-cache, no-store',
-    'Strict-Transport-Security': 'max-age=200',
-    'X-XSS-Protection': '1; mode=block',
-    'X-Frame-Options': 'Deny',
-    'X-Content-Type-Options': 'nosniff',
-    'Referrer-Policy': 'strict-origin-when-cross-origin'
-  });
 
   try{
     if(id && langBU){
