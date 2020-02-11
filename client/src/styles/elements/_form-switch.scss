@@ -3,10 +3,16 @@
 }
 
 .form-switch-badge {
-  flex: 0 1 0;
-  font-size: 14px;
-  padding: spacer(1) spacer(1.5);
-  text-transform: capitalize;
+  @include font-primary('regular');
+
+  border: 1px solid var(--form-switch-disabled);
+  font-size: 12px;
+  text-transform: uppercase;
+  vertical-align: text-bottom;
+
+  @media screen and (min-width: $screen-lg-min) {
+    font-size: 14px;
+  }
 }
 
 .form-switch-campaigns > *:first-child {
