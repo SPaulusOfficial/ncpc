@@ -59,11 +59,11 @@ class MyProfile extends React.Component {
 
       if (Array.isArray(selections)) {
         fieldValue = selections.map(selection => {
-          return selection.label
+          return selection.value
         }).join(';');
         if (fieldValue === '') { fieldValue = ' '; }
       } else if (selections !== null) {
-        fieldValue = selections.label;
+        fieldValue = selections.value;
       }
 
       this.wsEndpoint.post(props.mappedField, fieldValue)
