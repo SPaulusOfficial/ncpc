@@ -50,7 +50,7 @@ class Switch extends React.Component {
     return (
       <div>
         <div className={"form-switch" + (this.props.disabled ? ' isDisabled' : '') + (this.state.checked ? ' isActive' : '')}>
-          <input className="form-switch-input" defaultChecked={this.props.checked} disabled={this.props.disabled} id={this.props.availableSubId} name={this.props.availableSubId} onClick={this.handleClick} type="checkbox" />
+          <input className="form-switch-input" defaultChecked={this.props.checked} disabled={this.props.disabled && this.props.userSubId === null} id={this.props.availableSubId} name={this.props.availableSubId} onClick={this.handleClick} type="checkbox" />
           <label className="form-switch-label" htmlFor={this.props.availableSubId}>
             <div className="form-switch-text">
               {this.props.label} <span className={"form-switch-badge badge badge-pill badge-light" + (this.props.channel === 'sms' ? ' text-uppercase' : '')}>{(this.props.channel === 'SMS') ? this.context.value.strings.badge_sms : this.context.value.strings.badge_email}</span>
