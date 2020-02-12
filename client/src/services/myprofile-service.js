@@ -27,6 +27,10 @@ class MyProfileService {
           throw new Error();
         }
 
+        if (!Array.isArray(response) || !response.length) {
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }
