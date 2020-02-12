@@ -1,7 +1,7 @@
 import React from 'react';
 
 import $ from 'jquery';
-import { sortBy } from 'lodash';
+import { cloneDeep, sortBy } from 'lodash';
 
 import MySubscriptionsService from '../services/mysubscriptions-service';
 
@@ -65,15 +65,17 @@ class MySubscriptions extends React.Component {
 
       this.wsEndpoint.postUnsubscribeAll()
         .then(response => {
-          const fieldGroups = [...this.state.fieldGroups];
+          if (response.success !== true) return;
 
-          fieldGroups.forEach(fieldGroup => {
+          let newFieldGroups = cloneDeep(this.state.fieldGroups);
+
+          newFieldGroups.forEach(fieldGroup => {
             fieldGroup.subscriptions.forEach(subscription => {
               subscription.checked = false;
             });
           });
 
-          this.setState({ fieldGroups:fieldGroups }, () => {
+          this.setState({ fieldGroups:newFieldGroups }, () => {
             $save.attr('disabled', false);
             $this.attr('disabled', false);
           });
