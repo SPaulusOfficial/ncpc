@@ -76,7 +76,7 @@ app.get('/subscriptions', async function(req, res, next) {
 
     const groupedAvails = groupBy.groupBySubscription(avails.rows, 'ncpc__display_category__c');
 
-    console.log(avails);
+    console.log(avails.rows);
 
     res.render('subscriptions', {
       subscriptions: groupedAvails
@@ -102,7 +102,7 @@ app.get('/interests', async function(req, res, next) {
     
     const groupedAvails = groupBy.groupByInterest(avails.rows, 'ncpc__display_category__c');
 
-    console.log(avails);
+    console.log(avails.rows);
 
     res.render('interests', {
       interests: groupedAvails
@@ -132,7 +132,7 @@ app.get('/profiles', async function(req, res, next) {
 
     const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
 
-    console.log(profile);
+    console.log(profile.rows);
 
     var fieldKeys = Object.keys(user.rows[0])
     for (var i=0; i<fieldKeys.length; i++) {
