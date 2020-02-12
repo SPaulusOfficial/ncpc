@@ -21,7 +21,8 @@ module.exports = {
         const filteredObject = {
           id: object['optionid'],
           label: object['optionlabel'],
-          order: object['optionorder']
+          order: object['optionorder'],
+          value: object['optionvalue'],
         };
         
         accumulator[key].options.push(filteredObject);
