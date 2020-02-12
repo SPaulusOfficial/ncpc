@@ -65,8 +65,18 @@ class MySubscriptions extends React.Component {
 
       this.wsEndpoint.postUnsubscribeAll()
         .then(response => {
-          $save.attr('disabled', false);
-          $this.attr('disabled', false);
+          const fieldGroups = [...this.state.fieldGroups];
+
+          fieldGroups.forEach(fieldGroup => {
+            fieldGroup.subscriptions.forEach(subscription => {
+              subscription.checked = false;
+            });
+          });
+
+          this.setState({ fieldGroups:fieldGroups }, () => {
+            $save.attr('disabled', false);
+            $this.attr('disabled', false);
+          });
         }
       );
     };
