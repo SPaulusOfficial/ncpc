@@ -65,7 +65,11 @@ class MySubscriptions extends React.Component {
 
       this.wsEndpoint.postUnsubscribeAll()
         .then(response => {
-          if (response.success !== true) return;
+          if (response.success === 'fail') {
+            $('#exceptionModal').modal();
+          } else {
+            $save.attr('disabled', false);
+          }
 
           let newFieldGroups = cloneDeep(this.state.fieldGroups);
 
@@ -79,8 +83,12 @@ class MySubscriptions extends React.Component {
             $save.attr('disabled', false);
             $this.attr('disabled', false);
           });
-        }
-      );
+        })
+        .catch(error => {
+          $('#exceptionModal').modal();
+          $save.attr('disabled', false);
+          $this.attr('disabled', false);
+        });
     };
 
     /*
