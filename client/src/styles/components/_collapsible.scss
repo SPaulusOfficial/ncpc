@@ -12,7 +12,7 @@
   position: relative;
 }
 
-.collapsible-headline .fas {
+.collapsible-headline .bi {
   position: absolute;
   right: 0px;
   top: 50%;
@@ -38,6 +38,6 @@
 
 // State: isActive
 
-.collapsible.isActive .collapsible-headline .fas {
+.collapsible.isActive .collapsible-headline .bi {
   transform: rotateX(180deg) translateY(-50%);
 }

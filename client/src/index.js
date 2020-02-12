@@ -54,7 +54,7 @@ class App extends React.Component {
       }
     };
 
-    this.wsEndpoint = new ConfigService();
+    this.wsEndpoint = null;
 
     this.urlParams = new URLSearchParams(window.location.search);
 
@@ -97,7 +97,7 @@ class App extends React.Component {
    * LIFECYCLE METHODS
    */
 
-  componentWillMount() { 
+  componentDidMount() {
     const id = (this.urlParams.has('id') ? this.urlParams.get('id') : null);
     const langBU = (this.urlParams.has('langBU') ? this.urlParams.get('langBU').split('-') : []);
     const bu = (langBU.length === 2 ? langBU[1] : null);
@@ -107,7 +107,7 @@ class App extends React.Component {
 
     // id must exist and must be 18 characters in length.
     // bu must exist and must be 2 characters in length.
-    if (id && id.length === 18 && bu && bu.length === 2) {
+    if (id && bu && bu.length === 2) {
       isValid = true;
     }
 
@@ -124,12 +124,8 @@ class App extends React.Component {
     this.wsEndpoint = new ConfigService(bu, lang, 'http://localhost:8010/proxy');
   }
 
-  componentDidMount() {
-    this.fetchData();
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.state.sharedContext.bu !== prevState.sharedContext.bu || this.state.sharedContext.lang !== prevState.sharedContext.lang) {
+    if (this.wsEndpoint !== null && (this.state.sharedContext.bu !== prevState.sharedContext.bu || this.state.sharedContext.lang !== prevState.sharedContext.lang)) {
       this.fetchData();
     }
   }

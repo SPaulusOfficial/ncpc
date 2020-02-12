@@ -1,5 +1,5 @@
 .sidebar {
-  margin: 0 -15px;
+  margin: 0 -15px $spacer-size * 4 -15px;
 
   @media screen and (min-width: $screen-lg-min) {
     margin: 0 15px;

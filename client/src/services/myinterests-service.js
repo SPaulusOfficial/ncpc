@@ -1,4 +1,5 @@
 import LoggingService from './logging-service';
+import { ResponsiveEmbed } from 'react-bootstrap';
 
 class MyInterestsService {
   constructor(bu, id, lang, wsBaseUrl) {
@@ -14,13 +15,19 @@ class MyInterestsService {
    * URI: https://ncpc-horizontal.herokuapp.com/interests?id={{USER_ID}}&langBU={{BUSINESS_UNIT}}
    */
   async get() {
-    console.log('MyInterestsService.get()');
+    // console.log('MyInterestsService.get()');
 
     const wsUri = this.wsBaseUrl + '/interests?id=' + this.id + '&langBU=' + this.lang + '-' + this.bu;
 
     return fetch(wsUri)
       .then(response => response.json())
       .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }
@@ -45,7 +52,7 @@ class MyInterestsService {
    * }
    */
   async post(availableIntId, fieldValue) {
-    console.log('MyInterestsService.post()');
+    // console.log('MyInterestsService.post()');
 
     const wsUri = this.wsBaseUrl + '/interest';
 
@@ -66,6 +73,12 @@ class MyInterestsService {
     return fetch(wsUri, options)
       .then(response => response.json())
       .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
         if (response.success && response.success === 'fail') {
           this.logger.post(wsUri, response.message, response.status, response.body);
         }

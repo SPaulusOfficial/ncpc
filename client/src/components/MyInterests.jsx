@@ -25,7 +25,7 @@ class MyInterests extends React.Component {
      */
 
     this.onClickCheckbox = (event, props, state) => {
-      console.log('onClickCheckbox()', props, state);
+      // console.log('onClickCheckbox()', props, state);
 
       const $save = $('#btn-save');
       
@@ -114,7 +114,7 @@ class MyInterests extends React.Component {
           </svg>
           Unable to retrieve profile information at this time. Please try again later.
         </div>
-        <div className={"row row-cols-1 row-cols-lg-3" + (fieldGroups.length ? ' mt-lg-5' : '')}>
+        <div className={"row row-cols-2 row-cols-lg-3" + (fieldGroups.length ? ' mt-lg-5' : '')}>
           {fieldGroups}
         </div>
       </div>

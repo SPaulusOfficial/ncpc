@@ -25,7 +25,7 @@ class MySubscriptions extends React.Component {
      */
 
     this.onClickBadge = (event, props, state) => {
-      console.log('onClickBadge()', props, state);
+      // console.log('onClickBadge()', props, state);
 
       const $save = $('#btn-save');
       
@@ -39,7 +39,7 @@ class MySubscriptions extends React.Component {
     }
     
     this.onClickSwitch = (event, props, state) => {
-      console.log('onClickSwitch()', props, state);
+      // console.log('onClickSwitch()', props, state);
 
       const $save = $('#btn-save');
       
@@ -55,7 +55,7 @@ class MySubscriptions extends React.Component {
     this.onClickUnsubscribeAll = event => {
       event.preventDefault();
 
-      console.log('onUnsubscribeAll()');
+      // console.log('onUnsubscribeAll()');
 
       const $save = $('#btn-save');
       const $this = $(event.target);

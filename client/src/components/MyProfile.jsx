@@ -25,14 +25,16 @@ class MyProfile extends React.Component {
      */
 
     this.onBlurInput = (event, props, state) => {
-      console.log('onBlurInput()');
+      // console.log('onBlurInput()');
 
       const $save = $('#btn-save');
 
       if (state.value !== props.defaultValue) {
+        const value = (state.value.length) ? state.value : ' ';
+
         $save.attr('disabled', true);
 
-        this.wsEndpoint.post(props.mappedField, state.value)
+        this.wsEndpoint.post(props.mappedField, value)
           .then(response => {
             if (response.success === 'fail') {
               $('#exceptionModal').modal();
@@ -47,7 +49,7 @@ class MyProfile extends React.Component {
     };
 
     this.onChangeMultiSelect = (selections, props, state) => {
-      console.log('onChangeMultiSelect()');
+      // console.log('onChangeMultiSelect()');
 
       const $save = $('#btn-save');
 
@@ -57,11 +59,11 @@ class MyProfile extends React.Component {
 
       if (Array.isArray(selections)) {
         fieldValue = selections.map(selection => {
-          return selection.label
+          return selection.value
         }).join(';');
         if (fieldValue === '') { fieldValue = ' '; }
       } else if (selections !== null) {
-        fieldValue = selections.label;
+        fieldValue = selections.value;
       }
 
       this.wsEndpoint.post(props.mappedField, fieldValue)
