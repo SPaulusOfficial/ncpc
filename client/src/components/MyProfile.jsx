@@ -49,7 +49,7 @@ class MyProfile extends React.Component {
     };
 
     this.onChangeMultiSelect = (selections, props, state) => {
-      // console.log('onChangeMultiSelect()');
+      // console.log('onChangeMultiSelect()', selections);
 
       const $save = $('#btn-save');
 
