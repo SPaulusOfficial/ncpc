@@ -40,6 +40,12 @@ class Switch extends React.Component {
     $('#collapse_' + this.props.availableSubId).collapse({ toggle:false });
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.checked !== prevProps.checked) {
+      this.setState({ checked:this.props.checked });
+    }
+  }
+
   render() {
     const campaigns = this.props.campaigns.map(campaign => {
       return(
