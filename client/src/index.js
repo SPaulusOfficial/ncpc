@@ -122,7 +122,7 @@ class App extends React.Component {
       }
     });
 
-    this.wsEndpoint = new ConfigService(bu, lang, 'http://localhost:8010/proxy');
+    this.wsEndpoint = new ConfigService(bu, lang, '');
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
