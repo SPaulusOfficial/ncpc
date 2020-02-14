@@ -14,11 +14,13 @@ var app = express();
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache, no-stor');
-  res.set('Content-Security-Policy', 'default-src:https://horizontal-ncpc-dev.herokuapp.com https://image.s10.sfmc-content.com');
+  res.set('Content-Security-Policy', 'default-src https://*.herokuapp.com https://*.sfmc-content.com');
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.set('Strict-Transport-Security', 'max-age=200');
+  res.set('X-Content-Security-Policy', 'default-src https://*.herokuapp.com https://*.sfmc-content.com');
   res.set('X-Content-Type-Options', 'nosniff');
   res.set('X-Frame-Options', 'deny');
+  res.set('X-WebKit-CSP',  'default-src https://*.herokuapp.com https://*.sfmc-content.com');
   res.set('X-XSS-Protection', '1; mode=block');
   next();
 });
