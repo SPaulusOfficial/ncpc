@@ -14,6 +14,7 @@ var app = express();
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache, no-stor');
+  res.set('Content-Security-Policy', 'default-src:*.herokuapp.com;img-src:*.sfmc-content.com');
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.set('Strict-Transport-Security', 'max-age=200');
   res.set('X-Content-Type-Options', 'nosniff');
