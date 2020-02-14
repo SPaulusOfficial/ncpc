@@ -12,6 +12,20 @@ Sentry.init({ dsn: 'https://39cd071f77f34837ad6c930c5c7fc322@sentry.io/1987793' 
 
 var app = express();
 
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-cache');
+  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.set('Strict-Transport-Security', 'max-age=200');
+  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('X-Frame-Options', 'deny');
+  res.set('X-Powered-By', '');
+  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('X-XSS-Protection', '1; mode=block');
+  next();
+});
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.enable('trust proxy');
@@ -32,16 +46,6 @@ var corsOptions = {
     }
   }
 }
-
-app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-cache, no-stor');
-  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.set('Strict-Transport-Security', 'max-age=200');
-  res.set('X-Content-Type-Options', 'nosniff');
-  res.set('X-Frame-Options', 'Deny');
-  res.set('X-XSS-Protection', '1; mode=block');
-  next();
-});
 
 /*=========================*/
 /*====== GET Routes =======*/

@@ -41,7 +41,7 @@ class Switch extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.checked !== prevProps.checked) {
+    if (this.props.checked !== prevState.checked) {
       this.setState({ checked:this.props.checked });
     }
   }

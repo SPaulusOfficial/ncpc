@@ -42,6 +42,7 @@
     "lodash": "^4.17.15",
     "lodash.template": ">=4.5.0",
     "node-sass": "^4.13.0",
+    "polyfill-array-includes": "^2.0.0",
     "react": "^16.12.0",
     "react-app-polyfill": "^1.0.5",
     "react-bootstrap": "^1.0.0-beta.16",

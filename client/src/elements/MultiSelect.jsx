@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { sortBy } from 'lodash';
+import { isEqual, sortBy } from 'lodash';
 import Select from 'react-select'; // SEE: https://github.com/JedWatson/react-select
 
 class MultiSelect extends React.Component {
@@ -20,6 +20,30 @@ class MultiSelect extends React.Component {
     this.onChange = (selections, action) => {
       this.setState({ value:selections }, this.props.callback(selections, this.props, this.state));
     }
+
+    /*
+     * HELPER METHODS
+     */
+
+    this.sortOptions = () => {
+      const sortedOptions = sortBy(this.props.options, 'order');
+
+      const labels = (this.props.value !== null) ? this.props.value.split(';') : [];
+      
+      const value = sortedOptions.filter(option => labels.includes(option.value));
+
+      const sortedValue = sortBy(value, 'order');
+
+      sortedOptions.forEach(object => {
+        object.key = object.id;
+      });
+
+      sortedValue.forEach(object => {
+        object.key = object.id;
+      });
+
+      this.setState({ options:sortedOptions, value:sortedValue });
+    };
   }
 
   /*
@@ -27,25 +51,13 @@ class MultiSelect extends React.Component {
    */
 
   componentDidMount() {
-    const sortedOptions = sortBy(this.props.options, 'order');
+    this.sortOptions();
+  }
 
-    const labels = (this.props.value !== null) ? this.props.value.split(';') : [];
-    
-    const value = sortedOptions.filter(option => labels.includes(option.label));
-
-    const sortedValue = sortBy(value, 'order');
-
-    sortedOptions.forEach(object => {
-      object.key = object.label;
-      object.value = object.id;
-    });
-
-    sortedValue.forEach(object => {
-      object.key = object.label;
-      object.value = object.id;
-    });
-
-    this.setState({ options:sortedOptions, value:sortedValue });
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (isEqual(this.props.options, prevProps.options) === false) {
+      this.sortOptions();
+    }
   }
 
   render() {
