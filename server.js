@@ -14,7 +14,7 @@ var app = express();
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache, no-stor');
-  res.set('Content-Security-Policy', 'default-src:https://horizontal-ncpc-dev.herokuapp.com');
+  res.set('Content-Security-Policy', 'default-src:https://horizontal-ncpc-dev.herokuapp.com;script-src:https://horizontal-ncpc-dev.herokuapp.com;script-src-elem:https://horizontal-ncpc-dev.herokuapp.com;script-src-attr:https://horizontal-ncpc-dev.herokuapp.com;style-src:https://horizontal-ncpc-dev.herokuapp.com;style-src-elem:https://horizontal-ncpc-dev.herokuapp.com;style-src-attr:https://horizontal-ncpc-dev.herokuapp.com;img-src:https://image.s10.sfmc-content.com;connect-src:https://horizontal-ncpc-dev.herokuapp.com;frame-src;:https://horizontal-ncpc-dev.herokuapp.com;frame-ancestor:https://horizontal-ncpc-dev.herokuapp.com;font-src:https://horizontal-ncpc-dev.herokuapp.com;media-src:https://horizontal-ncpc-dev.herokuapp.com;object-src:https://horizontal-ncpc-dev.herokuapp.com;manifest-src:https://horizontal-ncpc-dev.herokuapp.com;worker-src:https://horizontal-ncpc-dev.herokuapp.com;prefetch-src:https://horizontal-ncpc-dev.herokuapp.com');
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.set('Strict-Transport-Security', 'max-age=200');
   res.set('X-Content-Type-Options', 'nosniff');
