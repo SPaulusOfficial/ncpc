@@ -14,13 +14,13 @@ var app = express();
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache, no-stor');
-  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; font-src 'self' *.fontawesome.com;");
+  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; font-src 'self' *.fontawesome.com;");
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.set('Strict-Transport-Security', 'max-age=200');
-  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; font-src 'self' *.fontawesome.com;");
+  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; font-src 'self' *.fontawesome.com;");
   res.set('X-Content-Type-Options', 'nosniff');
   res.set('X-Frame-Options', 'deny');
-  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; font-src 'self' *.fontawesome.com;");
+  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; font-src 'self' *.fontawesome.com;");
   res.set('X-XSS-Protection', '1; mode=block');
   next();
 });
