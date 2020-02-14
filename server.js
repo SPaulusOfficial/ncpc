@@ -13,7 +13,7 @@ Sentry.init({ dsn: 'https://39cd071f77f34837ad6c930c5c7fc322@sentry.io/1987793' 
 var app = express();
 
 app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-cache, no-store');
+  res.set('Cache-Control', 'no-cache no-store');
   res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.set('Strict-Transport-Security', 'max-age=200');
