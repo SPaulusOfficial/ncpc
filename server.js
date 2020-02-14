@@ -47,6 +47,7 @@ app.use((req, res, next) => {
 /*====== GET Routes =======*/
 /*=========================*/
 app.get('/', async function(req, res, next) {
+  console.log(process.env.DATABASE_URL);
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
