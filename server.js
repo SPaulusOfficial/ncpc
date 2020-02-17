@@ -89,6 +89,8 @@ app.get('/subscriptions', async function(req, res, next) {
 
     const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
 
+    // add campaigns
+
     const groupedAvails = groupBy.groupBySubscription(avails.rows, 'ncpc__display_category__c');
 
     console.log(avails.rows);
