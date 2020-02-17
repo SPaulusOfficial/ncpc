@@ -50,7 +50,7 @@ class App extends React.Component {
           button_submit: null,
           button_unsubscribeAll: null
         },
-        wsBaseUrl: '/api'
+        wsBaseUrl: ''
       }
     };
 
@@ -153,7 +153,7 @@ class App extends React.Component {
               --form-switch-active: ${this.state.colors.formSwitchActive};
               --form-switch-default: #646464;
               --form-switch-disabled: #CCCCCC;
-              --form-switch-hover: #146BCF;
+              --form-switch-hover: ${this.state.colors.buttonHover};
             }
             `}
           </style>
