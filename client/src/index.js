@@ -50,7 +50,7 @@ class App extends React.Component {
           button_submit: null,
           button_unsubscribeAll: null
         },
-        wsBaseUrl: ''
+        wsBaseUrl: '/api'
       }
     };
 
@@ -143,7 +143,7 @@ class App extends React.Component {
               --brand-primary: ${this.state.colors.brandPrimary};
 
               --button-default: ${this.state.colors.buttonDefault};
-              --button-hover: #146BCF;
+              --button-hover: ${this.state.colors.buttonHover};
       
               --form-check-active: ${this.state.colors.brandPrimary};
               --form-check-active-hover: #146BCF;
