@@ -65,6 +65,7 @@ class ConfigService {
         colors: {
           brandPrimary: config.ncpc__brand_color_hex_code__c,
           buttonDefault: config.ncpc__button_color_hex_code__c,
+          buttonHover: config.ncpc__Button_Hover_Hex_Code__c,
           formSwitchActive: config.ncpc__active_toggle_color_hex_code__c,
         },
         footer: {
