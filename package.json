@@ -2,6 +2,9 @@
   "name": "ncpc",
   "version": "2.0.0",
   "scripts": {
+    "dev": "run-p dev-proxy dev-react",
+    "dev-proxy": "node proxy.js",
+    "dev-react": "npm start --prefix ./client",
     "build": "npm install --prefix ./client && npm run-script build --prefix ./client",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,11 +22,13 @@
     "uuid": "^3.4.0"
   },
   "devDependencies": {
+    "express-http-proxy": "^1.6.0",
     "gulp": "^3.9.0",
-    "gulp-util": "^3.0.7",
     "gulp-atom-downloader": "^0.2.1",
-    "gulp-nodemon": "^2.0.6",
+    "gulp-env": "^0.4.0",
     "gulp-livereload": "^3.8.1",
-    "gulp-env": "^0.4.0"
+    "gulp-nodemon": "^2.0.6",
+    "gulp-util": "^3.0.7",
+    "npm-run-all": "^4.1.5"
   }
 }
