@@ -80,7 +80,7 @@ app.get('/subscriptions', async function(req, res, next) {
   var langBU = req.query.langBU;
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'sub.ncpc__Contact__c' : 'sub.ncpc__Lead__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'sub.ncpc__Lead__c' : 'sub.ncpc__Contact__c';
     var split = langBU.split('-');
     var lang = split[0];
     var bu = split[1];
@@ -108,7 +108,7 @@ app.get('/interests', async function(req, res, next) {
   var langBU = req.query.langBU;
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'int.ncpc__Contact__c' : 'int.ncpc__Lead__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'int.ncpc__Lead__c' : 'int.ncpc__Contact__c';
     var split = langBU.split('-');
     var lang = split[0];
     var bu = split[1];
@@ -134,7 +134,7 @@ app.get('/profiles', async function(req, res, next) {
   var langBU = req.query.langBU;
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'contact' : 'lead';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
     var split = langBU.split('-');
     var lang = split[0];
     var bu = split[1];
@@ -209,7 +209,7 @@ app.post("/subscription", async function(req, res, next) {
   var today = dateFormat(new Date(), "yyyy-mm-dd");
 
   try {
-    let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__Lead__c' : 'ncpc__Contact__c';
     if(availableSubId && id){
       //const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE sfid = '" + customerSubId + "'");
       const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE ncpc__related_subscription_interest__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
@@ -247,7 +247,7 @@ app.post('/profile', async function(req, res, next) {
   var id = req.body.id; 
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'contact' : 'lead';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
     if(id && field && value){
       const updateProfile = await db.query(
         "UPDATE "+schema+"."+leadOrContact+" SET "+field+"=$1 WHERE sfid=$2 RETURNING *",
@@ -271,7 +271,7 @@ app.post('/interest', async function(req, res, next) {
   var today = dateFormat(new Date(), "yyyy-mm-dd");
 
   try {
-    let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__Lead__c' : 'ncpc__Contact__c';
     if(availableIntId && id){
       const ints = await db.query("SELECT * FROM "+schema+".ncpc__PC_Interest__c WHERE ncpc__interest_selected__c = '" + availableIntId + "' AND "+leadOrContact+" = '"+id+"'");
       if(ints.rows.length > 0){
@@ -330,7 +330,7 @@ app.post('/unsubscribeAll', async function(req, res, next) {
 
   try{
     if(id){
-      let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
+      let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__Lead__c' : 'ncpc__Contact__c';
       const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE "+leadOrContact+" = '" + id + "' AND ncpc__Opt_In__c = 'true'");
 
       if(subs.rows.length > 0){
