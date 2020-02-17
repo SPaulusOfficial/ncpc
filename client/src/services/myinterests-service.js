@@ -1,5 +1,4 @@
 import LoggingService from './logging-service';
-import { ResponsiveEmbed } from 'react-bootstrap';
 
 class MyInterestsService {
   constructor(bu, id, lang, wsBaseUrl) {
