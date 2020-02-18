@@ -64,6 +64,43 @@ module.exports = {
     }, {}))];
   },
 
+  groupBySubscriptionCampaign: groupBySubscriptionCampaign = (objectArray, ...properties) => {
+    return [...Object.values(objectArray.reduce((accumulator, object) => {
+      const key = JSON.stringify(properties.map((x) => object[x] || null));
+
+      if (!accumulator[key]) {
+        accumulator[key] = {
+          catcontrolType: 'formGroup',
+          catid: object['ncpc__categoryid__c'],
+          catlabel: object['categoryname'],
+          catorder: object['catorder'],
+          userSubId: object['usersubid'],
+          availableSubId: object['availablesubid'],
+          controlType: 'switch',
+          label: object['ncpc__display_text__c'],
+          checked: object['optinstate'],
+          description: object['ncpc__display_description__c'],
+          channel: object['ncpc__channel__c'],
+          disabled: object['ncpc__disabled__c'],
+          public: object['ncpc__public__c'],
+          order: object['ncpc__order__c'],
+          campaigns: []
+        };
+      }
+
+      const campaignObject = {
+        campaignMemberId: object['campaignCampaignMemberId'],
+        campaignName: object['campaignName'],
+        campaignId: object['campaignId'],
+        campaignMemberStatus: object['ncpc__Subscribed__c']
+      }
+      
+      accumulator[key].campaigns.push(campaignObject);
+      
+      return accumulator;
+    }, {}))];
+  },
+
   groupBySubscription: groupBySubscription = (objectArray, ...properties) => {
     return [...Object.values(objectArray.reduce((accumulator, object) => {
       const key = JSON.stringify(properties.map((x) => object[x] || null));
@@ -89,41 +126,7 @@ module.exports = {
         disabled: object['ncpc__disabled__c'],
         public: object['ncpc__public__c'],
         order: object['ncpc__order__c'],
-        campaigns: []
-      };
-      
-      accumulator[key].subscriptions.push(filteredObject);
-      
-      return accumulator;
-    }, {}))];
-  },
-
-  groupBySubscriptionCampaign: groupBySubscriptionCampaign = (objectArray, ...properties) => {
-    return [...Object.values(objectArray.reduce((accumulator, object) => {
-      const key = JSON.stringify(properties.map((x) => object[x] || null));
-
-      if (!accumulator[key]) {
-        accumulator[key] = {
-          catcontrolType: 'formGroup',
-          catid: object['ncpc__categoryid__c'],
-          catlabel: object['categoryname'],
-          catorder: object['ncpc__categoryorder__c'],
-          subscriptions: []
-        };
-      }
-      
-      const filteredObject = {
-        userSubId: object['usersubid'],
-        availableSubId: object['availablesubid'],
-        controlType: 'switch',
-        label: object['ncpc__display_text__c'],
-        checked: object['optinstate'],
-        description: object['ncpc__display_description__c'],
-        channel: object['ncpc__channel__c'],
-        disabled: object['ncpc__disabled__c'],
-        public: object['ncpc__public__c'],
-        order: object['ncpc__order__c'],
-        campaigns: []
+        campaigns: object['campaigns']
       };
       
       accumulator[key].subscriptions.push(filteredObject);
