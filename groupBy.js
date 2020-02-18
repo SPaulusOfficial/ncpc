@@ -88,14 +88,16 @@ module.exports = {
         };
       }
 
-      const campaignObject = {
-        campaignMemberId: object['campaignmemberid'],
-        campaignName: object['campaignname'],
-        campaignId: object['campaignid'],
-        campaignMemberStatus: object['ncpc__subscribed__c']
+      if(object['campaignid']){
+        const campaignObject = {
+          campaignMemberId: object['campaignmemberid'],
+          campaignName: object['campaignname'],
+          campaignId: object['campaignid'],
+          campaignMemberStatus: object['ncpc__subscribed__c']
+        }
+        
+        accumulator[key].campaigns.push(campaignObject);
       }
-      
-      accumulator[key].campaigns.push(campaignObject);
       
       return accumulator;
     }, {}))];
