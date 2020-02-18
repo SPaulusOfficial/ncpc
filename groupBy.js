@@ -108,8 +108,8 @@ module.exports = {
       if (!accumulator[key]) {
         accumulator[key] = {
           catcontrolType: 'formGroup',
-          catid: object['ncpc__categoryid__c'],
-          catlabel: object['categoryname'],
+          catid: object['catid'],
+          catlabel: object['catlabel'],
           catorder: object['catorder'],
           subscriptions: []
         };
@@ -119,13 +119,13 @@ module.exports = {
         userSubId: object['usersubid'],
         availableSubId: object['availablesubid'],
         controlType: 'switch',
-        label: object['ncpc__display_text__c'],
-        checked: object['optinstate'],
-        description: object['ncpc__display_description__c'],
-        channel: object['ncpc__channel__c'],
-        disabled: object['ncpc__disabled__c'],
-        public: object['ncpc__public__c'],
-        order: object['ncpc__order__c'],
+        label: object['label'],
+        checked: object['checked'],
+        description: object['description'],
+        channel: object['channel'],
+        disabled: object['disabled'],
+        public: object['public'],
+        order: object['order'],
         campaigns: object['campaigns']
       };
       
