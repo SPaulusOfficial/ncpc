@@ -5,7 +5,8 @@
         "postgresql-angular-39786",
         "librato-parallel-95736",
         "papertrail-fluffy-94989",
-        "sentry-acute-59006"
+        "sentry-acute-59006",
+        "herokuconnect-rugged-32701"
       ]
     }
   }
