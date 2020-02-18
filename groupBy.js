@@ -89,10 +89,10 @@ module.exports = {
       }
 
       const campaignObject = {
-        campaignMemberId: object['campaignCampaignMemberId'],
-        campaignName: object['campaignName'],
-        campaignId: object['campaignId'],
-        campaignMemberStatus: object['ncpc__Subscribed__c']
+        campaignMemberId: object['campaignmemberid'],
+        campaignName: object['campaignname'],
+        campaignId: object['campaignid'],
+        campaignMemberStatus: object['ncpc__subscribed__c']
       }
       
       accumulator[key].campaigns.push(campaignObject);
