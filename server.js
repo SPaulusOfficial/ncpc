@@ -212,6 +212,7 @@ app.post("/subscription", async function(req, res, next) {
     if(availableSubId && id){
       //const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE sfid = '" + customerSubId + "'");
       const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE ncpc__related_subscription_interest__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
+      console.log(subs.rows);
       if(subs.rows.length > 0){
         var customerSubId = subs.rows[0].sfid;
         var externalKey = subs.rows[0].ncpc__external_id__c === '' ? uuidv1() : subs.rows[0].ncpc__external_id__c;
