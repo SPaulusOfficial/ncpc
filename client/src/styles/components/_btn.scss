@@ -1,7 +1,7 @@
 .btn {
   @include font-primary('bold');
 
-  border-radius: $spacer-size;
+  border-radius: var(--border-radius);
   font-size: 12px;
   padding: $spacer-size * 1.5;
   transition: background-color 0.35s;
@@ -39,12 +39,11 @@
   left: 0;
   position: fixed;
   right: 0;
-  transition: all $animation-duration;
   width: 100%;
   z-index: 100;
 
   @media screen and (min-width: $screen-lg-min) {
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     position: relative;
     width: auto;
   }

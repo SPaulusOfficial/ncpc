@@ -140,6 +140,7 @@ class App extends React.Component {
           <style>
             {`
             :root {
+              --border-radius: ${(this.state.borderRadius) ? this.state.borderRadius : '8px'};
               --brand-primary: ${(this.state.colors.brandPrimary) ? this.state.colors.brandPrimary : '#2275D3'};
               --button-default: ${(this.state.colors.buttonDefault) ? this.state.colors.buttonDefault : '#2275D3'};
               --button-hover: ${(this.state.colors.buttonHover) ? this.state.colors.buttonHover : '#146BCF'};

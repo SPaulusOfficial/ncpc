@@ -62,6 +62,7 @@ class ConfigService {
 
       let parsedData = {
         banner: config.ncpc__banner_text_2__c,
+        borderRadius: config.ncpc__border_radius__c,
         colors: {
           brandPrimary: config.ncpc__brand_color_hex_code__c,
           buttonDefault: config.ncpc__button_color_hex_code__c,

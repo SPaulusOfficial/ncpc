@@ -7,7 +7,7 @@
 .form-multiselect *[class*='-control'] {
   background-color: transparent;
   border: 1px solid $color-gray-dark;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   box-shadow: none;
   color: $form-multiselect-color;
   font-size: 12px;
@@ -19,7 +19,7 @@
 }
 
 .form-multiselect *[class*='-control'] > * {
-  padding: 2px 6px;
+  padding: 0px 6px;
 }
 
 .form-multiselect *[class*='-indicatorContainer'] {
@@ -46,7 +46,7 @@
 
 .form-multiselect *[class*='-menu'] {
   border: 1px solid var(--brand-primary);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   overflow: hidden;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .form-multiselect *[class*='-multiValue'] {
-  border-radius: 6px;
+  border-radius: calc(var(--border-radius) * 0.75);
   font-size: 12px;
 }
 
