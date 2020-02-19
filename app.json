@@ -1,13 +1,12 @@
 {
-  "environments": {
-    "review": {
-      "addons": [
-        "postgresql-angular-39786",
-        "librato-parallel-95736",
-        "papertrail-fluffy-94989",
-        "sentry-acute-59006",
-        "herokuconnect-rugged-32701"
-      ]
-    }
-  }
+  "name": "Salesforce® No-Code Preference Center",
+  "description": "A multi-tenant, React application for managing Salesforce accounts and subscriptions via Salesforce Cloud.",
+  "repository": "https://github.com/horizontalintegration/ncpc",
+
+  "addons": [
+    "postgresql-angular-39786",
+    "librato-parallel-95736",
+    "papertrail-fluffy-94989",
+    "sentry-acute-59006"
+  ]
 }
