@@ -16,6 +16,11 @@
   background: var(--button-default);
   border-color: var(--button-default);
 
+  &:focus {
+    background: var(--button-hover);
+    border-color: var(--button-hover);
+  }
+
   &:hover {
     background: var(--button-hover);
     border-color: var(--button-hover);

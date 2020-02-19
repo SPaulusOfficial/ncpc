@@ -98,7 +98,7 @@ class MyInterests extends React.Component {
       return (
         fieldGroup.interests.map(interest => {
           return (
-            <div className="d-flex align-items-stretch mt-lg-5 pb-15px pl-15px pr-15px" key={interest.availableIntId}>
+            <div className="d-flex align-items-stretch mt-5 pb-15px pl-15px pr-15px" key={interest.availableIntId}>
               <Checkbox availableIntId={interest.availableIntId} callback={this.onClickCheckbox} checked={interest.checked} description={interest.description} disabled={interest.disabled} imageUrl={interest.url} key={interest.availableIntId} label={interest.label} userIntId={interest.userIntId} />
             </div>
           )
