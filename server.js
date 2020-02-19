@@ -219,14 +219,14 @@ app.post("/subscription", async function(req, res, next) {
         var dateField = value === 'true' ? 'ncpc__Opt_In_Date__c' : 'ncpc__Opt_Out_Date__c';
         // Subscription exists, update existing
         const result = await db.query(
-          "UPDATE "+schema+".ncpc__pc_subscription__c SET "+dateField+"=$1, ncpc__Opt_In__c=$2, ncpc__subscription_type__c=$3, ncpc__External_Id__c=$4 WHERE sfid=$5 RETURNING *",
+          "UPDATE "+schema+".ncpc__pc_subscription__c SET "+dateField+"=$1, ncpc__opt_in__c=$2, ncpc__subscription_type__c=$3, ncpc__external_Id__c=$4 WHERE sfid=$5 RETURNING *",
           [today, value, 'Expressed', externalKey, customerSubId]
         );
         res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
       }else{
         // Net new Subscription, create record
         const result = await db.query(
-          "INSERT INTO "+schema+".ncpc__pc_subscription__c ("+leadOrContact+",ncpc__Related_Subscription_Interest__c,ncpc__Subscription_Type__c,ncpc__Opt_In_Date__c,ncpc__Initial_Opt_In_Date__c,ncpc__Opt_In_Source__c,ncpc__Opt_In__c, ncpc__External_Id__c) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
+          "INSERT INTO "+schema+".ncpc__pc_subscription__c ("+leadOrContact+",ncpc__related_subscription_interest__c,ncpc__subscription_type__c,ncpc__opt_in_date__c,ncpc__initial_opt_in_date__c,ncpc__opt_in_source__c,ncpc__opt_in__c, ncpc__external_id__c) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
           [id, availableSubId, 'Expressed', today, today, 'Preference Center', value, uuidv1()]
         );
         res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
