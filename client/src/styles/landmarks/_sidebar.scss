@@ -12,7 +12,6 @@
   background-color: $color-white;
   display: flex;
   font-size: 16px;
-  justify-content: space-evenly;
 
   @media screen and (min-width: $screen-lg-min) {
     background-color: transparent;
@@ -23,6 +22,7 @@
 .sidebar-links > * {
   @include font-primary('medium');
 
+  flex: 1 1 0;
   line-height: 20px;
   padding: ($spacer-size * 2) $spacer-size;
   text-align: center;
