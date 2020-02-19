@@ -31,9 +31,27 @@ class MySubscriptions extends React.Component {
       
       $save.attr('disabled', true);
 
-      this.wsEndpoint.postCampaign(props.campaignId, props.campaignUserId, state.checked)
+      this.wsEndpoint.postCampaign(props.memberId, state.checked, props.id)
         .then(response => {
-          $save.attr('disabled', false);
+          if (response.success === 'fail') {
+            $('#exceptionModal').modal();
+          } else {
+            let newFieldGroups = cloneDeep(this.state.fieldGroups);
+
+            newFieldGroups.forEach(fieldGroup => {
+              fieldGroup.subscriptions.forEach(subscription => {
+                subscription.campaigns.forEach(campaign => {
+                  if (campaign.id === props.id) {
+                    campaign.memberStatus = false;
+                  }
+                });
+              });
+            });
+
+            this.setState({ fieldGroups:newFieldGroups }, () => {
+              $save.attr('disabled', false);
+            });
+          }
         }
       );
     }
@@ -47,7 +65,11 @@ class MySubscriptions extends React.Component {
 
       this.wsEndpoint.postSubscription(props.availableSubId, state.checked)
         .then(response => {
-          $save.attr('disabled', false);
+          if (response.success === 'fail') {
+            $('#exceptionModal').modal();
+          } else {
+            $save.attr('disabled', false);
+          }
         }
       );
     };

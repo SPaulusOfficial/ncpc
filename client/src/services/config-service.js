@@ -66,7 +66,14 @@ class ConfigService {
           brandPrimary: config.ncpc__brand_color_hex_code__c,
           buttonDefault: config.ncpc__button_color_hex_code__c,
           buttonHover: config.ncpc__button_hover_hex_code__c,
+          formCheckActive: config.ncpc__Checkbox_Active_Color_Hex_Code__c,
+          formCheckActiveHover: config.ncpc__Checkbox_Active_Hover_Color_Hex_Code__c,
+          formCheckDefault: config.ncpc__Checkbox_Default_Color_Hex_Code__c,
+          formCheckHover: config.ncpc__Checkbox_Default_Hover_Color_Hex_Code__c,
           formSwitchActive: config.ncpc__active_toggle_color_hex_code__c,
+          formSwitchDefault: config.ncpc__Inactive_Toggle_Color_Hex_Code__c,
+          formSwitchDisabled: config.ncpc__Disabled_Toggle_Color_Hex_Code__c,
+          formSwitchHover: config.ncpc__Hover_Toggle_Color_Hex_Code__c
         },
         footer: {
           companyName: config.ncpc__company_name__c,
