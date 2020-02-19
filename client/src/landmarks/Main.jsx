@@ -32,7 +32,7 @@ class Main extends React.Component {
                 <Sidebar buttonSubmit={this.props.buttonSubmit} sections={this.props.sections} />
               </div>
               <div className="col-lg-9">
-                <div class="container">
+                <div className="container">
                   {sections}
                 </div>
               </div>
