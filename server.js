@@ -216,7 +216,7 @@ app.post("/subscription", async function(req, res, next) {
       if(subs.rows.length > 0){
         var customerSubId = subs.rows[0].sfid;
         var externalKey = subs.rows[0].ncpc__external_id__c === '' ? uuidv1() : subs.rows[0].ncpc__external_id__c;
-        var dateField = value === 'true' ? 'ncpc__Opt_In_Date__c' : 'ncpc__Opt_Out_Date__c';
+        var dateField = value === 'true' ? 'ncpc__opt_in_date__c' : 'ncpc__opt_out_date__c';
         // Subscription exists, update existing
         const result = await db.query(
           "UPDATE "+schema+".ncpc__pc_subscription__c SET "+dateField+"=$1, ncpc__opt_in__c=$2, ncpc__subscription_type__c=$3, ncpc__external_Id__c=$4 WHERE sfid=$5 RETURNING *",
