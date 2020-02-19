@@ -206,7 +206,7 @@ app.post("/subscription", async function(req, res, next) {
   var value = req.body.value;
   var id = req.body.id; 
   var today = dateFormat(new Date(), "yyyy-mm-dd");
-
+  console.log(req.body);
   try {
     let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__Lead__c' : 'ncpc__Contact__c';
     if(availableSubId && id){
