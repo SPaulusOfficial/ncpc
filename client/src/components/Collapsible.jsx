@@ -27,7 +27,7 @@ class Collapsible extends React.Component {
     const fieldGroups = this.props.subscriptions.map(subscription => {
       return(
         <div className="collapsible-tile" key={subscription.availableSubId}>
-          <Switch availableSubId={subscription.availableSubId} callback={this.props.callbackSwitch} callbackBadge={this.callbackBadge} campaigns={subscription.campaigns} channel={subscription.channel} checked={subscription.checked} description={subscription.description} disabled={subscription.disabled} label={subscription.label} userSubId={subscription.userSubId} />
+          <Switch availableSubId={subscription.availableSubId} callback={this.props.callbackSwitch} callbackBadge={this.props.callbackBadge} campaigns={subscription.campaigns} channel={subscription.channel} checked={subscription.checked} description={subscription.description} disabled={subscription.disabled} label={subscription.label} userSubId={subscription.userSubId} />
         </div>
       )
     });
