@@ -74,7 +74,8 @@ class ConfigService {
           formSwitchActive: config.ncpc__active_toggle_color_hex_code__c,
           formSwitchDefault: config.ncpc__inactive_toggle_color_hex_code__c,
           formSwitchDisabled: config.ncpc__cisabled_toggle_color_hex_code__c,
-          formSwitchHover: config.ncpc__hover_toggle_color_hex_code__c
+          formSwitchHover: config.ncpc__hover_toggle_color_hex_code__c,
+          heroTextColor: config.ncpc__hero_text_color_hex_code__c
         },
         footer: {
           companyName: config.ncpc__company_name__c,

@@ -152,6 +152,7 @@ class App extends React.Component {
               --form-switch-default: ${(this.state.colors.formSwitchDefault) ? this.state.colors.formSwitchDefault : '#646464'};
               --form-switch-disabled: ${(this.state.colors.formSwitchDisabled) ? this.state.colors.formSwitchDisabled : '#CCCCCC'};
               --form-switch-hover: ${(this.state.colors.formSwitchHover) ? this.state.colors.formSwitchHover : '#146BCF'};
+              --hero-text-color: ${(this.state.colors.heroTextColor) ? this.state.colors.heroTextColor : '#000000'};
             }
             `}
           </style>
