@@ -208,7 +208,7 @@ app.post("/subscription", async function(req, res, next) {
   var today = dateFormat(new Date(), "yyyy-mm-dd");
   console.log(req.body);
   try {
-    let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__Lead__c' : 'ncpc__Contact__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__lead__c' : 'ncpc__contact__c';
     if(availableSubId && id){
       //const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE sfid = '" + customerSubId + "'");
       const subs = await db.query("SELECT * FROM "+schema+".ncpc__pc_subscription__c WHERE ncpc__related_subscription_interest__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
