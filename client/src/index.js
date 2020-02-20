@@ -50,7 +50,7 @@ class App extends React.Component {
           button_submit: null,
           button_unsubscribeAll: null
         },
-        wsBaseUrl: ''
+        wsBaseUrl: '/api'
       }
     };
 

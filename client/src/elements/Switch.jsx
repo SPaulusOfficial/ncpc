@@ -20,6 +20,8 @@ class Switch extends React.Component {
      */
 
     this.handleClick = event => {
+      if (this.props.disabled) { return; }
+      
       this.setState({ checked:!this.state.checked }, () => {
         if (this.state.checked) {
           $('#collapse_' + this.props.availableSubId).collapse('show');
