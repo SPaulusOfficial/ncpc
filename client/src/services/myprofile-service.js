@@ -94,6 +94,53 @@ class MyProfileService {
         throw error;
       });
   }
+
+  /*
+   * POST
+   * URI: https://ncpc-horizontal.herokuapp.com/profile
+   * PAYLOAD:
+   * {
+   *   "id": "{{USER_ID}}"
+   * }
+   */
+  async postForgetMe() {
+    // console.log('MyProfileService.postForgetMe()');
+
+    const wsUri = this.wsBaseUrl + '/forgetMe';
+
+    let data = {
+      id: this.id
+    };
+
+    let options = {
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST'
+    };
+
+    return fetch(wsUri, options)
+      .then(response => response.json())
+      .then(response => {
+        if (response.error) {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+
+          throw new Error();
+        }
+
+        if (response.success && response.success === 'fail') {
+          this.logger.post(wsUri, response.message, response.status, response.body);
+        }
+
+        return response;
+      })
+      .catch(error => {
+        this.logger.post(wsUri, error, '500', options);
+
+        throw error;
+      });
+  }
 }
 
 export default MyProfileService;
