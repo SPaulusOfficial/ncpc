@@ -1,18 +1,17 @@
 :root {
+  --border-radius: #{$border-radius};
   --brand-primary: #{$primary};
-
   --button-default: #{$primary};
   --button-hover: #{$primary-active};
-
   --form-check-active: #{$primary};
   --form-check-active-hover: #{$primary-active};
   --form-check-default: #D1CFCE;
   --form-check-hover: #{$primary-active};
-
   --form-switch-active: #{$primary};
   --form-switch-default: #646464;
   --form-switch-disabled: #CCCCCC;
   --form-switch-hover: #{$primary-active};
+  --hero-text-color: #{$color-text};
 }
 
 html,

@@ -32,14 +32,18 @@ $color-background-light:  #FFFFFF;
 $color-background-dark:   #000000;
 
 // Global
+$border-radius:           8px;
+
 $color-gray-extralight:   #EFEFEF;
 $color-gray-lighter:      #979797;
 $color-gray:              #545454;
 $color-gray-dark:         #333333;
 $color-gray-line:         rgba(186, 186, 186, 0.5);
-$divider:                 #D8D8D8;
+
 $cta-light:               #595959;
 $cta-light-bg:            $color-bg;
+
+$divider:                 #D8D8D8;
 
 $form-multiselect-checkbox-border: #AEAEAE;
 $form-multiselect-color:   #495057;
