@@ -224,10 +224,10 @@ app.post("/api/subscription", async function(req, res, next) {
         res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
       }else{
         // Net new Subscription, create record
-        /*const result = await db.query(
+        const result = await db.query(
           "INSERT INTO "+schema+".ncpc__pc_subscription__c ("+leadOrContact+",ncpc__related_subscription_interest__c,ncpc__subscription_type__c,ncpc__opt_in_date__c,ncpc__initial_opt_in_date__c,ncpc__opt_in_source__c,ncpc__opt_in__c, ncpc__external_id__c) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
           [id, availableSubId, 'Expressed', today, today, 'Preference Center', value, uuidv1()]
-        );*/
+        );
         res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
       }
       }else{
