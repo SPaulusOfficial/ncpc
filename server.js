@@ -91,7 +91,7 @@ app.get('/api/subscriptions', async function(req, res, next) {
     const groupedCampaign = groupBy.groupBySubscriptionCampaign(avails.rows, 'availablesubid');
     const groupedAvails = groupBy.groupBySubscription(groupedCampaign, 'ncpc__display_category__c');
 
-    console.log(avails.rows);
+    //console.log(avails.rows);
 
     res.render('subscriptions', {
       subscriptions: groupedAvails
@@ -117,7 +117,7 @@ app.get('/api/interests', async function(req, res, next) {
     
     const groupedAvails = groupBy.groupByInterest(avails.rows, 'ncpc__display_category__c');
 
-    console.log(avails.rows);
+    //console.log(avails.rows);
 
     res.render('interests', {
       interests: groupedAvails
@@ -147,7 +147,7 @@ app.get('/api/profiles', async function(req, res, next) {
 
     const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
 
-    console.log(profile.rows);
+    //console.log(profile.rows);
 
     var fieldKeys = Object.keys(user.rows[0])
     for (var i=0; i<fieldKeys.length; i++) {
@@ -205,13 +205,10 @@ app.post("/api/subscription", async function(req, res, next) {
   var value = req.body.value;
   var id = req.body.id; 
   var today = dateFormat(new Date(), "yyyy-mm-dd");
-  console.log(req.body);
   try {
     let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__lead__c' : 'ncpc__contact__c';
     if(availableSubId && id){
-      //const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE sfid = '" + customerSubId + "'");
       const subs = await db.query("SELECT * FROM "+schema+".ncpc__pc_subscription__c WHERE ncpc__related_subscription_interest__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
-      console.log(subs.rows);
       if(subs.rows.length > 0){
         var customerSubId = subs.rows[0].sfid;
         var externalKey = subs.rows[0].ncpc__external_id__c === '' ? uuidv1() : subs.rows[0].ncpc__external_id__c;
