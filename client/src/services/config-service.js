@@ -77,6 +77,7 @@ class ConfigService {
           formSwitchHover: config.ncpc__hover_toggle_color_hex_code__c,
           heroTextColor: config.ncpc__hero_text_color_hex_code__c
         },
+        fontFamily: config.ncpc__font_family__c,
         footer: {
           companyName: config.ncpc__company_name__c,
           privacy: {

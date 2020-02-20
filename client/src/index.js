@@ -144,6 +144,7 @@ class App extends React.Component {
               --brand-primary: ${(this.state.colors.brandPrimary) ? this.state.colors.brandPrimary : '#2275D3'};
               --button-default: ${(this.state.colors.buttonDefault) ? this.state.colors.buttonDefault : '#2275D3'};
               --button-hover: ${(this.state.colors.buttonHover) ? this.state.colors.buttonHover : '#146BCF'};
+              --font-family: ${(this.state.fontFamily) ? '"' + this.state.fontFamily + '"' : ''};
               --form-check-active: ${(this.state.colors.formCheckActive) ? this.state.colors.formCheckActive : '#2275D3'};
               --form-check-active-hover: ${(this.state.colors.formCheckActiveHover) ? this.state.colors.formCheckActiveHover : '#146BCF'};
               --form-check-default: ${(this.state.colors.formCheckDefault) ? this.state.colors.formCheckDefault : '#D1CFCE'};
