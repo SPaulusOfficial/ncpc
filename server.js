@@ -370,11 +370,16 @@ app.post('/api/campaignMember', async function(req, res, next) {
  
   try{
     if(id && campaignMemberId && value){
-      // Update campaign member status 
-      const result = await db.query(
-        "UPDATE "+schema+".CampaignMember SET ncpc__Subscribed__c=$1 WHERE sfid=$2 RETURNING *",
-        [value, campaignMemberId]
-      );
+      const cm = await db.query("SELECT * FROM "+schema+".campaignmember WHERE sfid = '" + campaignMemberId + "'");
+      if(cm.rows.length > 0){
+        var externalKey = cm.rows[0].ncpc__external_id__c === '' ? uuidv1() : cm.rows[0].ncpc__external_id__c;
+        // Update campaign member status 
+        const result = await db.query(
+          "UPDATE "+schema+".campaignmember SET ncpc__Subscribed__c=$1, ncpc__External_Id__c=$2 WHERE sfid=$3 RETURNING *",
+          [value, externalKey, campaignMemberId]
+        );
+        res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
+      }
       res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
     }else{
       console.log("Campaign Member Post - Missing Required Data: " + JSON.stringify(req.body));
