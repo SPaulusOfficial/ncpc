@@ -3,10 +3,10 @@
  *
  */
 @mixin font-display($var: '') {
-  font-family: 'Helvetica Neue LT W05_55 Roman', Helvetica, sans-serif;
+  font-family: var(--font-family), 'Helvetica Neue LT W05_55 Roman', Helvetica, sans-serif;
 
   @if $var == 'bold' {
-    font-family: 'Helvetica Neue LT W05_55 Roman', Helvetica, sans-serif;
+    font-family: var(--font-family), 'Helvetica Neue LT W05_55 Roman', Helvetica, sans-serif;
   }
 }
 
