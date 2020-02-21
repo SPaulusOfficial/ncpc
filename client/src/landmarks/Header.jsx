@@ -60,7 +60,7 @@ class Header extends React.Component {
         <div className="container">
           <a href={this.props.logo.link} rel="noopener noreferrer" target="_blank"><img className="header-logo" src={this.props.logo.url} alt="" /></a>
           <div className="dropdown  header-locale">
-            <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,6">
               {dropdownLabel}
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

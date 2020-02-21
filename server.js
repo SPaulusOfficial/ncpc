@@ -14,14 +14,14 @@ var app = express();
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache');
-  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.set('Strict-Transport-Security', 'max-age=200'); 
-  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('X-Content-Type-Options', 'nosniff');
   res.set('X-Frame-Options', 'deny');
   res.set('X-Powered-By', '');
-  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('X-XSS-Protection', '1; mode=block');
   next();
 });
@@ -89,7 +89,7 @@ app.get('/api/subscriptions', async function(req, res, next) {
     const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, c.name as campaignName, cm.sfid as campaignMemberId, c.sfid as campaignId, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c LEFT JOIN "+schema+".campaign c ON c.ncpc__related_subscription__c = avail.sfid LEFT JOIN "+schema+".campaignmember cm ON cm.campaignid = c.sfid WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
 
     const groupedCampaign = groupBy.groupBySubscriptionCampaign(avails.rows, 'availablesubid');
-    const groupedAvails = groupBy.groupBySubscription(groupedCampaign, 'ncpc__display_category__c');
+    const groupedAvails = groupBy.groupBySubscription(groupedCampaign, 'ncpc__categoryid__c');
 
     //console.log(avails.rows);
 
