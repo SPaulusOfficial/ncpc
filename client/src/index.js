@@ -63,7 +63,7 @@ class Index extends React.Component {
     this.setSharedContext = (_locale, _settings, _strings, _theme) => {
       this.setState({
         locale: _locale,
-        setttings: _settings,
+        settings: _settings,
         strings: _strings,
         theme: _theme
       }, () => {

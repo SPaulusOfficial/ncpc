@@ -101,7 +101,7 @@ class ConfigService {
           ],
         },
         settings: {
-          channelLabelsEnabled: true
+          channelLabelsEnabled: config.ncpc__channel_labels_enabled__c
         },
         strings: {
           badge_email: config.ncpc__email_channel_text__c,
