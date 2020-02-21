@@ -32,6 +32,11 @@ class Index extends React.Component {
         badge_sms: 'SMS',
         button_submit: 'Submit',
         button_unsubscribeAll: 'Unsubscribe All',
+        footer_companyName: 'Horizontal',
+        forgetMe_button_primary: 'Forget Me',
+        forgetMe_button_secondary: 'Cancel',
+        forgetMe_modal_body: 'Clicking "Forget Me" will cause your profile to be permanently deleted. This action cannot be undone.',
+        forgetMe_modal_title: 'Are you sure?',
         hero_headline: 'Manage Salesforce Subscriptions'
       },
       theme: {
