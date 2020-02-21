@@ -1,7 +1,7 @@
 import React from 'react';
 
 import $ from 'jquery';
-import { sortBy } from 'lodash';
+import { isEqual, sortBy } from 'lodash';
 
 import MyInterestsService from '../services/myinterests-service';
 
@@ -14,19 +14,20 @@ class MyInterests extends React.Component {
 
     this.state = {
       fieldGroups: [],
-      langBu: null,
+      locale: {
+        businessUnit: null,
+        language: null,
+      },
       wsException: false
     };
 
-    this.wsEndpoint = null;
+    this.wsEndpoint = new MyInterestsService(null, null, null, '/api');
 
     /*
      * EVENT HANDLERS
      */
 
     this.onClickCheckbox = (event, props, state) => {
-      // console.log('onClickCheckbox()', props, state);
-
       const $save = $('#btn-save');
       
       $save.attr('disabled', true);
@@ -49,10 +50,6 @@ class MyInterests extends React.Component {
      */
 
     this.fetchData = () => {
-      this.wsEndpoint.bu = this.context.value.bu;
-      this.wsEndpoint.lang = this.context.value.lang;
-      this.wsEndpoint.wsBaseUrl = this.context.value.wsBaseUrl;
-
       this.wsEndpoint.get()
         .then(fieldGroups => {
           const sortedfieldGroups = sortBy(fieldGroups, 'catorder');
@@ -76,20 +73,20 @@ class MyInterests extends React.Component {
    */
 
   componentDidMount() {
-    this.wsEndpoint = new MyInterestsService(this.context.value.bu, this.context.value.id, this.context.value.lang, this.context.value.wsBaseUrl);
-
-    this.setState({ langBu: this.context.value.lang + '-' + this.context.value.bu });
+    this.setState({ locale:{...this.context.value.locale} });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.state.langBu !== prevState.langBu) {
-      this.fetchData();
+    if (this.context && this.context.value && !isEqual(this.context.value.locale, this.state.locale)) {
+      this.setState({ locale:{...this.context.value.locale }});
     }
-    
-    if (this.state.langBu !== this.context.value.lang + '-' + this.context.value.bu) {
-      this.setState({
-        langBu: this.context.value.lang + '-' + this.context.value.bu
-      });
+
+    if (!isEqual(prevState.locale, this.state.locale)) {
+      this.wsEndpoint.id = this.context.value.id;
+      this.wsEndpoint.bu = this.context.value.locale.businessUnit;
+      this.wsEndpoint.lang = this.context.value.locale.language;
+      
+      this.fetchData();
     }
   }
 
