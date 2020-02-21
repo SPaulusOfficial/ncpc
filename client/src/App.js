@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isEqual } from 'lodash';
+import { isEqual, merge } from 'lodash';
 
 import AppContext from './AppContext';
 import ConfigService from './services/config-service';
@@ -50,9 +50,9 @@ class App extends React.Component {
       this.wsEndpoint.get().then(data => {
         this.context.setValue(
           {...this.context.value.locale},
-          data.settings,
-          data.strings,
-          data.theme
+          merge(this.context.value.settings, data.settings),
+          merge(this.context.value.strings, data.strings),
+          merge(this.context.value.theme, data.theme)
         );
         
         this.setState({ managedContent:data.managedContent });
