@@ -86,9 +86,11 @@ class App extends React.Component {
         <style>
           {`
           :root {
+            --border-radius: ${this.context.value.theme.borderRadius};
             --brand-primary: ${this.context.value.theme.colors.brandPrimary};
             --button-default: ${this.context.value.theme.colors.buttonDefault};
             --button-hover: ${this.context.value.theme.colors.buttonHover};
+            --font-family: ${this.context.value.theme.fontFamily};
             --form-check-active: ${this.context.value.theme.colors.formCheckActive};
             --form-check-active-hover: ${this.context.value.theme.colors.formCheckActiveHover};
             --form-check-default: ${this.context.value.theme.colors.formCheckDefault};
@@ -97,6 +99,7 @@ class App extends React.Component {
             --form-switch-default: ${this.context.value.theme.colors.formSwitchDefault};
             --form-switch-disabled: ${this.context.value.theme.colors.formSwitchDisabled};
             --form-switch-hover: ${this.context.value.theme.colors.formSwitchHover};
+            --hero-text-color:  ${this.context.value.theme.colors.heroText};
           }
           `}
         </style>
