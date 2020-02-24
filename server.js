@@ -50,7 +50,7 @@ var corsOptions = {
 /*=========================*/
 /*====== GET Routes =======*/
 /*=========================*/
-app.get('/', async function(req, res, next) {
+app.get('/', cors(corsOptions), async function(req, res, next) {
   console.log(process.env.DATABASE_URL);
   var id = req.query.id; 
   var langBU = req.query.langBU;
@@ -66,15 +66,15 @@ app.get('/', async function(req, res, next) {
   }
 })
 
-app.get('/error', async function(req, res, next) {
+app.get('/error', cors(corsOptions), async function(req, res, next) {
   res.render('error', {});
 })
 
-app.get('/maintenance', async function(req, res, next) {
+app.get('/maintenance', cors(corsOptions), async function(req, res, next) {
   res.render('error', {});
 })
 
-app.get('/api/subscriptions', async function(req, res, next) {
+app.get('/api/subscriptions', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
@@ -102,7 +102,7 @@ app.get('/api/subscriptions', async function(req, res, next) {
   }
 })
 
-app.get('/api/interests', async function(req, res, next) {
+app.get('/api/interests', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
@@ -128,7 +128,7 @@ app.get('/api/interests', async function(req, res, next) {
   }
 })
 
-app.get('/api/profiles', async function(req, res, next) {
+app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
@@ -167,7 +167,7 @@ app.get('/api/profiles', async function(req, res, next) {
   }
 })
 
-app.get('/api/package', async function(req, res, next) {
+app.get('/api/package', cors(corsOptions), async function(req, res, next) {
   var langBU = req.query.langBU;
 
   try{
@@ -201,7 +201,7 @@ app.get('/api/package', async function(req, res, next) {
 /*====== POST Routes =======*/
 /*==========================*/
 
-app.post("/api/subscription", async function(req, res, next) {
+app.post("/api/subscription", cors(corsOptions), async function(req, res, next) {
   var availableSubId = req.body.availableSubId;
   var value = req.body.value;
   var id = req.body.id; 
@@ -238,7 +238,7 @@ app.post("/api/subscription", async function(req, res, next) {
   }
 });
 
-app.post('/api/profile', async function(req, res, next) {
+app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
   var field = req.body.field;
   var value = req.body.value;
   var id = req.body.id; 
@@ -261,7 +261,7 @@ app.post('/api/profile', async function(req, res, next) {
   }
 });
 
-app.post('/api/interest', async function(req, res, next) {
+app.post('/api/interest', cors(corsOptions), async function(req, res, next) {
   var availableIntId = req.body.availableIntId;
   var value = req.body.value;
   var id = req.body.id; 
@@ -298,7 +298,7 @@ app.post('/api/interest', async function(req, res, next) {
   }
 });
 
-app.post('/api/log', async function(req, res, next) {
+app.post('/api/log', cors(corsOptions), async function(req, res, next) {
   var overallStatus = req.body.overallStatus;
   var errorMessage = req.body.errorMessage;
   var requestPayload = req.body.requestPayload;
@@ -321,7 +321,7 @@ app.post('/api/log', async function(req, res, next) {
   }
 });
 
-app.post('/api/unsubscribeAll', async function(req, res, next) {
+app.post('/api/unsubscribeAll', cors(corsOptions), async function(req, res, next) {
   var id = req.body.id; 
   var today = dateFormat(new Date(), "yyyy-mm-dd");
 
@@ -364,7 +364,7 @@ app.post('/api/unsubscribeAll', async function(req, res, next) {
   }
 });
 
-app.post('/api/campaignMember', async function(req, res, next) {
+app.post('/api/campaignMember', cors(corsOptions), async function(req, res, next) {
   var id = req.body.id; 
   var campaignMemberId = req.body.campaignMemberId;
   var value = req.body.value;
