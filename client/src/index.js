@@ -19,6 +19,7 @@ class Index extends React.Component {
     super(props);
 
     this.state = {
+      availableSubId: null,
       id: null,
       locale: {
         businessUnit: null,
@@ -51,8 +52,7 @@ class Index extends React.Component {
           heroText: '#000000'
         },
         fontFamily: ''
-      },
-      subId: null
+      }
     };
 
     this.urlParams = new URLSearchParams(window.location.search);
@@ -82,7 +82,7 @@ class Index extends React.Component {
   componentDidMount() {
     const id = (this.urlParams.has('id') ? this.urlParams.get('id') : null);
     const langBU = (this.urlParams.has('langBU') ? this.urlParams.get('langBU').split('-') : []);
-    const subId = (this.urlParams.has('subId') ? this.urlParams.get('subId') : null);
+    const availableSubId = (this.urlParams.has('availableSubId') ? this.urlParams.get('availableSubId') : null);
 
     const bu = (langBU.length === 2 ? langBU[1] : null);
     const lang = (langBU.length === 2 ? langBU[0] : null);
@@ -92,7 +92,7 @@ class Index extends React.Component {
     if (!id || !bu || bu.length !== 2) { return false; }
 
     // Set the state.
-    this.setState({ id:id, locale:{ businessUnit:bu, language:lang }, subId:subId });
+    this.setState({ availableSubId:availableSubId, id:id, locale:{ businessUnit:bu, language:lang } });
   }
   
   render() {

@@ -175,14 +175,14 @@ class MySubscriptions extends React.Component {
     }
 
     if (!isEqual(prevState.fieldGroups, this.state.fieldGroups)) {
-      // If "subId" exists in the URL query string then the user should be automatically opted-in to the matching subscription. (&subId=a012E00000jb02uQAA)
-      if (this.context.value.subId) {
+      // If "availableSubId" exists in the URL query string then the user should be automatically opted-in to the matching subscription.
+      if (this.context.value.availableSubId) {
         let fieldGroups = cloneDeep(this.state.fieldGroups);
 
         // Test to see if the specified ID exists somewhere in the collection.
         fieldGroups.forEach(fieldGroup => {
           fieldGroup.subscriptions.forEach(subscription => {
-            if (subscription.availableSubId === this.context.value.subId && subscription.checked === false) {
+            if (subscription.availableSubId === this.context.value.availableSubId && subscription.checked === false) {
               // If the indicated ID exists then call the web service to subscribe the user and update the UI.
               this.wsEndpoint.postSubscription(subscription.availableSubId, true)
                 .then(response => {
