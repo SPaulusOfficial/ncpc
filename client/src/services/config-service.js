@@ -110,7 +110,6 @@ class ConfigService {
           button_unsubscribeAll: config.ncpc__unsubscribe_all_button_text__c,
           footer_companyName: config.ncpc__company_name__c,
           forgetMe_button_primary: config.ncpc__forget_me_button_primary_text__c,
-          forgetMe_button_secondary: config.ncpc__forget_me_button_secondary_text__c,
           forgetMe_modal_body: config.ncpc__forget_me_modal_body_text__c,
           forgetMe_modal_title: config.ncpc__forget_me_modal_title_text__c,
           hero_headline: config.ncpc__banner_text_2__c

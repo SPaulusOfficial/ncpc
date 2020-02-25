@@ -59,10 +59,6 @@ class ForgetMe extends React.Component {
               <div className="modal-body">
                 <p>{this.context.value.strings.forgetMe_modal_body}</p>
               </div>
-              <div className="modal-footer">
-                <button className="btn btn-secondary" data-dismiss="modal" type="button">{this.context.value.strings.forgetMe_button_secondary}</button>
-                <button className="btn btn-primary" onClick={this.onClickForgetMe} type="button">{this.context.value.strings.forgetMe_button_primary}</button>
-              </div>
             </div>
           </div>
         </div>
