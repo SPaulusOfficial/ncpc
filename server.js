@@ -50,7 +50,7 @@ var corsOptions = {
 /*=========================*/
 /*====== GET Routes =======*/
 /*=========================*/
-app.get('/', async function(req, res, next) {
+app.get('/', cors(corsOptions), async function(req, res, next) {
   console.log(process.env.DATABASE_URL);
   var id = req.query.id; 
   var langBU = req.query.langBU;
@@ -66,15 +66,15 @@ app.get('/', async function(req, res, next) {
   }
 })
 
-app.get('/error', async function(req, res, next) {
+app.get('/error', cors(corsOptions), async function(req, res, next) {
   res.render('error', {});
 })
 
-app.get('/maintenance', async function(req, res, next) {
+app.get('/maintenance', cors(corsOptions), async function(req, res, next) {
   res.render('error', {});
 })
 
-app.get('/api/subscriptions', async function(req, res, next) {
+app.get('/api/subscriptions', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
@@ -85,11 +85,12 @@ app.get('/api/subscriptions', async function(req, res, next) {
     var bu = split[1];
     var variantLangBUClause = lang === '' ? "variant.ncpc__Default_Variant__c = 'true' AND variant.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "variant.ncpc__Parameter__c = '"+ langBU +"'";
     var catLangBUClause = lang === '' ? "cat.ncpc__Default_Variant__c = 'true' AND cat.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "cat.ncpc__Parameter__c = '"+ langBU +"'";
+    var cvLangBUClause = lang === '' ? "cv.ncpc__Default_Variant__c = 'true' AND cv.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "cv.ncpc__Parameter__c = '"+ langBU +"'";
 
-    const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, c.name as campaignName, cm.sfid as campaignMemberId, c.sfid as campaignId, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c LEFT JOIN "+schema+".campaign c ON c.ncpc__related_subscription__c = avail.sfid LEFT JOIN "+schema+".campaignmember cm ON cm.campaignid = c.sfid WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
+    const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, cm.sfid as campaignMemberId, c.sfid as campaignId, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName, (SELECT cv.ncpc__Display_Text__c FROM "+schema+".ncpc__Campaign_Variant__c as cv WHERE c.sfid = cv.ncpc__Campaign__c AND "+ cvLangBUClause +") as campaignname FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c LEFT JOIN "+schema+".campaign c ON c.ncpc__related_subscription__c = avail.sfid LEFT JOIN "+schema+".campaignmember cm ON cm.campaignid = c.sfid WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
 
     const groupedCampaign = groupBy.groupBySubscriptionCampaign(avails.rows, 'availablesubid');
-    const groupedAvails = groupBy.groupBySubscription(groupedCampaign, 'ncpc__categoryid__c');
+    const groupedAvails = groupBy.groupBySubscription(groupedCampaign, 'catid');
 
     //console.log(avails.rows);
 
@@ -101,7 +102,7 @@ app.get('/api/subscriptions', async function(req, res, next) {
   }
 })
 
-app.get('/api/interests', async function(req, res, next) {
+app.get('/api/interests', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
@@ -127,7 +128,7 @@ app.get('/api/interests', async function(req, res, next) {
   }
 })
 
-app.get('/api/profiles', async function(req, res, next) {
+app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
@@ -166,7 +167,7 @@ app.get('/api/profiles', async function(req, res, next) {
   }
 })
 
-app.get('/api/package', async function(req, res, next) {
+app.get('/api/package', cors(corsOptions), async function(req, res, next) {
   var langBU = req.query.langBU;
 
   try{
@@ -200,7 +201,7 @@ app.get('/api/package', async function(req, res, next) {
 /*====== POST Routes =======*/
 /*==========================*/
 
-app.post("/api/subscription", async function(req, res, next) {
+app.post("/api/subscription", cors(corsOptions), async function(req, res, next) {
   var availableSubId = req.body.availableSubId;
   var value = req.body.value;
   var id = req.body.id; 
@@ -237,7 +238,7 @@ app.post("/api/subscription", async function(req, res, next) {
   }
 });
 
-app.post('/api/profile', async function(req, res, next) {
+app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
   var field = req.body.field;
   var value = req.body.value;
   var id = req.body.id; 
@@ -260,7 +261,7 @@ app.post('/api/profile', async function(req, res, next) {
   }
 });
 
-app.post('/api/interest', async function(req, res, next) {
+app.post('/api/interest', cors(corsOptions), async function(req, res, next) {
   var availableIntId = req.body.availableIntId;
   var value = req.body.value;
   var id = req.body.id; 
@@ -297,7 +298,7 @@ app.post('/api/interest', async function(req, res, next) {
   }
 });
 
-app.post('/api/log', async function(req, res, next) {
+app.post('/api/log', cors(corsOptions), async function(req, res, next) {
   var overallStatus = req.body.overallStatus;
   var errorMessage = req.body.errorMessage;
   var requestPayload = req.body.requestPayload;
@@ -320,7 +321,7 @@ app.post('/api/log', async function(req, res, next) {
   }
 });
 
-app.post('/api/unsubscribeAll', async function(req, res, next) {
+app.post('/api/unsubscribeAll', cors(corsOptions), async function(req, res, next) {
   var id = req.body.id; 
   var today = dateFormat(new Date(), "yyyy-mm-dd");
 
@@ -363,18 +364,23 @@ app.post('/api/unsubscribeAll', async function(req, res, next) {
   }
 });
 
-app.post('/api/campaignMember', async function(req, res, next) {
+app.post('/api/campaignMember', cors(corsOptions), async function(req, res, next) {
   var id = req.body.id; 
   var campaignMemberId = req.body.campaignMemberId;
   var value = req.body.value;
  
   try{
     if(id && campaignMemberId && value){
-      // Update campaign member status 
-      const result = await db.query(
-        "UPDATE "+schema+".CampaignMember SET ncpc__Subscribed__c=$1 WHERE sfid=$2 RETURNING *",
-        [value, campaignMemberId]
-      );
+      const cm = await db.query("SELECT * FROM "+schema+".campaignmember WHERE sfid = '" + campaignMemberId + "'");
+      if(cm.rows.length > 0){
+        var externalKey = cm.rows[0].ncpc__external_id__c === '' ? uuidv1() : cm.rows[0].ncpc__external_id__c;
+        // Update campaign member status 
+        const result = await db.query(
+          "UPDATE "+schema+".campaignmember SET ncpc__Subscribed__c=$1, ncpc__External_Id__c=$2 WHERE sfid=$3 RETURNING *",
+          [value, externalKey, campaignMemberId]
+        );
+        res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
+      }
       res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
     }else{
       console.log("Campaign Member Post - Missing Required Data: " + JSON.stringify(req.body));
