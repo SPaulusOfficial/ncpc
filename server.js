@@ -14,14 +14,14 @@ var app = express();
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache');
-  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.set('Strict-Transport-Security', 'max-age=200');
-  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('Strict-Transport-Security', 'max-age=200'); 
+  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('X-Content-Type-Options', 'nosniff');
   res.set('X-Frame-Options', 'deny');
   res.set('X-Powered-By', '');
-  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' *.sfmc-content.com; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.fontawesome.com;");
+  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('X-XSS-Protection', '1; mode=block');
   next();
 });
@@ -50,7 +50,7 @@ var corsOptions = {
 /*=========================*/
 /*====== GET Routes =======*/
 /*=========================*/
-app.get('/', async function(req, res, next) {
+app.get('/', cors(corsOptions), async function(req, res, next) {
   console.log(process.env.DATABASE_URL);
   var id = req.query.id; 
   var langBU = req.query.langBU;
@@ -66,32 +66,33 @@ app.get('/', async function(req, res, next) {
   }
 })
 
-app.get('/error', async function(req, res, next) {
+app.get('/error', cors(corsOptions), async function(req, res, next) {
   res.render('error', {});
 })
 
-app.get('/maintenance', async function(req, res, next) {
+app.get('/maintenance', cors(corsOptions), async function(req, res, next) {
   res.render('error', {});
 })
 
-//app.get('/subscriptions', cors(corsOptions), async function(req, res, next) {
-app.get('/subscriptions', async function(req, res, next) {
+app.get('/api/subscriptions', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'sub.ncpc__Contact__c' : 'sub.ncpc__Lead__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'sub.ncpc__Lead__c' : 'sub.ncpc__Contact__c';
     var split = langBU.split('-');
     var lang = split[0];
     var bu = split[1];
     var variantLangBUClause = lang === '' ? "variant.ncpc__Default_Variant__c = 'true' AND variant.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "variant.ncpc__Parameter__c = '"+ langBU +"'";
     var catLangBUClause = lang === '' ? "cat.ncpc__Default_Variant__c = 'true' AND cat.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "cat.ncpc__Parameter__c = '"+ langBU +"'";
+    var cvLangBUClause = lang === '' ? "cv.ncpc__Default_Variant__c = 'true' AND cv.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "cv.ncpc__Parameter__c = '"+ langBU +"'";
 
-    const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
+    const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, cm.sfid as campaignMemberId, c.sfid as campaignId, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName, (SELECT cv.ncpc__Display_Text__c FROM "+schema+".ncpc__Campaign_Variant__c as cv WHERE c.sfid = cv.ncpc__Campaign__c AND "+ cvLangBUClause +") as campaignname FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c LEFT JOIN "+schema+".campaign c ON c.ncpc__related_subscription__c = avail.sfid LEFT JOIN "+schema+".campaignmember cm ON cm.campaignid = c.sfid WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
 
-    const groupedAvails = groupBy.groupBySubscription(avails.rows, 'ncpc__display_category__c');
+    const groupedCampaign = groupBy.groupBySubscriptionCampaign(avails.rows, 'availablesubid');
+    const groupedAvails = groupBy.groupBySubscription(groupedCampaign, 'catid');
 
-    console.log(avails.rows);
+    //console.log(avails.rows);
 
     res.render('subscriptions', {
       subscriptions: groupedAvails
@@ -101,12 +102,12 @@ app.get('/subscriptions', async function(req, res, next) {
   }
 })
 
-app.get('/interests', async function(req, res, next) {
+app.get('/api/interests', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'int.ncpc__Contact__c' : 'int.ncpc__Lead__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'int.ncpc__Lead__c' : 'int.ncpc__Contact__c';
     var split = langBU.split('-');
     var lang = split[0];
     var bu = split[1];
@@ -117,7 +118,7 @@ app.get('/interests', async function(req, res, next) {
     
     const groupedAvails = groupBy.groupByInterest(avails.rows, 'ncpc__display_category__c');
 
-    console.log(avails.rows);
+    //console.log(avails.rows);
 
     res.render('interests', {
       interests: groupedAvails
@@ -127,12 +128,12 @@ app.get('/interests', async function(req, res, next) {
   }
 })
 
-app.get('/profiles', async function(req, res, next) {
+app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
   var id = req.query.id; 
   var langBU = req.query.langBU;
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'contact' : 'lead';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
     var split = langBU.split('-');
     var lang = split[0];
     var bu = split[1];
@@ -147,7 +148,7 @@ app.get('/profiles', async function(req, res, next) {
 
     const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
 
-    console.log(profile.rows);
+    //console.log(profile.rows);
 
     var fieldKeys = Object.keys(user.rows[0])
     for (var i=0; i<fieldKeys.length; i++) {
@@ -166,7 +167,7 @@ app.get('/profiles', async function(req, res, next) {
   }
 })
 
-app.get('/package', async function(req, res, next) {
+app.get('/api/package', cors(corsOptions), async function(req, res, next) {
   var langBU = req.query.langBU;
 
   try{
@@ -200,31 +201,29 @@ app.get('/package', async function(req, res, next) {
 /*====== POST Routes =======*/
 /*==========================*/
 
-app.post("/subscription", async function(req, res, next) {
+app.post("/api/subscription", cors(corsOptions), async function(req, res, next) {
   var availableSubId = req.body.availableSubId;
   var value = req.body.value;
   var id = req.body.id; 
   var today = dateFormat(new Date(), "yyyy-mm-dd");
-
   try {
-    let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__lead__c' : 'ncpc__contact__c';
     if(availableSubId && id){
-      //const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE sfid = '" + customerSubId + "'");
-      const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE ncpc__related_subscription_interest__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
+      const subs = await db.query("SELECT * FROM "+schema+".ncpc__pc_subscription__c WHERE ncpc__related_subscription_interest__c = '" + availableSubId + "' AND "+leadOrContact+" = '"+id+"'");
       if(subs.rows.length > 0){
         var customerSubId = subs.rows[0].sfid;
         var externalKey = subs.rows[0].ncpc__external_id__c === '' ? uuidv1() : subs.rows[0].ncpc__external_id__c;
-        var dateField = value === 'true' ? 'ncpc__Opt_In_Date__c' : 'ncpc__Opt_Out_Date__c';
+        var dateField = value === 'true' ? 'ncpc__opt_in_date__c' : 'ncpc__opt_out_date__c';
         // Subscription exists, update existing
         const result = await db.query(
-          "UPDATE "+schema+".ncpc__PC_Subscription__c SET "+dateField+"=$1, ncpc__Opt_In__c=$2, ncpc__subscription_type__c=$3, ncpc__External_Id__c=$4 WHERE sfid=$5 RETURNING *",
+          "UPDATE "+schema+".ncpc__pc_subscription__c SET "+dateField+"=$1, ncpc__opt_in__c=$2, ncpc__subscription_type__c=$3, ncpc__external_Id__c=$4 WHERE sfid=$5 RETURNING *",
           [today, value, 'Expressed', externalKey, customerSubId]
         );
         res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
       }else{
         // Net new Subscription, create record
         const result = await db.query(
-          "INSERT INTO "+schema+".ncpc__PC_Subscription__c ("+leadOrContact+",ncpc__Related_Subscription_Interest__c,ncpc__Subscription_Type__c,ncpc__Opt_In_Date__c,ncpc__Initial_Opt_In_Date__c,ncpc__Opt_In_Source__c,ncpc__Opt_In__c, ncpc__External_Id__c) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
+          "INSERT INTO "+schema+".ncpc__pc_subscription__c ("+leadOrContact+",ncpc__related_subscription_interest__c,ncpc__subscription_type__c,ncpc__opt_in_date__c,ncpc__initial_opt_in_date__c,ncpc__opt_in_source__c,ncpc__opt_in__c, ncpc__external_id__c) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
           [id, availableSubId, 'Expressed', today, today, 'Preference Center', value, uuidv1()]
         );
         res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
@@ -239,13 +238,13 @@ app.post("/subscription", async function(req, res, next) {
   }
 });
 
-app.post('/profile', async function(req, res, next) {
+app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
   var field = req.body.field;
   var value = req.body.value;
   var id = req.body.id; 
 
   try{
-    let leadOrContact = id.substring(0,3) == '003' ? 'contact' : 'lead';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
     if(id && field && value){
       const updateProfile = await db.query(
         "UPDATE "+schema+"."+leadOrContact+" SET "+field+"=$1 WHERE sfid=$2 RETURNING *",
@@ -262,14 +261,14 @@ app.post('/profile', async function(req, res, next) {
   }
 });
 
-app.post('/interest', async function(req, res, next) {
+app.post('/api/interest', cors(corsOptions), async function(req, res, next) {
   var availableIntId = req.body.availableIntId;
   var value = req.body.value;
   var id = req.body.id; 
   var today = dateFormat(new Date(), "yyyy-mm-dd");
 
   try {
-    let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
+    let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__Lead__c' : 'ncpc__Contact__c';
     if(availableIntId && id){
       const ints = await db.query("SELECT * FROM "+schema+".ncpc__PC_Interest__c WHERE ncpc__interest_selected__c = '" + availableIntId + "' AND "+leadOrContact+" = '"+id+"'");
       if(ints.rows.length > 0){
@@ -299,7 +298,7 @@ app.post('/interest', async function(req, res, next) {
   }
 });
 
-app.post('/log', async function(req, res, next) {
+app.post('/api/log', cors(corsOptions), async function(req, res, next) {
   var overallStatus = req.body.overallStatus;
   var errorMessage = req.body.errorMessage;
   var requestPayload = req.body.requestPayload;
@@ -322,13 +321,13 @@ app.post('/log', async function(req, res, next) {
   }
 });
 
-app.post('/unsubscribeAll', async function(req, res, next) {
+app.post('/api/unsubscribeAll', cors(corsOptions), async function(req, res, next) {
   var id = req.body.id; 
   var today = dateFormat(new Date(), "yyyy-mm-dd");
 
   try{
     if(id){
-      let leadOrContact = id.substring(0,3) == '003' ? 'ncpc__Contact__c' : 'ncpc__Lead__c';
+      let leadOrContact = id.substring(0,3) == '00Q' ? 'ncpc__Lead__c' : 'ncpc__Contact__c';
       const subs = await db.query("SELECT * FROM "+schema+".ncpc__PC_Subscription__c WHERE "+leadOrContact+" = '" + id + "' AND ncpc__Opt_In__c = 'true'");
 
       if(subs.rows.length > 0){
@@ -365,18 +364,23 @@ app.post('/unsubscribeAll', async function(req, res, next) {
   }
 });
 
-app.post('/campaignMember', async function(req, res, next) {
+app.post('/api/campaignMember', cors(corsOptions), async function(req, res, next) {
   var id = req.body.id; 
   var campaignMemberId = req.body.campaignMemberId;
   var value = req.body.value;
  
   try{
     if(id && campaignMemberId && value){
-      // Update campaign member status 
-      const result = await db.query(
-        "UPDATE "+schema+".CampaignMember SET ncpc__Subscribed__c=$1 WHERE sfid=$2 RETURNING *",
-        [value, campaignMemberId]
-      );
+      const cm = await db.query("SELECT * FROM "+schema+".campaignmember WHERE sfid = '" + campaignMemberId + "'");
+      if(cm.rows.length > 0){
+        var externalKey = cm.rows[0].ncpc__external_id__c === '' ? uuidv1() : cm.rows[0].ncpc__external_id__c;
+        // Update campaign member status 
+        const result = await db.query(
+          "UPDATE "+schema+".campaignmember SET ncpc__Subscribed__c=$1, ncpc__External_Id__c=$2 WHERE sfid=$3 RETURNING *",
+          [value, externalKey, campaignMemberId]
+        );
+        res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
+      }
       res.json({"success":true,"status":200,"message":"Update Successful","body":result.rows});
     }else{
       console.log("Campaign Member Post - Missing Required Data: " + JSON.stringify(req.body));

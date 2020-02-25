@@ -21,34 +21,34 @@ $font-multiplier: 1.07;
 // font-family: "Helvetica Neue LT W05_75 Bold";
 
 @mixin font-primary($var: '') {
-  font-family: 'Helvetica Neue LT W05_45 Light', Helvetica, sans-serif;
+  font-family: var(--font-family), 'Helvetica Neue LT W05_45 Light', Helvetica, sans-serif;
 
   @if $var == 'regular' {
-    font-family: 'Helvetica Neue LT W05_55 Roman', Helvetica, sans-serif;
+    font-family: var(--font-family), 'Helvetica Neue LT W05_55 Roman', Helvetica, sans-serif;
   }
 
   @if $var == 'medium' {
-    font-family: 'Helvetica Neue LT W05_65 Medium', Helvetica, sans-serif;
+    font-family: var(--font-family), 'Helvetica Neue LT W05_65 Medium', Helvetica, sans-serif;
   }
 
   @if $var == 'bold' {
-    font-family: 'Helvetica Neue LT W05_75 Bold', Helvetica, sans-serif;
+    font-family: var(--font-family), 'Helvetica Neue LT W05_75 Bold', Helvetica, sans-serif;
   }
 
   @if $var == 'italic' {
-    font-family: 'Helvetica Neue LT W05_56 Italic', Helvetica, sans-serif;
+    font-family: var(--font-family), 'Helvetica Neue LT W05_56 Italic', Helvetica, sans-serif;
   }
 
   @if $var == 'condensed' {
-    font-family: 'Helvetica Neue LT W05_77 Bd Cn', Helvetica, sans-serif;
+    font-family: var(--font-family), 'Helvetica Neue LT W05_77 Bd Cn', Helvetica, sans-serif;
   }
 
   @if $var == 'medium italic' {
-    font-family: 'Helvetica Neue LT W05_66 Md It', Helvetica, sans-serif;
+    font-family: var(--font-family), 'Helvetica Neue LT W05_66 Md It', Helvetica, sans-serif;
   }
 
   @if $var == 'bold italic' {
-    font-family: 'Helvetica Neue LT W05_76 Bd It', Helvetica, sans-serif;
+    font-family: var(--font-family), 'Helvetica Neue LT W05_76 Bd It', Helvetica, sans-serif;
   }
 }
 

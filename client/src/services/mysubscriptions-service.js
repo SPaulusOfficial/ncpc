@@ -62,16 +62,15 @@ class MySubscriptionsService {
    *   "status":"false",
    * }
    */
-  async postCampaign(campaignId, campaignMemberId) {
+  async postCampaign(campaignMemberId, checked, id) {
     // console.log('MySubscriptionsService.postCampaign()', campaignId, campaignMemberId);
     
     const wsUri = this.wsBaseUrl + '/campaign';
 
     let body = {
-      campaignId: campaignId,
-      id: this.id,
       campaignMemberId: campaignMemberId,
-      status: false
+      id: id,
+      value: checked
     };
 
     let options = {

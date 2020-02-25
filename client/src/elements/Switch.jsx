@@ -20,6 +20,8 @@ class Switch extends React.Component {
      */
 
     this.handleClick = event => {
+      if (this.props.disabled) { return; }
+      
       this.setState({ checked:!this.state.checked }, () => {
         if (this.state.checked) {
           $('#collapse_' + this.props.availableSubId).collapse('show');
@@ -47,10 +49,10 @@ class Switch extends React.Component {
   }
 
   render() {
-    const campaigns = this.props.campaigns.map(campaign => {
-      return(
-        <Badge callback={this.props.callbackBadge} campaignUserId={campaign.campaignUserId} campaignId={campaign.campaignId} checked={campaign.checked} disabled={campaign.disabled} key={campaign.campaignId} label={campaign.label} />
-      )
+    const campaigns = this.props.campaigns.filter(campaign => campaign.memberStatus === true).map(campaign => {
+        return(
+          <Badge callback={this.props.callbackBadge} checked={campaign.memberStatus} disabled={false} id={campaign.id} key={campaign.id} label={campaign.name} memberId={campaign.memberId} />
+        )
     });
 
     return (

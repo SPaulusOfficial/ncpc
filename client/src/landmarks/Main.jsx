@@ -26,13 +26,15 @@ class Main extends React.Component {
               </div>
             </div>
           </div>
-          <div className="container">
+          <div className="container-lg">
             <div className="row">
               <div className="col-lg-3">
                 <Sidebar buttonSubmit={this.props.buttonSubmit} sections={this.props.sections} />
               </div>
               <div className="col-lg-9">
-                {sections}
+                <div className="container">
+                  {sections}
+                </div>
               </div>
             </div>
           </div>

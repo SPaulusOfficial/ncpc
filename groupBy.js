@@ -64,40 +64,6 @@ module.exports = {
     }, {}))];
   },
 
-  groupBySubscription: groupBySubscription = (objectArray, ...properties) => {
-    return [...Object.values(objectArray.reduce((accumulator, object) => {
-      const key = JSON.stringify(properties.map((x) => object[x] || null));
-
-      if (!accumulator[key]) {
-        accumulator[key] = {
-          catcontrolType: 'formGroup',
-          catid: object['ncpc__categoryid__c'],
-          catlabel: object['categoryname'],
-          catorder: object['catorder'],
-          subscriptions: []
-        };
-      }
-      
-      const filteredObject = {
-        userSubId: object['usersubid'],
-        availableSubId: object['availablesubid'],
-        controlType: 'switch',
-        label: object['ncpc__display_text__c'],
-        checked: object['optinstate'],
-        description: object['ncpc__display_description__c'],
-        channel: object['ncpc__channel__c'],
-        disabled: object['ncpc__disabled__c'],
-        public: object['ncpc__public__c'],
-        order: object['ncpc__order__c'],
-        campaigns: []
-      };
-      
-      accumulator[key].subscriptions.push(filteredObject);
-      
-      return accumulator;
-    }, {}))];
-  },
-
   groupBySubscriptionCampaign: groupBySubscriptionCampaign = (objectArray, ...properties) => {
     return [...Object.values(objectArray.reduce((accumulator, object) => {
       const key = JSON.stringify(properties.map((x) => object[x] || null));
@@ -107,23 +73,62 @@ module.exports = {
           catcontrolType: 'formGroup',
           catid: object['ncpc__categoryid__c'],
           catlabel: object['categoryname'],
-          catorder: object['ncpc__categoryorder__c'],
+          catorder: object['catorder'],
+          userSubId: object['usersubid'],
+          availableSubId: object['availablesubid'],
+          controlType: 'switch',
+          label: object['ncpc__display_text__c'],
+          checked: object['optinstate'],
+          description: object['ncpc__display_description__c'],
+          channel: object['ncpc__channel__c'],
+          disabled: object['ncpc__disabled__c'],
+          public: object['ncpc__public__c'],
+          order: object['ncpc__order__c'],
+          campaigns: []
+        };
+      }
+
+      if(object['campaignid']){
+        const campaignObject = {
+          memberId: object['campaignmemberid'],
+          name: object['campaignname'],
+          id: object['campaignid'],
+          memberStatus: object['ncpc__subscribed__c']
+        }
+        
+        accumulator[key].campaigns.push(campaignObject);
+      }
+      
+      return accumulator;
+    }, {}))];
+  },
+
+  groupBySubscription: groupBySubscription = (objectArray, ...properties) => {
+    return [...Object.values(objectArray.reduce((accumulator, object) => {
+      const key = JSON.stringify(properties.map((x) => object[x] || null));
+
+      if (!accumulator[key]) {
+        accumulator[key] = {
+          catcontrolType: 'formGroup',
+          catid: object['catid'],
+          catlabel: object['catlabel'],
+          catorder: object['catorder'],
           subscriptions: []
         };
       }
       
       const filteredObject = {
-        userSubId: object['usersubid'],
-        availableSubId: object['availablesubid'],
+        userSubId: object['userSubId'],
+        availableSubId: object['availableSubId'],
         controlType: 'switch',
-        label: object['ncpc__display_text__c'],
-        checked: object['optinstate'],
-        description: object['ncpc__display_description__c'],
-        channel: object['ncpc__channel__c'],
-        disabled: object['ncpc__disabled__c'],
-        public: object['ncpc__public__c'],
-        order: object['ncpc__order__c'],
-        campaigns: []
+        label: object['label'],
+        checked: object['checked'],
+        description: object['description'],
+        channel: object['channel'],
+        disabled: object['disabled'],
+        public: object['public'],
+        order: object['order'],
+        campaigns: object['campaigns']
       };
       
       accumulator[key].subscriptions.push(filteredObject);

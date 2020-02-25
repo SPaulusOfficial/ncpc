@@ -50,7 +50,7 @@ class App extends React.Component {
           button_submit: null,
           button_unsubscribeAll: null
         },
-        wsBaseUrl: ''
+        wsBaseUrl: '/api'
       }
     };
 
@@ -140,20 +140,20 @@ class App extends React.Component {
           <style>
             {`
             :root {
-              --brand-primary: ${this.state.colors.brandPrimary};
-
-              --button-default: ${this.state.colors.buttonDefault};
-              --button-hover: #146BCF;
-      
-              --form-check-active: ${this.state.colors.brandPrimary};
-              --form-check-active-hover: #146BCF;
-              --form-check-default: #D1CFCE;
-              --form-check-hover: #146BCF;
-      
-              --form-switch-active: ${this.state.colors.formSwitchActive};
-              --form-switch-default: #646464;
-              --form-switch-disabled: #CCCCCC;
-              --form-switch-hover: #146BCF;
+              --border-radius: ${(this.state.borderRadius) ? this.state.borderRadius : '8px'};
+              --brand-primary: ${(this.state.colors.brandPrimary) ? this.state.colors.brandPrimary : '#2275D3'};
+              --button-default: ${(this.state.colors.buttonDefault) ? this.state.colors.buttonDefault : '#2275D3'};
+              --button-hover: ${(this.state.colors.buttonHover) ? this.state.colors.buttonHover : '#146BCF'};
+              --font-family: ${(this.state.fontFamily) ? '"' + this.state.fontFamily + '"' : ''};
+              --form-check-active: ${(this.state.colors.formCheckActive) ? this.state.colors.formCheckActive : '#2275D3'};
+              --form-check-active-hover: ${(this.state.colors.formCheckActiveHover) ? this.state.colors.formCheckActiveHover : '#146BCF'};
+              --form-check-default: ${(this.state.colors.formCheckDefault) ? this.state.colors.formCheckDefault : '#D1CFCE'};
+              --form-check-hover: ${(this.state.colors.formCheckHover) ? this.state.colors.formCheckHover : '#146BCF'};
+              --form-switch-active: ${(this.state.colors.formSwitchActive) ? this.state.colors.formSwitchActive : '#D1CFCE'};
+              --form-switch-default: ${(this.state.colors.formSwitchDefault) ? this.state.colors.formSwitchDefault : '#646464'};
+              --form-switch-disabled: ${(this.state.colors.formSwitchDisabled) ? this.state.colors.formSwitchDisabled : '#CCCCCC'};
+              --form-switch-hover: ${(this.state.colors.formSwitchHover) ? this.state.colors.formSwitchHover : '#146BCF'};
+              --hero-text-color: ${(this.state.colors.heroTextColor) ? this.state.colors.heroTextColor : '#000000'};
             }
             `}
           </style>

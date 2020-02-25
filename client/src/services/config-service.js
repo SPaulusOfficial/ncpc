@@ -62,11 +62,22 @@ class ConfigService {
 
       let parsedData = {
         banner: config.ncpc__banner_text_2__c,
+        borderRadius: config.ncpc__border_radius__c,
         colors: {
           brandPrimary: config.ncpc__brand_color_hex_code__c,
           buttonDefault: config.ncpc__button_color_hex_code__c,
+          buttonHover: config.ncpc__button_hover_hex_code__c,
+          formCheckActive: config.ncpc__checkbox_active_color_hex_code__c,
+          formCheckActiveHover: config.ncpc__checkbox_active_hover_color_hex_code__c,
+          formCheckDefault: config.ncpc__checkbox_default_color_hex_code__c,
+          formCheckHover: config.ncpc__checkbox_default_hover_color_hex_code__c,
           formSwitchActive: config.ncpc__active_toggle_color_hex_code__c,
+          formSwitchDefault: config.ncpc__inactive_toggle_color_hex_code__c,
+          formSwitchDisabled: config.ncpc__cisabled_toggle_color_hex_code__c,
+          formSwitchHover: config.ncpc__hover_toggle_color_hex_code__c,
+          heroTextColor: config.ncpc__hero_text_color_hex_code__c
         },
+        fontFamily: config.ncpc__font_family__c,
         footer: {
           companyName: config.ncpc__company_name__c,
           privacy: {
