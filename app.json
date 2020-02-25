@@ -5,11 +5,10 @@
 
   "environments": {
     "review": {
-      "addons": [
-        {
-          "plan":"postgresql-angular-39786:hobby-dev"
-        }
-      ]
+      "addons": [],
+      "scripts": {
+        "postdeploy": "heroku addons:attach papertrail-fluffy-94989"
+      }
     }
   }
 }
