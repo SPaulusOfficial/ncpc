@@ -108,7 +108,7 @@ class App extends React.Component {
   }
 
   renderMain() {
-    if (this.state.locale.businessUnit !== null && this.state.locale.language !== null) {
+    if (this.context.value.id !== null) {
       return <Main heroImg={this.state.managedContent.images.hero} heroHeadline={this.context.value.strings.hero_headline} sections={this.state.managedContent.sections} />;
     } else {
       return <Roadblock />;

@@ -38,7 +38,8 @@ class Index extends React.Component {
         forgetMe_modal_body: 'Clicking "Forget Me" will cause your profile to be permanently deleted. This action cannot be undone.',
         forgetMe_modal_title: 'Are you sure?',
         hero_headline: 'Manage Salesforce Subscriptions',
-        pageTitle: 'Managed Preference Center'
+        pageTitle: 'Managed Preference Center',
+        roadblock: 'No user could not be found, or a user ID was not provided. Please try again.'
       },
       theme: {
         borderRadius: '8px',
@@ -86,17 +87,12 @@ class Index extends React.Component {
 
   componentDidMount() {
     const id = (this.urlParams.has('id') ? this.urlParams.get('id') : null);
-    const langBU = (this.urlParams.has('langBU') ? this.urlParams.get('langBU').split('-') : []);
+    const langBU = (this.urlParams.has('langBU') && this.urlParams.get('langBU').split('-').length === 2 ? this.urlParams.get('langBU').split('-') : ['EN', 'US']);
     const availableSubId = (this.urlParams.has('availableSubId') ? this.urlParams.get('availableSubId') : null);
 
     const bu = (langBU.length === 2 ? langBU[1] : null);
     const lang = (langBU.length === 2 ? langBU[0] : null);
 
-    // id must exist and must be 18 characters in length.
-    // bu must exist and must be 2 characters in length.
-    if (!id || !bu || bu.length !== 2) { return false; }
-
-    // Set the state.
     this.setState({ availableSubId:availableSubId, id:id, locale:{ businessUnit:bu, language:lang } });
   }
 
