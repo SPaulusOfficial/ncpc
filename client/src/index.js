@@ -87,7 +87,7 @@ class Index extends React.Component {
 
   componentDidMount() {
     const id = (this.urlParams.has('id') ? this.urlParams.get('id') : null);
-    const langBU = (this.urlParams.has('langBU') ? this.urlParams.get('langBU').split('-') : ['EN', 'US']);
+    const langBU = (this.urlParams.has('langBU') && this.urlParams.get('langBU').split('-').length === 2 ? this.urlParams.get('langBU').split('-') : ['EN', 'US']);
     const availableSubId = (this.urlParams.has('availableSubId') ? this.urlParams.get('availableSubId') : null);
 
     const bu = (langBU.length === 2 ? langBU[1] : null);
