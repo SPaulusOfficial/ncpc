@@ -112,7 +112,8 @@ class ConfigService {
           forgetMe_button_primary: config.ncpc__forget_me_button_primary_text__c,
           forgetMe_modal_body: config.ncpc__forget_me_modal_body_text__c,
           forgetMe_modal_title: config.ncpc__forget_me_modal_title_text__c,
-          hero_headline: config.ncpc__banner_text_2__c
+          hero_headline: config.ncpc__banner_text_2__c,
+          pageTitle: config.ncpc__page_title__c
         },
         theme: {
           borderRadius: config.ncpc__border_radius__c,
@@ -128,7 +129,7 @@ class ConfigService {
             formSwitchDefault: config.ncpc__inactive_toggle_color_hex_code__c,
             formSwitchDisabled: config.ncpc__disabled_toggle_color_hex_code__c,
             formSwitchHover: config.ncpc__hover_toggle_color_hex_code__c,
-            heroText: config.ncpc__hero_text_color__c
+            heroText: config.ncpc__hero_text_color_hex_code__c
           },
           fontFamily: config.ncpc__font_family__c
         }
