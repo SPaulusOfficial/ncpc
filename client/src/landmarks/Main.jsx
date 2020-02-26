@@ -20,7 +20,7 @@ class Main extends React.Component {
       <main>
         <form>
           <div className="container-fluid">
-            <div className="hero" style={{ backgroundImage: 'url(' + this.props.heroImg.url + ')' }}>
+            <div className="hero" style={(this.props.heroImg.url) ? { backgroundImage: 'url(' + this.props.heroImg.url + ')' }: {}}>
               <div className="container">
                 <h1 className="hero-heading">{this.props.heroHeadline}</h1>
               </div>
