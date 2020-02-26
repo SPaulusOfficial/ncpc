@@ -32,7 +32,8 @@ class Index extends React.Component {
         badge_sms: 'SMS',
         button_submit: 'Submit',
         button_unsubscribeAll: 'Unsubscribe All',
-        hero_headline: 'Manage Salesforce Subscriptions'
+        hero_headline: 'Manage Salesforce Subscriptions',
+        pageTitle: 'Managed Preference Center'
       },
       theme: {
         borderRadius: '8px',
@@ -90,6 +91,12 @@ class Index extends React.Component {
 
     // Set the state.
     this.setState({ id:id, locale:{ businessUnit:bu, language:lang } });
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.strings.pageTitle !== this.state.strings.pageTitle) {
+      document.title = this.state.strings.pageTitle;
+    }
   }
   
   render() {

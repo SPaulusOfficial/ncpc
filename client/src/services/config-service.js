@@ -109,7 +109,8 @@ class ConfigService {
           button_submit: config.ncpc__save_button_text__c,
           button_unsubscribeAll: config.ncpc__unsubscribe_all_button_text__c,
           footer_companyName: config.ncpc__company_name__c,
-          hero_headline: config.ncpc__banner_text_2__c
+          hero_headline: config.ncpc__banner_text_2__c,
+          pageTitle: config.ncpc__page_title__c
         },
         theme: {
           borderRadius: config.ncpc__border_radius__c,
@@ -125,7 +126,7 @@ class ConfigService {
             formSwitchDefault: config.ncpc__inactive_toggle_color_hex_code__c,
             formSwitchDisabled: config.ncpc__disabled_toggle_color_hex_code__c,
             formSwitchHover: config.ncpc__hover_toggle_color_hex_code__c,
-            heroText: config.ncpc__hero_text_color__c
+            heroText: config.ncpc__hero_text_color_hex_code__c
           },
           fontFamily: config.ncpc__font_family__c
         }
