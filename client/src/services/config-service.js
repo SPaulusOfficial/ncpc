@@ -113,7 +113,8 @@ class ConfigService {
           forgetMe_modal_body: config.ncpc__forget_me_modal_body_text__c,
           forgetMe_modal_title: config.ncpc__forget_me_modal_title_text__c,
           hero_headline: config.ncpc__banner_text_2__c,
-          pageTitle: config.ncpc__page_title__c
+          pageTitle: config.ncpc__page_title__c,
+          roadblock: config.ncpc__roadblock__c
         },
         theme: {
           borderRadius: config.ncpc__border_radius__c,
