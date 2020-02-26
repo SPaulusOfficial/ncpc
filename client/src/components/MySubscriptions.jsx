@@ -7,6 +7,7 @@ import MySubscriptionsService from '../services/mysubscriptions-service';
 
 import AppContext from '../AppContext';
 import Collapsible from './Collapsible';
+import ForgetMe from './ForgetMe';
 
 class MySubscriptions extends React.Component {
   constructor(props) {
@@ -56,7 +57,7 @@ class MySubscriptions extends React.Component {
         }
       );
     }
-    
+
     this.onClickSwitch = (event, props, state) => {
       const $save = $('#btn-save');
       
@@ -220,6 +221,7 @@ class MySubscriptions extends React.Component {
         </div>
         {fieldGroups}
         <button className="btn btn-large btn-secondary float-right" disabled={this.state.wsException} onClick={this.onClickUnsubscribeAll}>{this.context.value.strings.button_unsubscribeAll}</button>
+        <ForgetMe className="float-right mr-2" />
       </div>
     )
   }
