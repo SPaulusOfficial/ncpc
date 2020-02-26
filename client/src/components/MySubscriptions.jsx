@@ -69,8 +69,7 @@ class MySubscriptions extends React.Component {
           } else {
             $save.attr('disabled', false);
           }
-        }
-      );
+        });
     };
 
     this.onClickUnsubscribeAll = event => {
@@ -173,6 +172,32 @@ class MySubscriptions extends React.Component {
       this.wsEndpoint.lang = this.context.value.locale.language;
       
       this.fetchData();
+    }
+
+    if (!isEqual(prevState.fieldGroups, this.state.fieldGroups)) {
+      // If "availableSubId" exists in the URL query string then the user should be automatically opted-in to the matching subscription.
+      if (this.context.value.availableSubId) {
+        let fieldGroups = cloneDeep(this.state.fieldGroups);
+
+        // Test to see if the specified ID exists somewhere in the collection.
+        fieldGroups.forEach(fieldGroup => {
+          fieldGroup.subscriptions.forEach(subscription => {
+            if (subscription.availableSubId === this.context.value.availableSubId && subscription.checked === false) {
+              // If the indicated ID exists then call the web service to subscribe the user and update the UI.
+              this.wsEndpoint.postSubscription(subscription.availableSubId, true)
+                .then(response => {
+                  if (response.success === 'fail') {
+                    $('#exceptionModal').modal();
+                  } else {
+                    subscription.checked = true;
+
+                    this.setState({ fieldGroups:fieldGroups});
+                  }
+                });
+            }
+          });
+        });
+      }
     }
   }
 
