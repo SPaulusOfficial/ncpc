@@ -18,8 +18,6 @@ class Sidebar extends React.Component {
       const $this = $(event.target);
       const $anchor = $(`a[name="${ $this.attr('href').replace('#', '') }"]`);
       const $header = $('header');
-
-      // console.log($this, $anchor, $header, $anchor.offset().top - $header.outerHeight());
   
       $('html, body').animate({
         scrollTop: $anchor.offset().top - $header.outerHeight()
@@ -49,9 +47,6 @@ class Sidebar extends React.Component {
         </ul>
         <button className="btn btn-lg btn-primary" id="btn-save" onClick={this.onClickSaveButton}>
           {this.context.value.strings.button_submit}
-          {/* Sav
-          <span className="btn-save-label_inactive">e</span>
-          <span className="btn-save-label_active">ing...</span> */}
         </button>
       </div>
     )

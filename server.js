@@ -424,6 +424,17 @@ app.post('/api/campaignMember', cors(corsOptions), async function(req, res, next
   }
 });
 
+app.post('/api/forgetMe', async function(req, res, next) {
+  var id = req.body.id;
+
+  try {
+    
+  } catch(e)  {
+    console.log("Post Forget Me Error: " + JSON.stringify(e));
+    res.json({"success":"fail","status":401,"message":"Error Occured","body":e});
+  }
+});
+
 /*** error handler middleware ***/
 
 app.use((req, res, next) => {

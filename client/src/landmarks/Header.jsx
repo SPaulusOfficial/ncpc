@@ -19,7 +19,14 @@ class Header extends React.Component {
     this.handleClick = (event, language) => {
       event.preventDefault();
 
-      this.context.setValue(language.lang, language.bu);
+      this.context.setValue(
+        { businessUnit:language.bu, language:language.lang },
+        {...this.context.value.settings},
+        {...this.context.value.strings},
+        {...this.context.value.theme}
+      );
+
+      // this.context.setValue(language.lang, language.bu);
     }
   }
 
@@ -40,7 +47,7 @@ class Header extends React.Component {
       )
     });
 
-    const dropdownItemsFiltered = this.state.languages.filter(language => language.bu === this.context.value.bu && language.lang === this.context.value.lang);
+    const dropdownItemsFiltered = this.state.languages.filter(language => language.bu === this.context.value.locale.businessUnit && language.lang === this.context.value.locale.language);
 
     const dropdownLabel = dropdownItemsFiltered.map(dl => {
       return (
@@ -51,7 +58,7 @@ class Header extends React.Component {
     return (
       <header>
         <div className="container">
-          <a href={this.props.logoLink} rel="noopener noreferrer" target="_blank"><img className="header-logo" src={this.props.logoImage} alt="" /></a>
+          <a href={this.props.logo.link} rel="noopener noreferrer" target="_blank"><img className="header-logo" src={this.props.logo.url} alt="" /></a>
           <div className="dropdown  header-locale">
             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,6">
               {dropdownLabel}

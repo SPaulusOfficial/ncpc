@@ -15,8 +15,6 @@ class LoggingService {
    * }
    */
   async post(endpoint, errorMessage, overallStatus, requestPayload) {
-    // console.log('LoggingService.post()', endpoint, errorMessage, overallStatus, requestPayload);
-
     const wsUri = this.wsBaseUrl + '/log';
 
     let data = {

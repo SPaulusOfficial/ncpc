@@ -20,16 +20,16 @@ class Main extends React.Component {
       <main>
         <form>
           <div className="container-fluid">
-            <div className="hero" style={{ backgroundImage: 'url(' + this.props.bannerImg + ')' }}>
+            <div className="hero" style={(this.props.heroImg.url) ? { backgroundImage: 'url(' + this.props.heroImg.url + ')' }: {}}>
               <div className="container">
-                <h1 className="hero-heading">{this.props.bannerText}</h1>
+                <h1 className="hero-heading">{this.props.heroHeadline}</h1>
               </div>
             </div>
           </div>
           <div className="container-lg">
             <div className="row">
               <div className="col-lg-3">
-                <Sidebar buttonSubmit={this.props.buttonSubmit} sections={this.props.sections} />
+                <Sidebar sections={this.props.sections} />
               </div>
               <div className="col-lg-9">
                 <div className="container">
