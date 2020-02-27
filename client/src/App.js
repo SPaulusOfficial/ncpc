@@ -50,9 +50,9 @@ class App extends React.Component {
       this.wsEndpoint.get().then(data => {
         this.context.setValue(
           {...this.context.value.locale},
-          merge(this.context.value.settings, data.settings),
-          merge(this.context.value.strings, data.strings),
-          merge(this.context.value.theme, data.theme)
+          merge({...this.context.value.settings}, data.settings),
+          merge({...this.context.value.strings}, data.strings),
+          merge({...this.context.value.theme}, data.theme)
         );
         
         this.setState({ managedContent:data.managedContent });
