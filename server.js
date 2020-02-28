@@ -2,8 +2,6 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var dateFormat = require('dateformat');
-var request = require('request');
-
 const cors = require('cors')
 const db = require("./db");
 const groupBy = require("./groupBy");
