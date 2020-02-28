@@ -306,38 +306,38 @@ app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
           .catch(err => {
             res.send(err);
           });
-
-        // const user = request.post(getProfile, {
-        //   json: {
-        //     id: id,
-        //     object: leadOrContact,
-        //     field: value
-        //   }
-        // }, (error, res, body) => {
-        //   if (error) {
-        //     console.error(error)
-        //     return
-        //   }
-        //   console.log(`statusCode: ${res.statusCode}`)
-        //   console.log(body)
-        // })
       } else {
         const updateProfile = await db.query(
-          "UPDATE "+schema+"."+leadOrContact+" SET "+field+"=$1 WHERE sfid=$2 RETURNING *",
+          `UPDATE ${schema}.${leadOrContact} SET ${field}=$1 WHERE sfid=$2 RETURNING *`,
           [value, id]
         );
 
-        res.json({"success":true,"status":200,"message":"Update Successful","body":updateProfile.rows});
+        res.json({
+          'success': true,
+          'status': 200,
+          'message': 'Update Successful',
+          'body': updateProfile.rows
+        });
       }
     } else {
-      if (debug) { console.log("Profile Post - Missing Required Data: " + JSON.stringify(req.body)); }
+      if (debug) { console.log('Profile Post - Missing Required Data: ' + JSON.stringify(req.body)); }
 
-      res.json({"success":"fail","status":402,"message":"Missing required data","body":req.body});
+      res.json({
+        'success':'fail',
+        'status':402,
+        'message':'Missing required data',
+        'body':req.body
+      });
     }
   }  catch(e) {
-    if (debug) { console.log("Post Log Error: " + JSON.stringify(e)) };
+    if (debug) { console.log('Post Log Error: ' + JSON.stringify(e)) };
 
-    res.json({"success":"fail","status":401,"message":"Error Occured","body":e});
+    res.json({
+      'success': 'fail', 
+      'status': 401, 
+      'message': 'Error Occured', 
+      'body': e
+    });
   }
 });
 
