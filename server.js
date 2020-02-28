@@ -171,9 +171,9 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
       fetch(postProfile, options)
         .then(data => {
           console.log(data);
-          var fieldKeys = Object.keys(body);
+          var fieldKeys = Object.keys(data);
           for (var i=0; i<fieldKeys.length; i++) {
-            var fieldValue = body[fieldKeys[i]];
+            var fieldValue = data[fieldKeys[i]];
             var getField = groupedProfile.find(field => field.mappedField.toLowerCase() === fieldKeys[i]);
             if(getField){
               getField['value'] = fieldValue;
@@ -184,13 +184,14 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
           });
         })
         .catch(err => {
+          if(debug){console.log("Get Profile Error "+JSON.stringify(err));}
           res.send(err);
         });
   
     }else{
       const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
 
-      if(debug){console.log("user "+JSON.stringify(user));}
+      if(debug){console.log("user "+JSON.stringify(user.rows));}
 
       var fieldKeys = Object.keys(user.rows[0])
       for (var i=0; i<fieldKeys.length; i++) {
