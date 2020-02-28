@@ -149,7 +149,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
     var profileArray = groupedProfile.map(groupedProfile => groupedProfile.mappedField).join(',');
 
     // if an external endpoint needs to be called, make a post call to that service for the users detail
-    if(getProfile){
+    if(getProfile === ""){
       const user = request.post(getProfile, {
         json: {
           id: id,
@@ -279,7 +279,7 @@ app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
   try{
     let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
     if(id && field && value){
-      if(postProfile){
+      if(postProfile === ""){
         const user = request.post(getProfile, {
           json: {
             id: id,
