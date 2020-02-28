@@ -282,7 +282,7 @@ app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
   try{
     let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
     if(id && field && value){
-      if(postProfile){
+      if(typeof postProfile === 'string' && postProfile.length > 0){
         const user = request.post(getProfile, {
           json: {
             id: id,
