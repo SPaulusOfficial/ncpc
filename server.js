@@ -204,7 +204,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
       res.render('profile', {
         profile: groupedProfile
       });
-    //}
+    }
 
   } catch (err) {
     return next(err);
