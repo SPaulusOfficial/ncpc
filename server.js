@@ -148,8 +148,6 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
     const groupedProfile = groupBy.groupByProfile(profileRows, 'ncpc__'+leadOrContact+'mappedfield__c');
     var profileArray = groupedProfile.map(groupedProfile => groupedProfile.mappedField).join(',');
 
-    console.log(groupedProfile);
-
     // if an external endpoint needs to be called, make a post call to that service for the users detail
     if(getProfile){
       const user = request.post(getProfile, {
@@ -191,6 +189,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
           getField['value'] = fieldValue;
         }
       }
+      console.log(groupedProfile);
       res.render('profile', {
         profile: groupedProfile
       });
