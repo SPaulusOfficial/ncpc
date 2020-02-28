@@ -278,11 +278,28 @@ app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
   try{
     let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
     if(id && field && value){
-      const updateProfile = await db.query(
-        "UPDATE "+schema+"."+leadOrContact+" SET "+field+"=$1 WHERE sfid=$2 RETURNING *",
-        [value, id]
-      );
-      res.json({"success":true,"status":200,"message":"Update Successful","body":updateProfile.rows});
+      if(postProfile){
+        const user = request.post(getProfile, {
+          json: {
+            id: id,
+            object: leadOrContact,
+            field: value
+          }
+        }, (error, res, body) => {
+          if (error) {
+            console.error(error)
+            return
+          }
+          console.log(`statusCode: ${res.statusCode}`)
+          console.log(body)
+        })
+      }else{
+        const updateProfile = await db.query(
+          "UPDATE "+schema+"."+leadOrContact+" SET "+field+"=$1 WHERE sfid=$2 RETURNING *",
+          [value, id]
+        );
+        res.json({"success":true,"status":200,"message":"Update Successful","body":updateProfile.rows});
+      }
     }else{
       console.log("Profile Post - Missing Required Data: " + JSON.stringify(req.body));
       res.json({"success":"fail","status":402,"message":"Missing required data","body":req.body});
