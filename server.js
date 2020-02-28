@@ -147,7 +147,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
     const profile = await db.query("SELECT prof.sfid as profid, prof.ncpc__field_type__c as fieldType, prof.ncpc__editable__c as disabled, prof.ncpc__order__c as order, variant.ncpc__field_text__c as label, variant.ncpc__field_placeholder_text__c as placeholder, pOption.ncpc__order__c as optionorder, pvOption.ncpc__value__c as optionvalue, pvOption.ncpc__option__c as optionlabel, pOption.sfid as optionid, * FROM "+schema+".ncpc__pc_profile_field__c as prof INNER JOIN "+schema+".ncpc__profile_field_variant__c as variant ON prof.sfid = variant.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__pc_profile_option__c as pOption ON prof.sfid = pOption.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__profile_option_variant__c as pvOption ON pOption.sfid = pvOption.ncpc__profile_option__c AND "+vpOptionLangBUClause+" WHERE prof.ncpc__status__c = true AND "+variantLangBUClause+" ORDER BY prof.ncpc__order__c");
     var profileRows = profile.rows;
 
-    if(debug){console.log("profileRows "+ stringify(profileRows));}
+    if(debug){console.log("profileRows "+JSON.stringify(profileRows));}
 
     const groupedProfile = groupBy.groupByProfile(profileRows, 'ncpc__'+leadOrContact+'mappedfield__c');
     var profileArray = groupedProfile.map(groupedProfile => groupedProfile.mappedField).join(',');
@@ -190,7 +190,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
     }else{
       const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
 
-      if(debug){console.log("user "+stringify(user));}
+      if(debug){console.log("user "+JSON.stringify(user));}
 
       var fieldKeys = Object.keys(user.rows[0])
       for (var i=0; i<fieldKeys.length; i++) {
@@ -200,7 +200,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
           getField['value'] = fieldValue;
         }
       }
-      if(debug){console.log("groupedProfile "+stringify(groupedProfile));}
+      if(debug){console.log("groupedProfile "+JSON.stringify(groupedProfile));}
       res.render('profile', {
         profile: groupedProfile
       });
