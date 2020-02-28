@@ -88,6 +88,12 @@ class MyInterests extends React.Component {
       
       this.fetchData();
     }
+
+    if (this.state.fieldGroups.length === 0) {
+      this.props.sectionRef.current.classList.add('d-none');
+    } else {
+      this.props.sectionRef.current.classList.remove('d-none');
+    }
   }
 
   render() {
