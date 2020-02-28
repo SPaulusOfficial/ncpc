@@ -1,7 +1,8 @@
-var express = require('express');
-var path = require('path');
-var bodyParser = require('body-parser');
-var dateFormat = require('dateformat');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const dateFormat = require('dateformat');
+const fetch = require('node-fetch');
 const cors = require('cors')
 const db = require("./db");
 const groupBy = require("./groupBy");
@@ -279,37 +280,63 @@ app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
   var value = req.body.value;
   var id = req.body.id; 
 
-  try{
+  try {
     let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
-    if(id && field && value){
-      if(typeof postProfile === 'string' && postProfile.length > 0){
-        const user = request.post(getProfile, {
-          json: {
-            id: id,
-            object: leadOrContact,
-            field: value
-          }
-        }, (error, res, body) => {
-          if (error) {
-            console.error(error)
-            return
-          }
-          console.log(`statusCode: ${res.statusCode}`)
-          console.log(body)
-        })
-      }else{
+
+    if (id && field && value) {
+      if (postProfile) {
+        let data = {
+          field: field,
+          id: id,
+          value: value,
+        };
+
+        let options = {
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'POST'
+        };
+        
+        fetch(postProfile, options)
+          .then(data => {
+            res.send({ data });
+          })
+          .catch(err => {
+            res.send(err);
+          });
+
+        // const user = request.post(getProfile, {
+        //   json: {
+        //     id: id,
+        //     object: leadOrContact,
+        //     field: value
+        //   }
+        // }, (error, res, body) => {
+        //   if (error) {
+        //     console.error(error)
+        //     return
+        //   }
+        //   console.log(`statusCode: ${res.statusCode}`)
+        //   console.log(body)
+        // })
+      } else {
         const updateProfile = await db.query(
           "UPDATE "+schema+"."+leadOrContact+" SET "+field+"=$1 WHERE sfid=$2 RETURNING *",
           [value, id]
         );
+
         res.json({"success":true,"status":200,"message":"Update Successful","body":updateProfile.rows});
       }
-    }else{
-      console.log("Profile Post - Missing Required Data: " + JSON.stringify(req.body));
+    } else {
+      if (debug) { console.log("Profile Post - Missing Required Data: " + JSON.stringify(req.body)); }
+
       res.json({"success":"fail","status":402,"message":"Missing required data","body":req.body});
     }
-  }catch(e){
-    console.log("Post Log Error: " + JSON.stringify(e));
+  }  catch(e) {
+    if (debug) { console.log("Post Log Error: " + JSON.stringify(e)) };
+
     res.json({"success":"fail","status":401,"message":"Error Occured","body":e});
   }
 });
