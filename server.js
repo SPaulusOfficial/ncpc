@@ -165,7 +165,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
         const json = await response.json();
         console.log(json);
       }; */
-      const userRows = await fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(data)});
+      const userRows = await fetch(getProfile, { method: 'POST', headers: headers, body: JSON.stringify(data)});
       const user = await userRows.json();
       
       if(debug){console.log("user "+JSON.stringify(user));}
