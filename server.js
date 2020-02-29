@@ -171,6 +171,8 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
       const userRows = await fetch(getProfile, { method: 'POST', headers: headers, body: JSON.stringify(data)});
       const user = await userRows.json();
       
+      if(debug){console.log("data "+JSON.stringify(data));}
+      if(debug){console.log("userRows "+JSON.stringify(userRows));}
       if(debug){console.log("user "+JSON.stringify(user));}
 
       var fieldKeys = Object.keys(user);
