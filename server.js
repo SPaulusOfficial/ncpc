@@ -289,6 +289,7 @@ app.post('/api/profile', async function(req, res, next) {
           field: field,
           id: id,
           value: value,
+          object: leadOrContact
         };
         var headers = {
           "Content-Type": "application/json"
@@ -298,10 +299,10 @@ app.post('/api/profile', async function(req, res, next) {
         const user = await userRows.json();
 
         res.json({
-          'success': true,
-          'status': 200,
-          'message': 'Update Successful',
-          'body': user
+          'success': user.success,
+          'status': user.status,
+          'message': user.message,
+          'body': user.body
         });
       } else {
         const updateProfile = await db.query(
