@@ -96,7 +96,7 @@ app.get('/api/subscriptions', cors(corsOptions), async function(req, res, next) 
     const groupedCampaign = groupBy.groupBySubscriptionCampaign(avails.rows, 'availablesubid');
     const groupedAvails = groupBy.groupBySubscription(groupedCampaign, 'catid');
 
-    //console.log(avails.rows);
+    if(debug){console.log("groupedAvails "+JSON.stringify(groupedAvails));}
 
     res.render('subscriptions', {
       subscriptions: groupedAvails
@@ -122,7 +122,7 @@ app.get('/api/interests', cors(corsOptions), async function(req, res, next) {
     
     const groupedAvails = groupBy.groupByInterest(avails.rows, 'ncpc__display_category__c');
 
-    //console.log(avails.rows);
+    if(debug){console.log("groupedAvails "+JSON.stringify(groupedAvails));}
 
     res.render('interests', {
       interests: groupedAvails
@@ -163,51 +163,23 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
         "Content-Type": "application/json"
       }
       
-      /* const user = async url => {
-        const response = await fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(data)});
-        const json = await response.json();
-        console.log(json);
-      }; */
       const userRows = await fetch(getProfile, { method: 'POST', headers: headers, body: JSON.stringify(data)});
       const user = await userRows.json();
-      
-      if(debug){console.log("data "+JSON.stringify(data));}
-      if(debug){console.log("userRows "+JSON.stringify(userRows));}
+    
       if(debug){console.log("user "+JSON.stringify(user));}
 
       var fieldKeys = Object.keys(user[0]);
-      if(debug){console.log("fieldKeys  "+JSON.stringify(fieldKeys));}
       for (var i=0; i<fieldKeys.length; i++) {
         var fieldValue = user[0][fieldKeys[i]];
-        if(debug){console.log("fieldValue  "+JSON.stringify(fieldValue));}
         var getField = groupedProfile.find(field => field.mappedField === fieldKeys[i]);
         if(getField){
           getField['value'] = fieldValue;
         }
       }
+      if(debug){console.log("groupedProfile "+JSON.stringify(groupedProfile));}
       res.render('profile', {
         profile: groupedProfile
       });
-      /*fetch(postProfile, options)
-        .then((data) => {
-          console.log(data);
-          var fieldKeys = Object.keys(data);
-          for (var i=0; i<fieldKeys.length; i++) {
-            var fieldValue = data[fieldKeys[i]];
-            var getField = groupedProfile.find(field => field.mappedField.toLowerCase() === fieldKeys[i]);
-            if(getField){
-              getField['value'] = fieldValue;
-            }
-          }
-          res.render('profile', {
-            profile: groupedProfile
-          });
-        })
-        .catch(err => {
-          if(debug){console.log("Get Profile Error "+JSON.stringify(err));}
-          res.send(err);
-        });*/
-  
     }else{
       const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
 
@@ -249,7 +221,7 @@ app.get('/api/package', cors(corsOptions), async function(req, res, next) {
       package.config = packageConfig.rows;
       package.languages = languages.rows;
 
-      console.log(package);
+      if(debug){console.log("package "+JSON.stringify(package));}
 
       res.render('package', {
         config: package
@@ -318,22 +290,19 @@ app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
           id: id,
           value: value,
         };
-
-        let options = {
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'POST'
-        };
+        var headers = {
+          "Content-Type": "application/json"
+        }
         
-        fetch(postProfile, options)
-          .then(data => {
-            res.send({ data });
-          })
-          .catch(err => {
-            res.send(err);
-          });
+        const userRows = await fetch(postProfile, { method: 'POST', headers: headers, body: JSON.stringify(data)});
+        const user = await userRows.json();
+
+        res.json({
+          'success': true,
+          'status': 200,
+          'message': 'Update Successful',
+          'body': user
+        });
       } else {
         const updateProfile = await db.query(
           `UPDATE ${schema}.${leadOrContact} SET ${field}=$1 WHERE sfid=$2 RETURNING *`,
@@ -496,17 +465,6 @@ app.post('/api/campaignMember', cors(corsOptions), async function(req, res, next
     }
   }catch(e){
     console.log("Post Campaign Error: " + JSON.stringify(e));
-    res.json({"success":"fail","status":401,"message":"Error Occured","body":e});
-  }
-});
-
-app.post('/api/forgetMe', async function(req, res, next) {
-  var id = req.body.id;
-
-  try {
-    
-  } catch(e)  {
-    console.log("Post Forget Me Error: " + JSON.stringify(e));
     res.json({"success":"fail","status":401,"message":"Error Occured","body":e});
   }
 });
