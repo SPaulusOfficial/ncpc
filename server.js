@@ -175,11 +175,10 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
       if(debug){console.log("userRows "+JSON.stringify(userRows));}
       if(debug){console.log("user "+JSON.stringify(user));}
 
-      var fieldKeys = Object.keys(user);
+      var fieldKeys = Object.keys(user[0]);
       if(debug){console.log("fieldKeys  "+JSON.stringify(fieldKeys));}
       for (var i=0; i<fieldKeys.length; i++) {
-        var fieldKey = fieldKeys[i];
-        var fieldValue = user[fieldKey];
+        var fieldValue = user[0][fieldKeys[i]];
         if(debug){console.log("fieldValue  "+JSON.stringify(fieldValue));}
         var getField = groupedProfile.find(field => field.mappedField === fieldKeys[i]);
         if(getField){
