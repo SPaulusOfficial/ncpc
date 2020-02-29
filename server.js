@@ -275,7 +275,7 @@ app.post("/api/subscription", cors(corsOptions), async function(req, res, next) 
   }
 });
 
-app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
+app.post('/api/profile', async function(req, res, next) {
   var field = req.body.field;
   var value = req.body.value;
   var id = req.body.id; 
