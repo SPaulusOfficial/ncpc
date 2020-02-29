@@ -159,6 +159,9 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
         object: leadOrContact,
         fields: profileArray
       };
+      var headers = {
+        "Content-Type": "application/json"
+      }
       
       /* const user = async url => {
         const response = await fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(data)});
