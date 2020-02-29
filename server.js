@@ -173,7 +173,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
       
       if(debug){console.log("data "+JSON.stringify(data));}
       if(debug){console.log("userRows "+JSON.stringify(userRows));}
-      if(debug){console.log("user "+JSON.stringify(user.toLowerCase()));}
+      if(debug){console.log("user "+JSON.stringify(user));}
 
       var fieldKeys = Object.keys(user);
       for (var i=0; i<fieldKeys.length; i++) {
