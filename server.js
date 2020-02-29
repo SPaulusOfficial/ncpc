@@ -159,17 +159,30 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
         object: leadOrContact,
         fields: profileArray
       };
-
-      let options = {
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST'
-      };
       
-      fetch(postProfile, options)
-        .then(data => {
+      /* const user = async url => {
+        const response = await fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(data)});
+        const json = await response.json();
+        console.log(json);
+      }; */
+      const userRows = await fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(data)});
+      const user = await userRows.json();
+      
+      if(debug){console.log("user "+JSON.stringify(user));}
+
+      var fieldKeys = Object.keys(user);
+      for (var i=0; i<fieldKeys.length; i++) {
+        var fieldValue = user[fieldKeys[i]];
+        var getField = groupedProfile.find(field => field.mappedField.toLowerCase() === fieldKeys[i]);
+        if(getField){
+          getField['value'] = fieldValue;
+        }
+      }
+      res.render('profile', {
+        profile: groupedProfile
+      });
+      /*fetch(postProfile, options)
+        .then((data) => {
           console.log(data);
           var fieldKeys = Object.keys(data);
           for (var i=0; i<fieldKeys.length; i++) {
@@ -186,7 +199,7 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
         .catch(err => {
           if(debug){console.log("Get Profile Error "+JSON.stringify(err));}
           res.send(err);
-        });
+        });*/
   
     }else{
       const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
