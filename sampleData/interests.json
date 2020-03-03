@@ -1,0 +1,40 @@
+[
+  {
+    "catcontrolType":"formGroup",
+    "catid":"a002E00000ZkwaqQAB",
+    "catlabel":"Sales Cloud",
+    "catorder":2,
+    "interests":[
+      {
+        "userIntId":"a032E000013dUZJQA2",
+        "availableIntId":"a012E00000hW5JLQA0",
+        "controlType":"checkbox",
+        "label":"Artificial Intelligence",
+        "description":"Learn more about how Salesforce thinks about AI.",
+        "checked":true,
+        "disabled":false,
+        "order":9,
+        "url":"https://image.s10.sfmc-content.com/lib/fe3f157075640674761471/m/1/69fa4d4a-d39b-4394-a3b5-2463eb4dcc91.png"
+      }
+    ]
+  },
+  {
+    "catcontrolType":"formGroup",
+    "catid":"a002E00000ZkwagQAB",
+    "catlabel":"General",
+    "catorder":1,
+    "interests":[
+      {
+        "userIntId":"a032E000013dUZOQA2",
+        "availableIntId":"a012E00000hXAoHQAW",
+        "controlType":"checkbox",
+        "label":"Equality",
+        "description":"Learn more about how Salesforce enforces equality.",
+        "checked":false,
+        "disabled":false,
+        "order":10,
+        "url":"https://image.s10.sfmc-content.com/lib/fe3f157075640674761471/m/1/8c5bb801-5370-44a7-a043-ca40d2ff2af5.png"
+      }
+    ]
+  }
+]

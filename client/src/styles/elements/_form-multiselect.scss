@@ -69,6 +69,7 @@
 
 .form-multiselect *[class*='-multiValue'] > *:last-child:hover {
   background-color: var(--button-hover);
+  border-radius: calc(var(--border-radius) * 0.75);
   color: $color-white;
   cursor: pointer;
 }
