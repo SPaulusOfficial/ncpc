@@ -91,8 +91,10 @@ class MyInterests extends React.Component {
 
     if (this.state.fieldGroups.length === 0) {
       this.props.sectionRef.current.classList.add('d-none');
+      this.props.sidebarRef.current.classList.add('d-none');
     } else {
       this.props.sectionRef.current.classList.remove('d-none');
+      this.props.sidebarRef.current.classList.remove('d-none');
     }
   }
 
