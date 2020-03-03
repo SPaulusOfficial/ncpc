@@ -1,0 +1,20 @@
+.gdpr-cookies {
+  bottom: 0px;
+  left: 0px;
+  position: fixed;
+  width: 100%;
+}
+
+.gdpr-cookies a {
+  color: $color-white;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.gdpr-cookies .container {
+  background-color: $color-black;
+  border: 2px solid $color-white;
+  border-bottom: none;
+  color: $color-white;
+  padding: 20px 50px;
+}

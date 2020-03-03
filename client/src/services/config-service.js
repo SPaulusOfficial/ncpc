@@ -108,6 +108,8 @@ class ConfigService {
           badge_sms: config.ncpc__sms_channel_text__c,
           button_submit: config.ncpc__save_button_text__c,
           button_unsubscribeAll: config.ncpc__unsubscribe_all_button_text__c,
+          cookies_button: config.ncpc__cookies_button_text__c,
+          cookies_text: config.ncpc__cookies_text__c,
           footer_companyName: config.ncpc__company_name__c,
           forgetMe_button_primary: config.ncpc__forget_me_button_text__c,
           forgetMe_modal_body: config.ncpc__forget_me_modal_body_text__c,

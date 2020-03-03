@@ -33,6 +33,8 @@ class Index extends React.Component {
         badge_sms: 'SMS',
         button_submit: 'Submit',
         button_unsubscribeAll: 'Unsubscribe All',
+        cookies_button: 'OK',
+        cookies_text: 'We use cookies on this site to enhance your user experience. By continuing to use this site, you consent to our cookies as described in our <a href="https://www.horizontal.com/page/privacy-center/" target="_blank">Privacy Policy</a>.',
         footer_companyName: 'Horizontal',
         forgetMe_button_primary: 'Forget Me',
         forgetMe_modal_body: 'Clicking "Forget Me" will cause your profile to be permanently deleted. This action cannot be undone.',
