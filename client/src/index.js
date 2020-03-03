@@ -28,7 +28,8 @@ class Index extends React.Component {
         language: null,
       },
       settings: {
-        channelLabelsEnabled: true
+        channelLabelsEnabled: true,
+        favIcon: '/favicon.ico'
       },
       strings: {
         badge_email: 'Email',
@@ -103,6 +104,15 @@ class Index extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.strings.pageTitle !== this.state.strings.pageTitle) {
       document.title = this.state.strings.pageTitle;
+    }
+
+    if (prevState.settings.favIcon !== this.state.settings.favIcon) {
+      let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+          link.type = 'image/x-icon';
+          link.rel = 'shortcut icon';
+          link.href = this.state.settings.favIcon;
+
+      document.getElementsByTagName('head')[0].appendChild(link);
     }
   }
   
