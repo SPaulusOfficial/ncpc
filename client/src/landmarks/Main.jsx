@@ -5,6 +5,11 @@ import { Section } from '../elements';
 import { Sidebar } from '../landmarks';
 
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.sidebarMyInterestsRef = React.createRef();
+  }
   /*
    * LIFECYCLE METHODS
    */
@@ -12,7 +17,7 @@ class Main extends React.Component {
   render() {
     const sections = this.props.sections.map(section => {
       return (
-        <Section description={section.description} headline={section.headline} id={section.id} key={section.id} />
+        <Section description={section.description} headline={section.headline} id={section.id} key={section.id} sidebarMyInterestsRef={this.sidebarMyInterestsRef} />
       )
     });
 
@@ -29,7 +34,7 @@ class Main extends React.Component {
           <div className="container-lg">
             <div className="row">
               <div className="col-lg-3">
-                <Sidebar sections={this.props.sections} />
+                <Sidebar myInterestsRef={this.sidebarMyInterestsRef} sections={this.props.sections} />
               </div>
               <div className="col-lg-9">
                 <div className="container">

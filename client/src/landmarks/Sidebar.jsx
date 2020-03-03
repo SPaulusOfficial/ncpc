@@ -35,9 +35,16 @@ class Sidebar extends React.Component {
 
   render() {
     const listItems = this.props.sections.map(section => {
-      return(
-        <li key={section.id}><a href={"#" + section.id} onClick={this.onClickMenuItem}>{section.headline}</a></li>
-      )
+      if (section.id === 'my-interests') {
+        return(
+          <li id={section.id} key={section.id} ref={this.props.myInterestsRef}><a href={"#" + section.id} onClick={this.onClickMenuItem}>{section.headline}</a></li>
+        )
+      } else {
+        return(
+          <li id={section.id} key={section.id}><a href={"#" + section.id} onClick={this.onClickMenuItem}>{section.headline}</a></li>
+        )
+      }
+      
     });
 
     return (

@@ -17,7 +17,7 @@ class Section extends React.Component {
 
     switch(this.props.id) {
       case 'my-interests':
-        formBody = <MyInterests id={this.props.id} sectionRef={this.ref} />
+        formBody = <MyInterests id={this.props.id} sectionRef={this.ref} sidebarRef={this.props.sidebarMyInterestsRef} />
         break;
       case 'my-subscriptions':
         formBody = <MySubscriptions id={this.props.id} />
