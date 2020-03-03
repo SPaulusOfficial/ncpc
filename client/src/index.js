@@ -107,8 +107,6 @@ class Index extends React.Component {
           link.type = 'image/x-icon';
           link.rel = 'shortcut icon';
           link.href = this.state.settings.favIcon;
-          
-      console.log('Set FavIcon', link);
 
       document.getElementsByTagName('head')[0].appendChild(link);
     }
