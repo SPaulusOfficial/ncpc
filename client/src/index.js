@@ -6,6 +6,8 @@ import cssVars from 'css-vars-ponyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { CookiesProvider } from 'react-cookie';
+
 import AppContext from './AppContext';
 import App from './App';
 
@@ -34,6 +36,8 @@ class Index extends React.Component {
         badge_sms: 'SMS',
         button_submit: 'Submit',
         button_unsubscribeAll: 'Unsubscribe All',
+        cookies_button: 'OK',
+        cookies_text: 'We use cookies on this site to enhance your user experience. By continuing to use this site, you consent to our cookies as described in our <a href="https://www.horizontal.com/page/privacy-center/" target="_blank">Privacy Policy</a>.',
         footer_companyName: 'Horizontal',
         forgetMe_button_primary: 'Forget Me',
         forgetMe_modal_body: 'Clicking "Forget Me" will cause your profile to be permanently deleted. This action cannot be undone.',
@@ -115,9 +119,11 @@ class Index extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <AppContext.Provider value={{ value:this.state, setValue:this.setSharedContext }}>
-          <App />
-        </AppContext.Provider>
+        <CookiesProvider>
+          <AppContext.Provider value={{ value:this.state, setValue:this.setSharedContext }}>
+            <App />
+          </AppContext.Provider>
+        </CookiesProvider>
       </React.Fragment>
     )
   }

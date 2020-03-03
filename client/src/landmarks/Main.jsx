@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Modal } from '../components';
+import { Cookies, Modal } from '../components';
 import { Section } from '../elements';
 import { Sidebar } from '../landmarks';
 
@@ -44,6 +44,7 @@ class Main extends React.Component {
             </div>
           </div>
         </form>
+        <Cookies />
         <Modal body="Your information could not be updated. Please try again later." title="Oops!" />
       </main>
     )
