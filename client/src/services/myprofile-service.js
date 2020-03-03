@@ -100,8 +100,6 @@ class MyProfileService {
    * }
    */
   async postForgetMe() {
-    // console.log('MyProfileService.postForgetMe()');
-
     const wsUri = this.wsBaseUrl + '/forgetMe';
 
     let data = {
