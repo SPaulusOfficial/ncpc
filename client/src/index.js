@@ -6,6 +6,8 @@ import cssVars from 'css-vars-ponyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { CookiesProvider } from 'react-cookie';
+
 import AppContext from './AppContext';
 import App from './App';
 
@@ -107,9 +109,11 @@ class Index extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <AppContext.Provider value={{ value:this.state, setValue:this.setSharedContext }}>
-          <App />
-        </AppContext.Provider>
+        <CookiesProvider>
+          <AppContext.Provider value={{ value:this.state, setValue:this.setSharedContext }}>
+            <App />
+          </AppContext.Provider>
+        </CookiesProvider>
       </React.Fragment>
     )
   }

@@ -1,12 +1,17 @@
 import React from 'react';
 
 import $ from 'jquery';
+import { withCookies } from 'react-cookie';
 
 import AppContext from '../AppContext';
 
 class Cookies extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      gdprCookie: null
+    };
 
     this.ref = React.createRef();
 
@@ -17,29 +22,38 @@ class Cookies extends React.Component {
     this.handleClick = event => {
       const $this = $(this.ref.current);
 
+      const { cookies } = this.props;
       const height = $(this.ref.current).outerHeight();
       
       $this.animate({
         bottom: -(height)
       }, 'fast', () => {
-        
+        cookies.set('gdpr-cookies', Date(), { path: '/' });
       });
     }
   }
 
+  componentDidMount() {
+    const { cookies } = this.props;
+
+    this.setState({ gdprCookie:cookies.get('gdpr-cookies') });
+  }
+
   render() {
-    return(
-      <div className="gdpr-cookies" ref={this.ref}>
-        <div className="container">
+    if (!this.state.gdprCookie) {
+      return(
+        <div className="gdpr-cookies" ref={this.ref}>
           <div className="row">
-            <div className="col-md-9" dangerouslySetInnerHTML={this.renderText()}></div>
-            <div className="col-md-3">
-              <button className="btn btn-block btn-primary" onClick={this.handleClick}>{this.context.value.strings.cookies_button}</button>
+            <div className="col-lg-6 mb-4 mb-lg-0 offset-md-1 text-center" dangerouslySetInnerHTML={this.renderText()}></div>
+            <div className="col-lg-3 offset-md-1 text-center">
+              <button className="btn btn-primary" onClick={this.handleClick}>{this.context.value.strings.cookies_button}</button>
             </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return null;
+    }
   }
 
   renderText() {
@@ -51,4 +65,4 @@ class Cookies extends React.Component {
 
 Cookies.contextType = AppContext;
 
-export default Cookies;
+export default withCookies(Cookies);

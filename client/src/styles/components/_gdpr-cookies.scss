@@ -1,8 +1,16 @@
 .gdpr-cookies {
-  bottom: 0px;
+  background-color: $color-black;
+  border-top: 2px solid $color-white;
+  bottom: 52px;
+  color: $color-white;
   left: 0px;
+  padding: spacer(3) spacer(6);
   position: fixed;
   width: 100%;
+
+  @media screen and (min-width: $screen-lg-min) {
+    bottom: 0px;
+  }
 }
 
 .gdpr-cookies a {
@@ -11,10 +19,6 @@
   text-decoration: underline;
 }
 
-.gdpr-cookies .container {
-  background-color: $color-black;
-  border: 2px solid $color-white;
-  border-bottom: none;
-  color: $color-white;
-  padding: 20px 50px;
+.gdpr-cookies .btn-primary {
+  min-width: 200px;
 }
