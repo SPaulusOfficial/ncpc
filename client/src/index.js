@@ -102,7 +102,6 @@ class Index extends React.Component {
       document.title = this.state.strings.pageTitle;
     }
 
-    console.log('ComponentDidUpdate', prevState.settings.favIcon, this.state.settings.favIcon);
     if (prevState.settings.favIcon !== this.state.settings.favIcon) {
       let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
           link.type = 'image/x-icon';
