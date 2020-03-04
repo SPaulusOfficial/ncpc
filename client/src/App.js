@@ -4,7 +4,12 @@ import { isEqual, merge } from 'lodash';
 
 import AppContext from './AppContext';
 import ConfigService from './services/config-service';
-import { Footer, Header, Main, Roadblock } from './landmarks';
+import {
+  Footer,
+  Header,
+  Main,
+  Roadblock,
+} from './landmarks';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,44 +24,50 @@ class App extends React.Component {
         images: {
           hero: {
             link: null,
-            url: null
+            url: null,
           },
           logo: {
             link: null,
-            url: null
-          }
+            url: null,
+          },
         },
         links: {
           footerPrivacy: {
             label: null,
-            url: null
+            url: null,
           },
           footerTerms: {
             label: null,
-            url: null
-          }
+            url: null,
+          },
         },
-        sections: []
-      }
+        sections: [],
+      },
     };
 
-    this.wsEndpoint = new ConfigService(null, null, '/api');;
-    
+    this.wsEndpoint = new ConfigService(null, null, '/api');
+
     /*
     * HELPER METHODS
     */
 
     this.fetchData = () => {
-      this.wsEndpoint.get().then(data => {
-        this.context.setValue(
-          {...this.context.value.locale},
-          merge({...this.context.value.settings}, data.settings),
-          merge({...this.context.value.strings}, data.strings),
-          merge({...this.context.value.theme}, data.theme)
+      const { value, setValue } = this.context;
+
+      this.wsEndpoint.get().then((data) => {
+        setValue(
+          { ...value.locale },
+          merge({ ...value.settings }, data.settings),
+          merge({ ...value.strings }, data.strings),
+          merge({ ...value.theme }, data.theme),
         );
-        
-        this.setState({ managedContent:data.managedContent });
+
+        this.setState({ managedContent: data.managedContent });
       });
+    };
+
+    this.setLocale = (value) => {
+      this.setState({ locale: { ...value.locale } });
     };
   }
 
@@ -64,55 +75,68 @@ class App extends React.Component {
    * LIFECYCLE METHODS
    */
 
-  componentDidUpdate(prevProps, prevState, snapshot) {    
-    if (this.context && this.context.value && !isEqual(this.context.value.locale, this.state.locale)) {
-      this.setState({ locale:{...this.context.value.locale }});
+  componentDidUpdate(prevProps, prevState) {
+    const { value } = this.context;
+    const { locale } = this.state;
+
+    if (!isEqual(value.locale, locale)) {
+      this.setLocale(value);
     }
 
-    if (!isEqual(prevState.locale, this.state.locale)) {
-      this.wsEndpoint.bu = this.context.value.locale.businessUnit;
-      this.wsEndpoint.lang = this.context.value.locale.language;
-      
+    if (!isEqual(prevState.locale, locale)) {
+      this.wsEndpoint.bu = value.locale.businessUnit;
+      this.wsEndpoint.lang = value.locale.language;
+
       this.fetchData();
     }
   }
-  
+
+  renderMain() {
+    const { value } = this.context;
+    const { managedContent } = this.state;
+
+    let content = null;
+
+    if (value.id !== null) {
+      content = <Main heroImg={managedContent.images.hero} heroHeadline={value.strings.hero_headline} sections={managedContent.sections} />;
+    } else {
+      content = <Roadblock />;
+    }
+
+    return content;
+  }
+
   render() {
+    const { value } = this.context;
+    const { managedContent } = this.state;
+
     return (
       <div>
-        <Header languages={this.state.managedContent.languages} logo={this.state.managedContent.images.logo} />
+        <Header languages={managedContent.languages} logo={managedContent.images.logo} />
         {this.renderMain()}
-        <Footer companyName={this.context.value.strings.footer_companyName} privacyLink={this.state.managedContent.links.footerPrivacy} termsLink={this.state.managedContent.links.footerTerms} />
+        <Footer companyName={value.strings.footer_companyName} privacyLink={managedContent.links.footerPrivacy} termsLink={managedContent.links.footerTerms} />
         <style>
           {`
           :root {
-            --border-radius: ${this.context.value.theme.borderRadius};
-            --brand-primary: ${this.context.value.theme.colors.brandPrimary};
-            --button-default: ${this.context.value.theme.colors.buttonDefault};
-            --button-hover: ${this.context.value.theme.colors.buttonHover};
-            --font-family: ${this.context.value.theme.fontFamily};
-            --form-check-active: ${this.context.value.theme.colors.formCheckActive};
-            --form-check-active-hover: ${this.context.value.theme.colors.formCheckActiveHover};
-            --form-check-default: ${this.context.value.theme.colors.formCheckDefault};
-            --form-check-hover: ${this.context.value.theme.colors.formCheckHover};
-            --form-switch-active: ${this.context.value.theme.colors.formSwitchActive};
-            --form-switch-default: ${this.context.value.theme.colors.formSwitchDefault};
-            --form-switch-disabled: ${this.context.value.theme.colors.formSwitchDisabled};
-            --form-switch-hover: ${this.context.value.theme.colors.formSwitchHover};
-            --hero-text-color:  ${this.context.value.theme.colors.heroText};
+            --border-radius: ${value.theme.borderRadius};
+            --brand-primary: ${value.theme.colors.brandPrimary};
+            --button-default: ${value.theme.colors.buttonDefault};
+            --button-hover: ${value.theme.colors.buttonHover};
+            --font-family: ${value.theme.fontFamily};
+            --form-check-active: ${value.theme.colors.formCheckActive};
+            --form-check-active-hover: ${value.theme.colors.formCheckActiveHover};
+            --form-check-default: ${value.theme.colors.formCheckDefault};
+            --form-check-hover: ${value.theme.colors.formCheckHover};
+            --form-switch-active: ${value.theme.colors.formSwitchActive};
+            --form-switch-default: ${value.theme.colors.formSwitchDefault};
+            --form-switch-disabled: ${value.theme.colors.formSwitchDisabled};
+            --form-switch-hover: ${value.theme.colors.formSwitchHover};
+            --hero-text-color:  ${value.theme.colors.heroText};
           }
           `}
         </style>
       </div>
-    )
-  }
-
-  renderMain() {
-    if (this.context.value.id !== null) {
-      return <Main heroImg={this.state.managedContent.images.hero} heroHeadline={this.context.value.strings.hero_headline} sections={this.state.managedContent.sections} />;
-    } else {
-      return <Roadblock />;
-    }
+    );
   }
 }
 
