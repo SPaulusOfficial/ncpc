@@ -1,20 +1,24 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
+
 class EmailInput extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
-      value: (this.props.defaultValue === ' ') ? null : this.props.defaultValue
+      value: (props.defaultValue === ' ') ? null : props.defaultValue,
     };
 
     /*
      * EVENT HANDLERS
      */
 
-    this.onBlur = event => {
-      this.props.callback(event, this.props, this.state);
-    }
+    this.onBlur = (event) => {
+      const { callback } = this.props;
+
+      callback(event, this.props, this.state);
+    };
   }
 
   /*
@@ -22,14 +26,40 @@ class EmailInput extends React.Component {
    */
 
   render() {
+    const {
+      disabled,
+      helpText,
+      id,
+      label,
+      placeholder,
+    } = this.props;
+    const { value } = this.state;
+
     return (
       <div className="form-group">
-        <label htmlFor={this.props.id}>{this.props.label}</label>
-        <input className="form-control" aria-describedby={this.props.id} defaultValue={this.state.value} disabled={this.props.disabled} id={this.props.id} name={this.props.id} onBlur={this.onBlur} placeholder={this.props.placeholder} type="email" />
-        {this.props.helpText ? <small className="form-text text-muted" id={this.props.id + '_help'}>{this.props.helpText}</small> : ''}
+        <label htmlFor={id}>{label}</label>
+        <input className="form-control" aria-describedby={id} defaultValue={value} disabled={disabled} id={id} name={id} onBlur={this.onBlur} placeholder={placeholder} type="email" />
+        {helpText ? <small className="form-text text-muted" id={`${id}_help`}>{helpText}</small> : ''}
       </div>
-    )
+    );
   }
 }
+
+EmailInput.defaultProps = {
+  callback: null,
+  defaultValue: null,
+  helpText: null,
+  placeholder: null,
+};
+
+EmailInput.propTypes = {
+  callback: PropTypes.func,
+  defaultValue: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
+  helpText: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+};
 
 export default EmailInput;

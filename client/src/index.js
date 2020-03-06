@@ -29,7 +29,7 @@ class Index extends React.Component {
       },
       settings: {
         channelLabelsEnabled: true,
-        favIcon: '/favicon.ico'
+        favIcon: '/favicon.ico',
       },
       strings: {
         badge_email: 'Email',
@@ -44,7 +44,7 @@ class Index extends React.Component {
         forgetMe_modal_title: 'Are you sure?',
         hero_headline: 'Manage Salesforce Subscriptions',
         pageTitle: 'Managed Preference Center',
-        roadblock: 'No user could not be found, or a user ID was not provided. Please try again.'
+        roadblock: 'No user could not be found, or a user ID was not provided. Please try again.',
       },
       theme: {
         borderRadius: '8px',
@@ -60,10 +60,10 @@ class Index extends React.Component {
           formSwitchDefault: '#646464',
           formSwitchDisabled: '#CCCCCC',
           formSwitchHover: '#146BCF',
-          heroText: '#000000'
+          heroText: '#000000',
         },
-        fontFamily: ''
-      }
+        fontFamily: '',
+      },
     };
 
     this.urlParams = new URLSearchParams(window.location.search);
@@ -77,9 +77,9 @@ class Index extends React.Component {
         locale: _locale,
         settings: _settings,
         strings: _strings,
-        theme: _theme
+        theme: _theme,
       }, () => {
-        this.urlParams.set('langBU', _locale.language + '-' + _locale.businessUnit);
+        this.urlParams.set('langBU', `${_locale.language}-${_locale.businessUnit}`);
 
         window.history.replaceState({}, '', `${window.location.pathname}?${this.urlParams}`);
       });
@@ -95,41 +95,43 @@ class Index extends React.Component {
     const langBU = (this.urlParams.has('langBU') && this.urlParams.get('langBU').split('-').length === 2 ? this.urlParams.get('langBU').split('-') : ['EN', 'US']);
     const availableSubId = (this.urlParams.has('availableSubId') ? this.urlParams.get('availableSubId') : null);
 
-    const bu = (langBU.length === 2 ? langBU[1] : null);
-    const lang = (langBU.length === 2 ? langBU[0] : null);
+    const businessUnit = (langBU.length === 2 ? langBU[1] : null);
+    const language = (langBU.length === 2 ? langBU[0] : null);
 
-    this.setState({ availableSubId:availableSubId, id:id, locale:{ businessUnit:bu, language:lang } });
+    this.setState({ availableSubId, id, locale: { businessUnit, language } });
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.strings.pageTitle !== this.state.strings.pageTitle) {
-      document.title = this.state.strings.pageTitle;
+  componentDidUpdate(prevProps, prevState) {
+    const { settings, strings } = this.state;
+
+    if (prevState.strings.pageTitle !== strings.pageTitle) {
+      document.title = strings.pageTitle;
     }
 
-    if (prevState.settings.favIcon !== this.state.settings.favIcon) {
-      let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-          link.type = 'image/x-icon';
-          link.rel = 'shortcut icon';
-          link.href = this.state.settings.favIcon;
+    if (prevState.settings.favIcon !== settings.favIcon) {
+      const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = settings.favIcon;
 
       document.getElementsByTagName('head')[0].appendChild(link);
     }
   }
-  
+
   render() {
     return (
-      <React.Fragment>
+      <>
         <CookiesProvider>
-          <AppContext.Provider value={{ value:this.state, setValue:this.setSharedContext }}>
+          <AppContext.Provider value={{ value: this.state, setValue: this.setSharedContext }}>
             <App />
           </AppContext.Provider>
         </CookiesProvider>
-      </React.Fragment>
-    )
+      </>
+    );
   }
 }
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 
 ReactDOM.render(<Index />, rootElement);
 

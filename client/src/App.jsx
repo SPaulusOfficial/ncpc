@@ -52,7 +52,7 @@ class App extends React.Component {
     */
 
     this.fetchData = () => {
-      const { value, setValue } = this.context;
+      const { setValue, value } = this.context;
 
       this.wsEndpoint.get().then((data) => {
         setValue(
@@ -65,10 +65,6 @@ class App extends React.Component {
         this.setState({ managedContent: data.managedContent });
       });
     };
-
-    this.setLocale = (value) => {
-      this.setState({ locale: { ...value.locale } });
-    };
   }
 
   /*
@@ -80,7 +76,7 @@ class App extends React.Component {
     const { locale } = this.state;
 
     if (!isEqual(value.locale, locale)) {
-      this.setLocale(value);
+      this.setState({ locale: { ...value.locale } });
     }
 
     if (!isEqual(prevState.locale, locale)) {

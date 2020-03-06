@@ -22,6 +22,7 @@ module.exports = {
     'react',
   ],
   rules: {
-    'max-len': ["error", { "code": 1000, "tabWidth": 2 }]
+    'max-len': ['error', { code: 1000, tabWidth: 2 }],
+    'react/jsx-one-expression-per-line': ['warn', { allow: 'single-child' }],
   },
 };

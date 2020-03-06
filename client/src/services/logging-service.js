@@ -15,16 +15,16 @@ class LoggingService {
    * }
    */
   async post(endpoint, errorMessage, overallStatus, requestPayload) {
-    const wsUri = this.wsBaseUrl + '/log';
+    const wsUri = `${this.wsBaseUrl}/log`;
 
-    let data = {
-      endpoint: endpoint,
-      errorMessage: errorMessage,
-      overallStatus: overallStatus,
-      requestPayload: requestPayload
+    const data = {
+      endpoint,
+      errorMessage,
+      overallStatus,
+      requestPayload,
     };
 
-    let options = {
+    const options = {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json'
@@ -33,10 +33,8 @@ class LoggingService {
     };
 
     return fetch(wsUri, options)
-      .then(response => {
-        return response.json();
-      })
-      .catch(error => {
+      .then((response) => response.json())
+      .catch((error) => {
         throw error;
       });
   }
