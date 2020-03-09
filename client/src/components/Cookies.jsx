@@ -79,7 +79,9 @@ Cookies.defaultProps = {
 
 Cookies.propTypes = {
   cookies: PropTypes.shape({
+    get: PropTypes.func,
     HAS_DOCUMENT_COOKIE: PropTypes.bool.isRequired,
+    set: PropTypes.func,
   }),
 };
 
