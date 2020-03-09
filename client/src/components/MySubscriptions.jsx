@@ -2,7 +2,6 @@ import React from 'react';
 
 import $ from 'jquery';
 import { cloneDeep, isEqual, sortBy } from 'lodash';
-import PropTypes from 'prop-types';
 
 import MySubscriptionsService from '../services/mysubscriptions-service';
 
@@ -29,14 +28,14 @@ class MySubscriptions extends React.Component {
      * EVENT HANDLERS
      */
 
-    this.onClickBadge = (event, props, state) => {
+    this.onClickBadge = (event, badgeProps, badgeState) => {
       const $save = $('#btn-save');
 
       $save.attr('disabled', true);
 
-      this.wsEndpoint.postCampaign(props.memberId, state.checked, props.id)
+      this.wsEndpoint.postCampaign(badgeProps.memberId, badgeState.checked, badgeProps.id)
         .then((response) => {
-          const { fieldGroups } = this.state;
+          const { fieldGroups } = this.badgeState;
 
           if (response.success === 'fail') {
             $('#exceptionModal').modal();
@@ -46,8 +45,10 @@ class MySubscriptions extends React.Component {
             newFieldGroups.forEach((fieldGroup) => {
               fieldGroup.subscriptions.forEach((subscription) => {
                 subscription.campaigns.forEach((campaign) => {
-                  if (campaign.id === props.id) {
-                    campaign.memberStatus = false;
+                  const modifiedCampaign = campaign;
+
+                  if (modifiedCampaign.id === badgeProps.id) {
+                    modifiedCampaign.memberStatus = false;
                   }
                 });
               });
@@ -60,12 +61,12 @@ class MySubscriptions extends React.Component {
         });
     };
 
-    this.onClickSwitch = (event, props, state) => {
+    this.onClickSwitch = (event, switchProps, switchState) => {
       const $save = $('#btn-save');
 
       $save.attr('disabled', true);
 
-      this.wsEndpoint.postSubscription(props.availableSubId, state.checked)
+      this.wsEndpoint.postSubscription(switchProps.availableSubId, switchState.checked)
         .then((response) => {
           if (response.success === 'fail') {
             $('#exceptionModal').modal();
@@ -98,7 +99,9 @@ class MySubscriptions extends React.Component {
 
           newFieldGroups.forEach((fieldGroup) => {
             fieldGroup.subscriptions.forEach((subscription) => {
-              subscription.checked = false;
+              const modifiedSubscription = subscription;
+
+              modifiedSubscription.checked = false;
             });
           });
 
@@ -139,15 +142,17 @@ class MySubscriptions extends React.Component {
           const sortedfieldGroups = sortBy(fieldGroups, 'catorder');
 
           sortedfieldGroups.forEach((fieldGroup) => {
-            const sortedSubscriptions = sortBy(fieldGroup.subscriptions, 'order');
+            const modifiedFieldGroup = fieldGroup;
+            const sortedSubscriptions = sortBy(modifiedFieldGroup.subscriptions, 'order');
 
             sortedSubscriptions.forEach((subscription) => {
-              const sortedCampaigns = sortBy(subscription.campaigns, 'order');
+              const modifiedSubscription = subscription;
+              const sortedCampaigns = sortBy(modifiedSubscription.campaigns, 'order');
 
-              subscription.campaigns = sortedCampaigns;
+              modifiedSubscription.campaigns = sortedCampaigns;
             });
 
-            fieldGroup.subscriptions = sortedSubscriptions;
+            modifiedFieldGroup.subscriptions = sortedSubscriptions;
           });
 
           this.setState({ fieldGroups: sortedfieldGroups });
@@ -192,16 +197,17 @@ class MySubscriptions extends React.Component {
         // Test to see if the specified ID exists somewhere in the collection.
         clonedFieldGroups.forEach((fieldGroup) => {
           fieldGroup.subscriptions.forEach((subscription) => {
-            if (subscription.availableSubId === value.availableSubId && subscription.checked === false) {
+            const modifiedSubscription = subscription;
+            if (modifiedSubscription.availableSubId === value.availableSubId && modifiedSubscription.checked === false) {
               // If the indicated ID exists then call the web service to subscribe the user and update the UI.
-              this.wsEndpoint.postSubscription(subscription.availableSubId, true)
+              this.wsEndpoint.postSubscription(modifiedSubscription.availableSubId, true)
                 .then((response) => {
                   if (response.success === 'fail') {
                     $('#exceptionModal').modal();
                   } else {
-                    subscription.checked = true;
+                    modifiedSubscription.checked = true;
 
-                    this.setState({ fieldGroups });
+                    this.setState({ fieldGroups: clonedFieldGroups });
                   }
                 });
             }
@@ -227,7 +233,7 @@ class MySubscriptions extends React.Component {
       <div>
         <div className={`alert alert-danger${wsException ? '' : ' d-none'}`} role="alert">
           <svg className="bi bi-alert-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8.998 3a1 1 0 112 0 1 1 0 01-2 0zM10 6a.905.905 0 00-.9.995l.35 3.507a.553.553 0 001.1 0l.35-3.507A.905.905 0 0010 6z" clipRule="evenodd"/>
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8.998 3a1 1 0 112 0 1 1 0 01-2 0zM10 6a.905.905 0 00-.9.995l.35 3.507a.553.553 0 001.1 0l.35-3.507A.905.905 0 0010 6z" clipRule="evenodd" />
           </svg>
           Unable to retrieve profile information at this time. Please try again later.
         </div>
@@ -240,9 +246,5 @@ class MySubscriptions extends React.Component {
 }
 
 MySubscriptions.contextType = AppContext;
-
-MySubscriptions.propTypes = {
-  id: PropTypes.string.isRequired,
-};
 
 export default MySubscriptions;

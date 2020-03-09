@@ -27,15 +27,15 @@ class MyProfile extends React.Component {
      * EVENT HANDLERS
      */
 
-    this.onBlurInput = (event, props, state) => {
+    this.onBlurInput = (event, inputProps, inputState) => {
       const $save = $('#btn-save');
 
-      if (state.value !== props.defaultValue) {
-        const value = (state.value.length) ? state.value : ' ';
+      if (inputState.value !== inputProps.defaultValue) {
+        const value = (inputState.value.length) ? inputState.value : ' ';
 
         $save.attr('disabled', true);
 
-        this.wsEndpoint.post(props.mappedField, value)
+        this.wsEndpoint.post(inputProps.mappedField, value)
           .then((response) => {
             if (response.success === 'fail') {
               $('#exceptionModal').modal();
@@ -49,7 +49,7 @@ class MyProfile extends React.Component {
       }
     };
 
-    this.onChangeMultiSelect = (selections, props) => {
+    this.onChangeMultiSelect = (selections, multiSelectProps) => {
       const $save = $('#btn-save');
 
       let fieldValue = ' ';
@@ -63,7 +63,7 @@ class MyProfile extends React.Component {
         fieldValue = selections.value;
       }
 
-      this.wsEndpoint.post(props.mappedField, fieldValue)
+      this.wsEndpoint.post(multiSelectProps.mappedField, fieldValue)
         .then((response) => {
           if (response.success === 'fail') {
             $('#exceptionModal').modal();

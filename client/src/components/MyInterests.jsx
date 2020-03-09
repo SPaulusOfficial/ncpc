@@ -19,7 +19,7 @@ class MyInterests extends React.Component {
         businessUnit: null,
         language: null,
       },
-      wsException: false
+      wsException: false,
     };
 
     this.wsEndpoint = new MyInterestsService(null, null, null, '/api');
@@ -28,12 +28,12 @@ class MyInterests extends React.Component {
      * EVENT HANDLERS
      */
 
-    this.onClickCheckbox = (event, props, state) => {
+    this.onClickCheckbox = (event, checkboxProps, checkboxState) => {
       const $save = $('#btn-save');
 
       $save.attr('disabled', true);
 
-      this.wsEndpoint.post(props.availableIntId, state.checked)
+      this.wsEndpoint.post(checkboxProps.availableIntId, checkboxState.checked)
         .then((response) => {
           if (response.success === 'fail') {
             $('#exceptionModal').modal();
@@ -56,9 +56,10 @@ class MyInterests extends React.Component {
           const sortedfieldGroups = sortBy(fieldGroups, 'catorder');
 
           sortedfieldGroups.forEach((fieldGroup) => {
+            const modifiedFieldGroup = fieldGroup;
             const sortedInterests = sortBy(fieldGroup.interests, 'order');
 
-            fieldGroup.interests = sortedInterests;
+            modifiedFieldGroup.interests = sortedInterests;
           });
 
           this.setState({ fieldGroups: sortedfieldGroups });

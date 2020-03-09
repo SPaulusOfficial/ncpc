@@ -40,11 +40,15 @@ class MultiSelect extends React.Component {
       const sortedValue = sortBy(filteredValue, 'order');
 
       sortedOptions.forEach((object) => {
-        object.key = object.id;
+        const modifiedObject = object;
+
+        modifiedObject.key = object.id;
       });
 
       sortedValue.forEach((object) => {
-        object.key = object.id;
+        const modifiedObject = object;
+
+        modifiedObject.key = object.id;
       });
 
       this.setState({ options: sortedOptions, value: sortedValue });
