@@ -7,18 +7,18 @@ class MyInterestsService {
     this.lang = lang;
     this.logger = new LoggingService(wsBaseUrl);
     this.wsBaseUrl = wsBaseUrl;
-  };
+  }
 
   /*
    * GET
    * URI: https://ncpc-horizontal.herokuapp.com/interests?id={{USER_ID}}&langBU={{BUSINESS_UNIT}}
    */
   async get() {
-    const wsUri = this.wsBaseUrl + '/interests?id=' + this.id + '&langBU=' + this.lang + '-' + this.bu;
+    const wsUri = `${this.wsBaseUrl}/interests?id=${this.id}&langBU=${this.lang}-${this.bu}`;
 
     return fetch(wsUri)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -35,7 +35,7 @@ class MyInterestsService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500');
 
         throw error;
@@ -53,25 +53,25 @@ class MyInterestsService {
    * }
    */
   async post(availableIntId, fieldValue) {
-    const wsUri = this.wsBaseUrl + '/interest';
+    const wsUri = `${this.wsBaseUrl}/interest`;
 
-    let data = {
-      availableIntId: availableIntId,
+    const data = {
+      availableIntId,
       id: this.id,
-      value: fieldValue
+      value: fieldValue,
     };
 
-    let options = {
+    const options = {
       body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: 'POST'
+      method: 'POST',
     };
 
     return fetch(wsUri, options)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -84,7 +84,7 @@ class MyInterestsService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500', options);
 
         throw error;

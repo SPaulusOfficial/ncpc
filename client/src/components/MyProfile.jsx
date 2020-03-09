@@ -18,63 +18,61 @@ class MyProfile extends React.Component {
         businessUnit: null,
         language: null,
       },
-      wsException: false
+      wsException: false,
     };
-    
+
     this.wsEndpoint = new MyProfileService(null, null, null, '/api');
 
     /*
      * EVENT HANDLERS
      */
 
-    this.onBlurInput = (event, props, state) => {
+    this.onBlurInput = (event, inputProps, inputState) => {
       const $save = $('#btn-save');
 
-      if (state.value !== props.defaultValue) {
-        const value = (state.value.length) ? state.value : ' ';
+      if (inputState.value !== inputProps.defaultValue) {
+        const value = (inputState.value.length) ? inputState.value : ' ';
 
         $save.attr('disabled', true);
 
-        this.wsEndpoint.post(props.mappedField, value)
-          .then(response => {
+        this.wsEndpoint.post(inputProps.mappedField, value)
+          .then((response) => {
             if (response.success === 'fail') {
               $('#exceptionModal').modal();
             } else {
               $save.attr('disabled', false);
             }
           })
-          .catch(error => {
-            this.setState({ wsException:true });
+          .catch(() => {
+            this.setState({ wsException: true });
           });
       }
     };
 
-    this.onChangeMultiSelect = (selections, props, state) => {
+    this.onChangeMultiSelect = (selections, multiSelectProps) => {
       const $save = $('#btn-save');
 
       let fieldValue = ' ';
-      
+
       $save.attr('disabled', true);
 
       if (Array.isArray(selections)) {
-        fieldValue = selections.map(selection => {
-          return selection.value
-        }).join(';');
+        fieldValue = selections.map((selection) => selection.value).join(';');
         if (fieldValue === '') { fieldValue = ' '; }
       } else if (selections !== null) {
         fieldValue = selections.value;
       }
 
-      this.wsEndpoint.post(props.mappedField, fieldValue)
-        .then(response => {
+      this.wsEndpoint.post(multiSelectProps.mappedField, fieldValue)
+        .then((response) => {
           if (response.success === 'fail') {
             $('#exceptionModal').modal();
           } else {
             $save.attr('disabled', false);
           }
         })
-        .catch(error => {
-          this.setState({ wsException:true });
+        .catch(() => {
+          this.setState({ wsException: true });
         });
     };
 
@@ -84,13 +82,13 @@ class MyProfile extends React.Component {
 
     this.fetchData = () => {
       this.wsEndpoint.get()
-        .then(fieldGroups => {
+        .then((fieldGroups) => {
           const sortedfieldGroups = sortBy(fieldGroups, 'order');
 
-          this.setState({ fieldGroups:sortedfieldGroups });
+          this.setState({ fieldGroups: sortedfieldGroups });
         })
-        .catch(error => {
-          this.setState({ wsException:true });
+        .catch(() => {
+          this.setState({ wsException: true });
         });
     };
   }
@@ -100,49 +98,30 @@ class MyProfile extends React.Component {
    */
 
   componentDidMount() {
-    this.setState({ locale:{...this.context.value.locale} });
+    const { value } = this.context;
+
+    this.setState({ locale: { ...value.locale } });
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.context && this.context.value && !isEqual(this.context.value.locale, this.state.locale)) {
-      this.setState({ locale:{...this.context.value.locale }});
+  componentDidUpdate(prevProps, prevState) {
+    const { value } = this.context;
+    const { locale } = this.state;
+
+    if (!isEqual(value.locale, locale)) {
+      this.setState({ locale: { ...value.locale } });
     }
 
-    if (!isEqual(prevState.locale, this.state.locale)) {
-      this.wsEndpoint.id = this.context.value.id;
-      this.wsEndpoint.bu = this.context.value.locale.businessUnit;
-      this.wsEndpoint.lang = this.context.value.locale.language;
+    if (!isEqual(prevState.locale, locale)) {
+      this.wsEndpoint.id = value.id;
+      this.wsEndpoint.bu = value.locale.businessUnit;
+      this.wsEndpoint.lang = value.locale.language;
 
       this.fetchData();
     }
   }
 
-  render() {
-    const fieldGroups = this.state.fieldGroups.map(fieldGroup => {
-      return (
-        <div className="col-lg-6" key={fieldGroup.id}>
-          {this.renderControlType(fieldGroup)}
-        </div>
-      )
-    });
-    
-    return (
-      <div>
-        <div className={"alert alert-danger" + (this.state.wsException ? '' : ' d-none')} role="alert">
-          <svg className="bi bi-alert-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8.998 3a1 1 0 112 0 1 1 0 01-2 0zM10 6a.905.905 0 00-.9.995l.35 3.507a.553.553 0 001.1 0l.35-3.507A.905.905 0 0010 6z" clipRule="evenodd"/>
-          </svg>
-          Unable to retrieve profile information at this time. Please try again later.
-        </div>
-        <div className="row">
-          {fieldGroups}
-        </div>
-      </div>
-    )
-  }
-
   renderControlType(attributes) {
-    switch(attributes.controlType) {
+    switch (attributes.controlType) {
       case 'Email':
         return <EmailInput callback={this.onBlurInput} defaultValue={attributes.value} disabled={attributes.disabled} id={attributes.id} label={attributes.label} mappedField={attributes.mappedField} placeholder={attributes.placeholder} />;
       case 'Multi-Picklist':
@@ -153,6 +132,30 @@ class MyProfile extends React.Component {
       default:
         return null;
     }
+  }
+
+  render() {
+    const { fieldGroups, wsException } = this.state;
+
+    const mappedFieldGroups = fieldGroups.map((fieldGroup) => (
+      <div className="col-lg-6" key={fieldGroup.id}>
+        {this.renderControlType(fieldGroup)}
+      </div>
+    ));
+
+    return (
+      <div>
+        <div className={`alert alert-danger${wsException ? '' : ' d-none'}`} role="alert">
+          <svg className="bi bi-alert-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8.998 3a1 1 0 112 0 1 1 0 01-2 0zM10 6a.905.905 0 00-.9.995l.35 3.507a.553.553 0 001.1 0l.35-3.507A.905.905 0 0010 6z" clipRule="evenodd" />
+          </svg>
+          Unable to retrieve profile information at this time. Please try again later.
+        </div>
+        <div className="row">
+          {mappedFieldGroups}
+        </div>
+      </div>
+    );
   }
 }
 

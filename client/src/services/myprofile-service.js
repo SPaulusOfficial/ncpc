@@ -7,18 +7,18 @@ class MyProfileService {
     this.lang = lang;
     this.logger = new LoggingService(wsBaseUrl);
     this.wsBaseUrl = wsBaseUrl;
-  };
+  }
 
   /*
    * GET
    * URI: https://ncpc-horizontal.herokuapp.com/profile?id={{USER_ID}}&langBU={{BUSINESS_UNIT}}
    */
   async get() {
-    const wsUri = this.wsBaseUrl + '/profiles?id=' + this.id + '&langBU=' + this.lang + '-' + this.bu;
+    const wsUri = `${this.wsBaseUrl}/profiles?id=${this.id}&langBU=${this.lang}-${this.bu}`;
 
     return fetch(wsUri)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -35,7 +35,7 @@ class MyProfileService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500');
 
         throw error;
@@ -53,25 +53,25 @@ class MyProfileService {
    * }
    */
   async post(fieldName, fieldValue) {
-    const wsUri = this.wsBaseUrl + '/profile';
+    const wsUri = `${this.wsBaseUrl}/profile`;
 
-    let data = {
+    const data = {
       field: fieldName,
       id: this.id,
       value: fieldValue,
     };
 
-    let options = {
+    const options = {
       body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: 'POST'
+      method: 'POST',
     };
 
     return fetch(wsUri, options)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -84,7 +84,7 @@ class MyProfileService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500', options);
 
         throw error;
@@ -100,23 +100,23 @@ class MyProfileService {
    * }
    */
   async postForgetMe() {
-    const wsUri = this.wsBaseUrl + '/forgetMe';
+    const wsUri = `${this.wsBaseUrl}/forgetMe`;
 
-    let data = {
-      id: this.id
+    const data = {
+      id: this.id,
     };
 
-    let options = {
+    const options = {
       body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: 'POST'
+      method: 'POST',
     };
 
     return fetch(wsUri, options)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -129,7 +129,7 @@ class MyProfileService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500', options);
 
         throw error;
