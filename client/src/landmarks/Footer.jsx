@@ -23,8 +23,8 @@ class Footer extends React.Component {
       <footer>
         <div className="container">
           <ul className="footer-nav list-inline">
-            <li className="list-inline-item"><a href={privacyLink.url}>{privacyLink.label}</a></li>
-            <li className="list-inline-item"><a href={termsLink.url}>{termsLink.label}</a></li>
+            <li className="list-inline-item"><a href={this.props.privacyLink.url} rel="noopener noreferrer" target="_blank">{this.props.privacyLink.label}</a></li>
+            <li className="list-inline-item"><a href={this.props.termsLink.url} rel="noopener noreferrer" target="_blank">{this.props.termsLink.label}</a></li>
           </ul>
           <p className="footer-legal">{companyName}®</p>
           <p className="footer-legal">© {today.getFullYear()} {companyName}</p>
