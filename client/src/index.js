@@ -56,7 +56,7 @@ class Index extends React.Component {
           formCheckActiveHover: '#146BCF',
           formCheckDefault: '#D1CFCE',
           formCheckHover: '#146BCF',
-          formSwitchActive: '#D1CFCE',
+          formSwitchActive: '#2275D3',
           formSwitchDefault: '#646464',
           formSwitchDisabled: '#CCCCCC',
           formSwitchHover: '#146BCF',
