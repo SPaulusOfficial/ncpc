@@ -443,7 +443,7 @@ app.post('/api/unsubscribeAll', cors(corsOptions), async function(req, res, next
   }
 });
 
-app.post('/api/campaignMember', cors(corsOptions), async function(req, res, next) {
+app.post('/api/campaign', cors(corsOptions), async function(req, res, next) {
   var id = req.body.id; 
   var campaignMemberId = req.body.campaignMemberId;
   var value = req.body.value;
