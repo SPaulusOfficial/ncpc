@@ -35,28 +35,8 @@ class MySubscriptions extends React.Component {
 
       this.wsEndpoint.postCampaign(badgeProps.memberId, badgeState.checked, badgeProps.id)
         .then((response) => {
-          const { fieldGroups } = this.badgeState;
-
           if (response.success === 'fail') {
             $('#exceptionModal').modal();
-          } else {
-            const newFieldGroups = cloneDeep(fieldGroups);
-
-            newFieldGroups.forEach((fieldGroup) => {
-              fieldGroup.subscriptions.forEach((subscription) => {
-                subscription.campaigns.forEach((campaign) => {
-                  const modifiedCampaign = campaign;
-
-                  if (modifiedCampaign.id === badgeProps.id) {
-                    modifiedCampaign.memberStatus = false;
-                  }
-                });
-              });
-            });
-
-            this.setState({ fieldGroups: newFieldGroups }, () => {
-              $save.attr('disabled', false);
-            });
           }
         });
     };
