@@ -449,7 +449,7 @@ app.post('/api/campaign', cors(corsOptions), async function(req, res, next) {
   var value = req.body.value;
  
   try{
-    if(id && campaignMemberId && value){
+    if(campaignMemberId){
       const cm = await db.query("SELECT * FROM "+schema+".campaignmember WHERE sfid = '" + campaignMemberId + "'");
       if(cm.rows.length > 0){
         var externalKey = cm.rows[0].ncpc__external_id__c === '' ? uuidv1() : cm.rows[0].ncpc__external_id__c;
