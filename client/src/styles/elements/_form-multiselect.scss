@@ -88,3 +88,9 @@
 .form-multiselect *[class*='-placeholder'] {
   color: $form-multiselect-color;
 }
+
+// State: Disabled
+
+.isDisabled .form-multiselect {
+  background-color: $form-disabled;
+}

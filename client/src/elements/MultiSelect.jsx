@@ -73,6 +73,7 @@ class MultiSelect extends React.Component {
 
   render() {
     const {
+      disabled,
       helpText,
       id, label,
       placeholder,
@@ -80,9 +81,9 @@ class MultiSelect extends React.Component {
     const { isMulti, options, value } = this.state;
 
     return (
-      <div className="form-group">
+      <div className={`form-group${(disabled ? ' isDisabled' : '')}`}>
         <label htmlFor={id}>{label}</label>
-        <Select className="form-multiselect" closeMenuOnSelect={!isMulti} isClearable isMulti={isMulti} isSearchable={false} name={id} noOptionsMessag="No options" onChange={this.onChange} options={options} placeholder={placeholder} value={value} />
+        <Select className="form-multiselect" closeMenuOnSelect={!isMulti} isClearable isMulti={isMulti} isDisabled={disabled} isSearchable={false} name={id} noOptionsMessag="No options" onChange={this.onChange} options={options} placeholder={placeholder} value={value} />
         {helpText ? <small className="form-text text-muted" id={`${id}_help`}>{helpText}</small> : ''}
       </div>
     );
