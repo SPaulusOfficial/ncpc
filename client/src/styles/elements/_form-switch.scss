@@ -83,7 +83,7 @@
 // State: isActive
 
 .form-switch.isActive .form-switch-toggle {
-  background-color: var(--form-switch-active) !important;
+  background-color: var(--form-switch-active);
 }
 
 .form-switch.isActive:hover .form-switch-toggle {
