@@ -44,6 +44,7 @@ app.use(function(err, req, res, next) {
 var whitelist = process.env.ENV_URL
 var corsOptions = {
   origin: function (origin, callback) {
+    console.log('ORIGIN', origin);
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true)
     } else {
