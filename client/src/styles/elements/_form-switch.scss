@@ -80,16 +80,6 @@
   width: 26px;
 }
 
-// State: isActive
-
-.form-switch.isActive .form-switch-toggle {
-  background-color: var(--form-switch-active);
-}
-
-.form-switch.isActive:hover .form-switch-toggle {
-  background-color: var(--form-switch-hover);
-}
-
 .form-switch.isActive .form-switch-toggle::after {
   margin-left: 26px;
 }
@@ -112,4 +102,14 @@
 .form-switch.isActive.isDisabled .form-switch-toggle {
   background-color: var(--form-switch-hover);
   cursor: not-allowed;
+}
+
+// State: isActive
+
+.form-switch.isActive .form-switch-toggle {
+  background-color: var(--form-switch-active);
+}
+
+.form-switch.isActive:hover .form-switch-toggle {
+  background-color: var(--form-switch-hover);
 }

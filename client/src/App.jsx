@@ -123,9 +123,9 @@ class App extends React.Component {
             --form-check-active-hover: ${value.theme.colors.formCheckActiveHover};
             --form-check-default: ${value.theme.colors.formCheckDefault};
             --form-check-hover: ${value.theme.colors.formCheckHover};
+            --form-switch-active: ${value.theme.colors.formSwitchActive};
             --form-switch-default: ${value.theme.colors.formSwitchDefault};
             --form-switch-disabled: ${value.theme.colors.formSwitchDisabled};
-            --form-switch-active: ${value.theme.colors.formSwitchActive};
             --form-switch-hover: ${value.theme.colors.formSwitchHover};
             --hero-text-color:  ${value.theme.colors.heroText};
           }
