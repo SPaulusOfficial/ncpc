@@ -7,6 +7,7 @@ const cors = require('cors')
 const db = require("./db");
 const groupBy = require("./groupBy");
 const uuidv1 = require('uuid/v1');
+const jsforce = require('jsforce');
 const schema = process.env.SCHEMA;
 const getProfile = process.env.GETPROFILE;
 const postProfile = process.env.POSTPROFILE;
@@ -51,6 +52,14 @@ var corsOptions = {
     }
   }
 }
+
+var conn = new jsforce.Connection({
+  oauth2 : {
+      clientId : process.env.CLIENTID,
+      clientSecret : process.env.CLIENTSECRET,
+      redirectUri : process.env.ENV_URL
+  }
+});
 
 /*=========================*/
 /*====== GET Routes =======*/
@@ -470,6 +479,36 @@ app.post('/api/campaign', cors(corsOptions), async function(req, res, next) {
     res.json({"success":"fail","status":401,"message":"Error Occured","body":e});
   }
 });
+
+/***************************/
+/*****ETL Job Endpoints*****/
+/***************************/
+app.get('/oauth2/auth', function(req, res) {
+  const oauth2 = new jsforce.OAuth2({
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET_ID,
+    redirectUri: `${req.protocol}://${req.get('host')}/${process.env.REDIRECT_URI}`
+  });
+  res.redirect(oauth2.getAuthorizationUrl({}));
+});
+
+app.post("/etl_contact", function(req, res) {
+  console.log("ETL Contact: " + JSON.stringify(req.body));
+  var notification = req.body["soapenv:envelope"]["soapenv:body"][0]["notifications"][0];
+  var sessionId = notification["sessionid"][0];
+  var data = {};
+  if (notification["notification"] !== undefined) {
+    var sobject = notification["notification"][0]["sobject"][0];
+    Object.keys(sobject).forEach(function(key) {
+      if (key.indexOf("sf:") == 0) {
+        var newKey = key.substr(3);
+        data[newKey] = sobject[key][0];
+      }
+    }); // do something #awesome with the data and sessionId
+  }
+  res.status(201).end();
+}); 
+
 
 /*** error handler middleware ***/
 
