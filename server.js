@@ -494,7 +494,7 @@ app.get('/oauth2/auth', function(req, res) {
 
 app.post("/etl_contact", function(req, res) {
   console.log("ETL Contact: " + JSON.stringify(req.body));
-  var notification = req.body["soapenv:envelope"]["soapenv:body"][0]["notifications"][0];
+  /*var notification = req.body["soapenv:envelope"]["soapenv:body"][0]["notifications"][0];
   var sessionId = notification["sessionid"][0];
   var data = {};
   if (notification["notification"] !== undefined) {
@@ -504,8 +504,8 @@ app.post("/etl_contact", function(req, res) {
         var newKey = key.substr(3);
         data[newKey] = sobject[key][0];
       }
-    }); // do something #awesome with the data and sessionId
-  }
+    }); 
+  }*/
   res.status(201).end();
 }); 
 
