@@ -5,11 +5,7 @@
 
   "environments": {
     "review": {
-      "addons": [
-        {
-          "plan":"postgresql-angular-39786:hobby-dev"
-        }
-      ]
+      "addons": []
     }
   }
 }
