@@ -506,7 +506,7 @@ app.post("/etl_contact", function(req, res) {
       }
     }); 
   }*/
-  res.status(201).json({"success":true,"status":201,"message":"Post Successfull","body":req.body});
+  res.json({"success":true,"status":201,"message":"Post Successfull","body":req.body});
 }); 
 
 
