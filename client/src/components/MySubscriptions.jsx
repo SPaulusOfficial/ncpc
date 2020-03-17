@@ -37,6 +37,8 @@ class MySubscriptions extends React.Component {
         .then((response) => {
           if (response.success === 'fail') {
             $('#exceptionModal').modal();
+          } else {
+            $save.attr('disabled', false);
           }
         });
     };
