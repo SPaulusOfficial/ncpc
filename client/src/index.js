@@ -21,6 +21,11 @@ class Index extends React.Component {
     super(props);
 
     this.state = {
+      globalAlert: {
+        dismissed: true,
+        message: '',
+        type: 'success',
+      },
       availableSubId: null,
       id: null,
       locale: {
@@ -42,6 +47,7 @@ class Index extends React.Component {
         forgetMe_button_primary: 'Forget Me',
         forgetMe_modal_body: 'Clicking "Forget Me" will cause your profile to be permanently deleted. This action cannot be undone.',
         forgetMe_modal_title: 'Are you sure?',
+        globalAlert_autoSubscribe: '<strong>Success!</strong> You have been subscribed to the following list:',
         hero_headline: 'Manage Salesforce Subscriptions',
         pageTitle: 'Managed Preference Center',
         roadblock: 'No user could not be found, or a user ID was not provided. Please try again.',
@@ -72,8 +78,9 @@ class Index extends React.Component {
      * HELPER METHODS
      */
 
-    this.setSharedContext = (_locale, _settings, _strings, _theme) => {
+    this.setSharedContext = (_globalAlert, _locale, _settings, _strings, _theme) => {
       this.setState({
+        globalAlert: _globalAlert,
         locale: _locale,
         settings: _settings,
         strings: _strings,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { isEqual, merge } from 'lodash';
 
@@ -56,6 +56,7 @@ class App extends React.Component {
 
       this.wsEndpoint.get().then((data) => {
         setValue(
+          { ...value.globalAlert },
           { ...value.locale },
           merge({ ...value.settings }, data.settings),
           merge({ ...value.strings }, data.strings),
@@ -107,7 +108,7 @@ class App extends React.Component {
     const { managedContent } = this.state;
 
     return (
-      <div>
+      <Fragment>
         <Header languages={managedContent.languages} logo={managedContent.images.logo} />
         {this.renderMain()}
         <Footer companyName={value.strings.footer_companyName} privacyLink={managedContent.links.footerPrivacy} termsLink={managedContent.links.footerTerms} />
@@ -131,7 +132,7 @@ class App extends React.Component {
           }
           `}
         </style>
-      </div>
+      </Fragment>
     );
   }
 }

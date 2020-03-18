@@ -137,10 +137,10 @@ MyInterests.contextType = AppContext;
 
 MyInterests.propTypes = {
   sectionRef: PropTypes.shape({
-    current: PropTypes.element,
+    current: PropTypes.any,
   }).isRequired,
   sidebarRef: PropTypes.shape({
-    current: PropTypes.element,
+    current: PropTypes.any,
   }).isRequired,
 };
 

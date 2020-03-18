@@ -23,6 +23,7 @@ class Header extends React.Component {
       event.preventDefault();
 
       setValue(
+        { ...value.globalAlert },
         { businessUnit: language.bu, language: language.lang },
         { ...value.settings },
         { ...value.strings },
