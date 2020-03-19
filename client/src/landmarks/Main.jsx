@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Cookies, Modal } from '../components';
+import { Cookies, GlobalAlert, Modal } from '../components';
 import { Section } from '../elements';
 import Sidebar from './Sidebar';
 
@@ -39,9 +39,8 @@ class Main extends React.Component {
                 <Sidebar myInterestsRef={this.sidebarMyInterestsRef} sections={sections} />
               </div>
               <div className="col-lg-9">
-                <div className="container">
-                  {renderedSections}
-                </div>
+                <GlobalAlert />
+                {renderedSections}
               </div>
             </div>
           </div>

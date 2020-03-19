@@ -156,7 +156,7 @@ class MySubscriptions extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { value } = this.context;
+    const { setValue, value } = this.context;
     const { fieldGroups, locale } = this.state;
 
     if (this.context && value && !isEqual(value.locale, locale)) {
@@ -192,6 +192,19 @@ class MySubscriptions extends React.Component {
                     this.setState({ fieldGroups: clonedFieldGroups });
                   }
                 });
+
+              // Show a global alert
+              setValue(
+                {
+                  dismissed: false,
+                  message: `${value.strings.globalAlert_autoSubscribe} &ldquo;${modifiedSubscription.label}&rdquo;`,
+                  type: 'success',
+                },
+                { ...value.locale },
+                { ...value.settings },
+                { ...value.strings },
+                { ...value.theme },
+              );
             }
           });
         });

@@ -14,7 +14,7 @@ class Switch extends React.Component {
     super(props);
 
     this.state = {
-      checked: props.checked,
+      checked: (props.checked !== null ? props.checked : false),
     };
 
     /*
@@ -43,17 +43,12 @@ class Switch extends React.Component {
    * LIFECYCLE METHODS
    */
 
-  componentDidMount() {
-    const { availableSubId } = this.props;
-
-    $(`#collapse_${availableSubId}`).collapse({ toggle: false });
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    const { checked } = this.props;
+    const { availableSubId } = this.props;
+    const { checked } = this.state;
 
     if (checked !== prevState.checked) {
-      this.setState({ checked });
+      $(`#collapse_${availableSubId}`).collapse('toggle');
     }
   }
 
