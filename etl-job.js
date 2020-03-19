@@ -14,10 +14,6 @@ conn.login("shanesmyth8+nocodepc@gmail.com", "cM375!355nlPhuRyiZh1E7fXQogrj5QD5"
 //
 // Get authorization url and redirect to it.
 //
-app.get('/oauth2/auth', function(req, res) {
-    res.redirect(oauth2.getAuthorizationUrl({ scope : 'api id web' }));
-});
-
 
 function sayHello() {
     console.log('Hello');
