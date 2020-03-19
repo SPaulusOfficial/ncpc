@@ -1,0 +1,151 @@
+[
+  {
+    "catcontrolType":"formGroup",
+    "catid":"a002E00000ZkwagQAB",
+    "catlabel":"General",
+    "catorder":1,
+    "subscriptions":[
+      {
+        "userSubId":"a022E00000XexEdQAJ",
+        "availableSubId":"a012E00000hJ2IGQA0",
+        "controlType":"switch",
+        "label":"Analytics Champion Fireside",
+        "checked":true,
+        "description":"A monthly newsletter sharing trends, insights and solutions for label-friendly formulations",
+        "channel":"Email",
+        "disabled":false,
+        "public":true,
+        "order":1,
+        "campaigns":[
+
+        ]
+      },
+      {
+        "userSubId":null,
+        "availableSubId":"a012E00000hVs5pQAC",
+        "controlType":"switch",
+        "label":"Marketing Cloud Release Webinars",
+        "checked":null,
+        "description":"Join our webinars to see what's new!",
+        "channel":"Email",
+        "disabled":true,
+        "public":true,
+        "order":6,
+        "campaigns":[
+
+        ]
+      },
+      {
+        "userSubId":"a022E00000Xf1IjQAJ",
+        "availableSubId":"a012E00000jcQZXQA2",
+        "controlType":"switch",
+        "label":"Production Information and updates",
+        "checked":true,
+        "description":null,
+        "channel":"Email",
+        "disabled":false,
+        "public":false,
+        "order":8,
+        "campaigns":[
+          {
+            "memberId":"00v2E00002DKuRSQA1",
+            "name":"TradeShow Campaign",
+            "id":"7012E000001gqYUQAY",
+            "memberStatus":true
+          }
+        ]
+      },
+      {
+        "userSubId":"a022E00000XexEcQAJ",
+        "availableSubId":"a012E00000jb02uQAA",
+        "controlType":"switch",
+        "label":"Community Group",
+        "checked":false,
+        "description":"It's a great way to connect with your community.",
+        "channel":"Email",
+        "disabled":false,
+        "public":true,
+        "order":10,
+        "campaigns":[
+          {
+            "memberId":"00v2E00002BQXxiQAH",
+            "name":null,
+            "id":"7012E000001gjXjQAI",
+            "memberStatus":false
+          },
+          {
+            "memberId":"00v2E00002BQXylQAH",
+            "name":null,
+            "id":"7012E000001gjXoQAI",
+            "memberStatus":false
+          },
+          {
+            "memberId":"00v2E00002BQu0tQAD",
+            "name":null,
+            "id":"7012E000001gkAqQAI",
+            "memberStatus":false
+          },
+          {
+            "memberId":"00v2E00002BQu13QAD",
+            "name":"Bloomington Community Group",
+            "id":"7012E000001gkAlQAI",
+            "memberStatus":false
+          }
+        ]
+      },
+      {
+        "userSubId":"a022E00000XexESQAZ",
+        "availableSubId":"a012E00000jdlHvQAI",
+        "controlType":"switch",
+        "label":"Outage Notifications",
+        "checked":false,
+        "description":"Alerts based on outages in the products & stacks associated to you.",
+        "channel":"SMS",
+        "disabled":false,
+        "public":true,
+        "order":14,
+        "campaigns":[
+
+        ]
+      }
+    ]
+  },
+  {
+    "catcontrolType":"formGroup",
+    "catid":"a002E00000ZkwaqQAB",
+    "catlabel":"Sales Cloud",
+    "catorder":2,
+    "subscriptions":[
+      {
+        "userSubId":"a022E00000XexEeQAJ",
+        "availableSubId":"a012E00000hJ2uKQAS",
+        "controlType":"switch",
+        "label":"Sales Cloud Webinar",
+        "checked":true,
+        "description":"A quarterly newsletter discussing new innovations on nutrition",
+        "channel":"Email",
+        "disabled":false,
+        "public":true,
+        "order":4,
+        "campaigns":[
+
+        ]
+      },
+      {
+        "userSubId":"a022E00000XexEfQAJ",
+        "availableSubId":"a012E00000hJ2uPQAS",
+        "controlType":"switch",
+        "label":"Community Events",
+        "checked":false,
+        "description":"A periodic email informing you of upcoming events in your local community",
+        "channel":"Email",
+        "disabled":false,
+        "public":true,
+        "order":5,
+        "campaigns":[
+
+        ]
+      }
+    ]
+  }
+]

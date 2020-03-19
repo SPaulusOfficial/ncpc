@@ -1,12 +1,17 @@
-var express = require('express');
-var path = require('path');
-var bodyParser = require('body-parser');
-var dateFormat = require('dateformat');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const dateFormat = require('dateformat');
+const fetch = require('node-fetch');
 const cors = require('cors')
 const db = require("./db");
 const groupBy = require("./groupBy");
 const uuidv1 = require('uuid/v1');
 const schema = process.env.SCHEMA;
+const getProfile = process.env.GETPROFILE;
+const postProfile = process.env.POSTPROFILE;
+const debug = process.env.DEBUG;
+const imageCDN = process.env.IMAGE_CDN;
 const Sentry = require('@sentry/node');
 Sentry.init({ dsn: 'https://39cd071f77f34837ad6c930c5c7fc322@sentry.io/1987793' });
 
@@ -14,14 +19,14 @@ var app = express();
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache');
-  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
+  res.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+imageCDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.set('Strict-Transport-Security', 'max-age=200'); 
-  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
+  res.set('X-Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+imageCDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('X-Content-Type-Options', 'nosniff');
   res.set('X-Frame-Options', 'deny');
   res.set('X-Powered-By', '');
-  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+process.env.IMAGE_CDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
+  res.set('X-WebKit-CSP',  "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none'; style-src 'self' 'unsafe-inline' *.typekit.net; img-src 'self' *.sfmc-content.com "+imageCDN+"; frame-ancestors 'none'; frame-src 'none'; font-src 'self' *.typekit.net;");
   res.set('X-XSS-Protection', '1; mode=block');
   next();
 });
@@ -80,6 +85,7 @@ app.get('/api/subscriptions', cors(corsOptions), async function(req, res, next) 
 
   try{
     let leadOrContact = id.substring(0,3) == '00Q' ? 'sub.ncpc__Lead__c' : 'sub.ncpc__Contact__c';
+    let campaignLOC = id.substring(0,3) == '00Q' ? 'LeadId' : 'ContactId';
     var split = langBU.split('-');
     var lang = split[0];
     var bu = split[1];
@@ -87,12 +93,12 @@ app.get('/api/subscriptions', cors(corsOptions), async function(req, res, next) 
     var catLangBUClause = lang === '' ? "cat.ncpc__Default_Variant__c = 'true' AND cat.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "cat.ncpc__Parameter__c = '"+ langBU +"'";
     var cvLangBUClause = lang === '' ? "cv.ncpc__Default_Variant__c = 'true' AND cv.ncpc__Business_Unit_Parameter__c = '"+bu+"'" : "cv.ncpc__Parameter__c = '"+ langBU +"'";
 
-    const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, cm.sfid as campaignMemberId, c.sfid as campaignId, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName, (SELECT cv.ncpc__Display_Text__c FROM "+schema+".ncpc__Campaign_Variant__c as cv WHERE c.sfid = cv.ncpc__Campaign__c AND "+ cvLangBUClause +") as campaignname FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c LEFT JOIN "+schema+".campaign c ON c.ncpc__related_subscription__c = avail.sfid LEFT JOIN "+schema+".campaignmember cm ON cm.campaignid = c.sfid WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
+    const avails = await db.query("SELECT *, avail.sfid as availableSubId, ncpc__categoryorder__c as catorder, cm.sfid as campaignMemberId, c.sfid as campaignId, (SELECT sub.ncpc__Opt_In__c FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as OptInState, (SELECT sfid as userSubId FROM "+schema+".ncpc__PC_Subscription__c as sub WHERE " + leadOrContact + " = '" + id + "' AND avail.sfid = sub.ncpc__Related_Subscription_Interest__c) as userSubId, (SELECT cat.ncpc__Display_Category_Text__c FROM "+schema+".ncpc__Category_Variant__c as cat WHERE avail.ncpc__CategoryId__c = cat.ncpc__Category__c AND "+ catLangBUClause +") as CategoryName, (SELECT cv.ncpc__Display_Text__c FROM "+schema+".ncpc__Campaign_Variant__c as cv WHERE c.sfid = cv.ncpc__Campaign__c AND "+ cvLangBUClause +") as campaignname FROM "+schema+".ncpc__PC_Available_Subscription_Interest__c as avail INNER JOIN "+schema+".ncpc__Available_Subscription_Variant__c as variant ON avail.sfid = variant.ncpc__Available_Subscription_Interest__c LEFT JOIN "+schema+".campaign c ON c.ncpc__related_subscription__c = avail.sfid LEFT JOIN "+schema+".campaignmember cm ON cm.campaignid = c.sfid AND cm."+campaignLOC+" = '"+id+"' WHERE avail.ncpc__Status__c = true AND avail.ncpc__Type__c = 'Subscription' AND "+ variantLangBUClause +" ORDER BY avail.ncpc__order__c");
 
     const groupedCampaign = groupBy.groupBySubscriptionCampaign(avails.rows, 'availablesubid');
     const groupedAvails = groupBy.groupBySubscription(groupedCampaign, 'catid');
 
-    //console.log(avails.rows);
+    if(debug){console.log("groupedAvails "+JSON.stringify(groupedAvails));}
 
     res.render('subscriptions', {
       subscriptions: groupedAvails
@@ -118,7 +124,7 @@ app.get('/api/interests', cors(corsOptions), async function(req, res, next) {
     
     const groupedAvails = groupBy.groupByInterest(avails.rows, 'ncpc__display_category__c');
 
-    //console.log(avails.rows);
+    if(debug){console.log("groupedAvails "+JSON.stringify(groupedAvails));}
 
     res.render('interests', {
       interests: groupedAvails
@@ -143,24 +149,57 @@ app.get('/api/profiles', cors(corsOptions), async function(req, res, next) {
     const profile = await db.query("SELECT prof.sfid as profid, prof.ncpc__field_type__c as fieldType, prof.ncpc__editable__c as disabled, prof.ncpc__order__c as order, variant.ncpc__field_text__c as label, variant.ncpc__field_placeholder_text__c as placeholder, pOption.ncpc__order__c as optionorder, pvOption.ncpc__value__c as optionvalue, pvOption.ncpc__option__c as optionlabel, pOption.sfid as optionid, * FROM "+schema+".ncpc__pc_profile_field__c as prof INNER JOIN "+schema+".ncpc__profile_field_variant__c as variant ON prof.sfid = variant.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__pc_profile_option__c as pOption ON prof.sfid = pOption.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__profile_option_variant__c as pvOption ON pOption.sfid = pvOption.ncpc__profile_option__c AND "+vpOptionLangBUClause+" WHERE prof.ncpc__status__c = true AND "+variantLangBUClause+" ORDER BY prof.ncpc__order__c");
     var profileRows = profile.rows;
 
-    const groupedProfile = groupBy.groupByProfile(profileRows, 'ncpc__'+leadOrContact+'_mapped_field__c');
+    if(debug){console.log("profileRows "+JSON.stringify(profileRows));}
+
+    const groupedProfile = groupBy.groupByProfile(profileRows, 'ncpc__'+leadOrContact+'mappedfield__c');
     var profileArray = groupedProfile.map(groupedProfile => groupedProfile.mappedField).join(',');
 
-    const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
-
-    //console.log(profile.rows);
-
-    var fieldKeys = Object.keys(user.rows[0])
-    for (var i=0; i<fieldKeys.length; i++) {
-      var fieldValue = user.rows[0][fieldKeys[i]];
-      var getField = groupedProfile.find(field => field.mappedField.toLowerCase() === fieldKeys[i]);
-      if(getField){
-        getField['value'] = fieldValue;
+    // if an external endpoint needs to be called, make a post call to that service for the users detail
+    if(getProfile){
+      let data = {
+        id: id,
+        object: leadOrContact,
+        fields: profileArray
+      };
+      var headers = {
+        "Content-Type": "application/json"
       }
+      
+      const userRows = await fetch(getProfile, { method: 'POST', headers: headers, body: JSON.stringify(data)});
+      const user = await userRows.json();
+    
+      if(debug){console.log("user "+JSON.stringify(user));}
+
+      var fieldKeys = Object.keys(user[0]);
+      for (var i=0; i<fieldKeys.length; i++) {
+        var fieldValue = user[0][fieldKeys[i]];
+        var getField = groupedProfile.find(field => field.mappedField === fieldKeys[i]);
+        if(getField){
+          getField['value'] = fieldValue;
+        }
+      }
+      if(debug){console.log("groupedProfile "+JSON.stringify(groupedProfile));}
+      res.render('profile', {
+        profile: groupedProfile
+      });
+    }else{
+      const user = await db.query("SELECT "+profileArray+" FROM "+schema+"."+leadOrContact+" WHERE sfid = '"+id+"'");
+
+      if(debug){console.log("user "+JSON.stringify(user.rows));}
+
+      var fieldKeys = Object.keys(user.rows[0])
+      for (var i=0; i<fieldKeys.length; i++) {
+        var fieldValue = user.rows[0][fieldKeys[i]];
+        var getField = groupedProfile.find(field => field.mappedField.toLowerCase() === fieldKeys[i]);
+        if(getField){
+          getField['value'] = fieldValue;
+        }
+      }
+      if(debug){console.log("groupedProfile "+JSON.stringify(groupedProfile));}
+      res.render('profile', {
+        profile: groupedProfile
+      });
     }
-    res.render('profile', {
-      profile: groupedProfile
-    });
 
   } catch (err) {
     return next(err);
@@ -184,7 +223,7 @@ app.get('/api/package', cors(corsOptions), async function(req, res, next) {
       package.config = packageConfig.rows;
       package.languages = languages.rows;
 
-      console.log(package);
+      if(debug){console.log("package "+JSON.stringify(package));}
 
       res.render('package', {
         config: package
@@ -238,26 +277,67 @@ app.post("/api/subscription", cors(corsOptions), async function(req, res, next) 
   }
 });
 
-app.post('/api/profile', cors(corsOptions), async function(req, res, next) {
+app.post('/api/profile', async function(req, res, next) {
   var field = req.body.field;
   var value = req.body.value;
   var id = req.body.id; 
 
-  try{
+  try {
     let leadOrContact = id.substring(0,3) == '00Q' ? 'lead' : 'contact';
-    if(id && field && value){
-      const updateProfile = await db.query(
-        "UPDATE "+schema+"."+leadOrContact+" SET "+field+"=$1 WHERE sfid=$2 RETURNING *",
-        [value, id]
-      );
-      res.json({"success":true,"status":200,"message":"Update Successful","body":updateProfile.rows});
-    }else{
-      console.log("Profile Post - Missing Required Data: " + JSON.stringify(req.body));
-      res.json({"success":"fail","status":402,"message":"Missing required data","body":req.body});
+
+    if (id && field && value) {
+      if (postProfile) {
+        let data = {
+          field: field,
+          id: id,
+          value: value,
+          object: leadOrContact
+        };
+        var headers = {
+          "Content-Type": "application/json"
+        }
+        
+        const userRows = await fetch(postProfile, { method: 'POST', headers: headers, body: JSON.stringify(data)});
+        const user = await userRows.json();
+
+        res.json({
+          'success': user.success,
+          'status': user.status,
+          'message': user.message,
+          'body': user.body
+        });
+      } else {
+        const updateProfile = await db.query(
+          `UPDATE ${schema}.${leadOrContact} SET ${field}=$1 WHERE sfid=$2 RETURNING *`,
+          [value, id]
+        );
+
+        res.json({
+          'success': true,
+          'status': 200,
+          'message': 'Update Successful',
+          'body': updateProfile.rows
+        });
+      }
+    } else {
+      if (debug) { console.log('Profile Post - Missing Required Data: ' + JSON.stringify(req.body)); }
+
+      res.json({
+        'success':'fail',
+        'status':402,
+        'message':'Missing required data',
+        'body':req.body
+      });
     }
-  }catch(e){
-    console.log("Post Log Error: " + JSON.stringify(e));
-    res.json({"success":"fail","status":401,"message":"Error Occured","body":e});
+  }  catch(e) {
+    if (debug) { console.log('Post Log Error: ' + JSON.stringify(e)) };
+
+    res.json({
+      'success': 'fail', 
+      'status': 401, 
+      'message': 'Error Occured', 
+      'body': e
+    });
   }
 });
 
@@ -364,13 +444,13 @@ app.post('/api/unsubscribeAll', cors(corsOptions), async function(req, res, next
   }
 });
 
-app.post('/api/campaignMember', cors(corsOptions), async function(req, res, next) {
+app.post('/api/campaign', cors(corsOptions), async function(req, res, next) {
   var id = req.body.id; 
   var campaignMemberId = req.body.campaignMemberId;
   var value = req.body.value;
  
   try{
-    if(id && campaignMemberId && value){
+    if(campaignMemberId){
       const cm = await db.query("SELECT * FROM "+schema+".campaignmember WHERE sfid = '" + campaignMemberId + "'");
       if(cm.rows.length > 0){
         var externalKey = cm.rows[0].ncpc__external_id__c === '' ? uuidv1() : cm.rows[0].ncpc__external_id__c;

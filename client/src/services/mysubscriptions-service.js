@@ -7,27 +7,25 @@ class MySubscriptionsService {
     this.lang = lang;
     this.logger = new LoggingService(wsBaseUrl);
     this.wsBaseUrl = wsBaseUrl;
-  };
+  }
 
   /*
    * GET
    * URI: https://ncpc-horizontal.herokuapp.com/subscriptions?id={{USER_ID}}&langBU={{BUSINESS_UNIT}}
    */
   async get() {
-    // console.log('MySubscriptionsService.get()');
+    const wsUri = `${this.wsBaseUrl}/subscriptions?id=${this.id}&langBU=${this.lang}-${this.bu}`;
 
-    const wsUri = this.wsBaseUrl + '/subscriptions?id=' + this.id + '&langBU=' + this.lang + '-' + this.bu;
-
-    let options = {
+    const options = {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: 'GET'
+      method: 'GET',
     };
 
     return fetch(wsUri, options)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -44,7 +42,7 @@ class MySubscriptionsService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500');
 
         throw error;
@@ -63,27 +61,25 @@ class MySubscriptionsService {
    * }
    */
   async postCampaign(campaignMemberId, checked, id) {
-    // console.log('MySubscriptionsService.postCampaign()', campaignId, campaignMemberId);
-    
-    const wsUri = this.wsBaseUrl + '/campaign';
+    const wsUri = `${this.wsBaseUrl}/campaign`;
 
-    let body = {
-      campaignMemberId: campaignMemberId,
-      id: id,
-      value: checked
+    const body = {
+      campaignMemberId,
+      id,
+      value: checked,
     };
 
-    let options = {
+    const options = {
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: 'POST'
+      method: 'POST',
     };
 
     return fetch(wsUri, options)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -96,7 +92,7 @@ class MySubscriptionsService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500', options);
 
         throw error;
@@ -114,27 +110,25 @@ class MySubscriptionsService {
    * }
    */
   async postSubscription(availableSubId, fieldValue) {
-    // console.log('MySubscriptionsService.postSubscription()', availableSubId, fieldValue);
-    
-    const wsUri = this.wsBaseUrl + '/subscription';
+    const wsUri = `${this.wsBaseUrl}/subscription`;
 
-    let body = {
-      availableSubId: availableSubId,
+    const body = {
+      availableSubId,
       id: this.id,
-      value: fieldValue
+      value: fieldValue,
     };
 
-    let options = {
+    const options = {
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: 'POST'
+      method: 'POST',
     };
 
     return fetch(wsUri, options)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -147,7 +141,7 @@ class MySubscriptionsService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500', options);
 
         throw error;
@@ -163,25 +157,23 @@ class MySubscriptionsService {
    * }
    */
   async postUnsubscribeAll() {
-    // console.log('MySubscriptionsService.postUnsubscribeAll()');
+    const wsUri = `${this.wsBaseUrl}/unsubscribeAll`;
 
-    const wsUri = this.wsBaseUrl + '/unsubscribeAll';
-
-    let body = {
-      id: this.id
+    const body = {
+      id: this.id,
     };
 
-    let options = {
+    const options = {
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: 'POST'
+      method: 'POST',
     };
 
     return fetch(wsUri, options)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.error) {
           this.logger.post(wsUri, response.message, response.status, response.body);
 
@@ -194,7 +186,7 @@ class MySubscriptionsService {
 
         return response;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.post(wsUri, error, '500', options);
 
         throw error;

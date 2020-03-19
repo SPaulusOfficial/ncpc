@@ -1,26 +1,30 @@
 import React from 'react';
 
 import $ from 'jquery';
+import PropTypes from 'prop-types';
 
 class TextInput extends React.Component {
   constructor(props) {
     super(props);
-    
+
+    const { defaultValue } = this.props;
+
     this.state = {
-      value: (this.props.defaultValue === ' ') ? null : this.props.defaultValue
+      value: (defaultValue === ' ') ? null : defaultValue,
     };
 
     /*
      * EVENT HANDLERS
      */
 
-    this.onBlur = event => {
+    this.onBlur = (event) => {
+      const { callback } = this.props;
       const $this = $(event.target);
 
-      this.setState({ value:$this.val() }, () => {
-        this.props.callback(event, this.props, this.state);
+      this.setState({ value: $this.val() }, () => {
+        callback(event, this.props, this.state);
       });
-    }
+    };
   }
 
   /*
@@ -28,14 +32,38 @@ class TextInput extends React.Component {
    */
 
   render() {
+    const {
+      defaultValue,
+      disabled,
+      helpText,
+      id,
+      label,
+      placeholder,
+    } = this.props;
+
     return (
       <div className="form-group">
-        <label htmlFor={this.props.id}>{this.props.label}</label>
-        <input className="form-control" aria-describedby={this.props.id} defaultValue={this.props.defaultValue} disabled={this.props.disabled} id={this.props.id} name={this.props.id} onBlur={this.onBlur} placeholder={this.props.placeholder} type="text" />
-        {this.props.helpText ? <small className="form-text text-muted" id={this.props.id + '_help'}>{this.props.helpText}</small> : ''}
+        <label htmlFor={id}>{label}</label>
+        <input className="form-control" aria-describedby={id} defaultValue={defaultValue} disabled={disabled} id={id} name={id} onBlur={this.onBlur} placeholder={placeholder} type="text" />
+        {helpText ? <small className="form-text text-muted" id={`${id}_help`}>{helpText}</small> : ''}
       </div>
-    )
+    );
   }
 }
+
+TextInput.defaultProps = {
+  helpText: '',
+  placeholder: '',
+};
+
+TextInput.propTypes = {
+  callback: PropTypes.func.isRequired,
+  defaultValue: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  helpText: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+};
 
 export default TextInput;

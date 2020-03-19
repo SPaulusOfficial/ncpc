@@ -1,0 +1,119 @@
+[
+  {
+    "id":"a0R2E00000IitLZUAZ",
+    "controlType":"Text",
+    "label":"First Name",
+    "placeholder":"Enter your first name",
+    "disabled":false,
+    "order":1,
+    "value":"Eric",
+    "mappedField":"FirstName",
+    "options":[
+
+    ]
+  },
+  {
+    "id":"a0R2E00000IitLeUAJ",
+    "controlType":"Text",
+    "label":"Last Name",
+    "placeholder":"Enter your last name",
+    "disabled":false,
+    "order":2,
+    "value":"Ranschau",
+    "mappedField":"LastName",
+    "options":[
+
+    ]
+  },
+  {
+    "id":"a0R2E00000IitLjUAJ",
+    "controlType":"Email",
+    "label":"Email",
+    "placeholder":"Enter your Email",
+    "disabled":true,
+    "order":3,
+    "value":"eranschau@horizontal.com",
+    "mappedField":"Email",
+    "options":[
+
+    ]
+  },
+  {
+    "id":"a0R2E00000JeBluUAF",
+    "controlType":"Multi-Picklist",
+    "label":"Product Interests",
+    "placeholder":"Product Interests",
+    "disabled":true,
+    "order":4,
+    "value":"Value 2;Value 4",
+    "mappedField":"ncpc__Product_Interest__c",
+    "options":[
+      {
+        "id":"a0Y2E00000c6W0tUAE",
+        "label":"Value 6",
+        "order":6,
+        "value":"Value 6"
+      },
+      {
+        "id":"a0Y2E00000c6W0pUAE",
+        "label":"Value 5",
+        "order":5,
+        "value":"Value 5"
+      },
+      {
+        "id":"a0Y2E00000c6W0eUAE",
+        "label":"Value 1",
+        "order":1,
+        "value":"Value 1"
+      },
+      {
+        "id":"a0Y2E00000c6W0fUAE",
+        "label":"Value 2",
+        "order":2,
+        "value":"Value 2"
+      },
+      {
+        "id":"a0Y2E00000c6W0jUAE",
+        "label":"Value 3",
+        "order":3,
+        "value":"Value 3"
+      },
+      {
+        "id":"a0Y2E00000c6W0oUAE",
+        "label":"Value 4",
+        "order":4,
+        "value":"Value 4"
+      }
+    ]
+  },
+  {
+    "id":"a0R2E00000Jfr1pUAB",
+    "controlType":"Picklist",
+    "label":"Lead Source",
+    "placeholder":"Lead Source",
+    "disabled":true,
+    "order":5,
+    "value":"Phone Inquiry",
+    "mappedField":"LeadSource",
+    "options":[
+      {
+        "id":"a0Y2E00000c6weUUAQ",
+        "label":"Partner Referral",
+        "order":3,
+        "value":"Partner Referral"
+      },
+      {
+        "id":"a0Y2E00000c6wVqUAI",
+        "label":"Web",
+        "order":1,
+        "value":"Web"
+      },
+      {
+        "id":"a0Y2E00000c6wWZUAY",
+        "label":"Phone Inquiry",
+        "order":2,
+        "value":"Phone Inquiry"
+      }
+    ]
+  }
+]

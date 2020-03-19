@@ -13,6 +13,10 @@ textarea {
   line-height: 14px;
   padding: spacer(1.5) spacer(1);
 
+  &:disabled {
+    background-color: $form-disabled;
+  }
+
   &.input-validation-error {
     border-color: $color-error;
     color: $color-error;

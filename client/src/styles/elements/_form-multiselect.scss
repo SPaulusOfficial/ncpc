@@ -51,7 +51,7 @@
 }
 
 .form-multiselect *[class*='-MenuList'] {
-  border-radius: 4px;
+  border-radius: var(--border-radius);
 }
 
 .form-multiselect *[class*='-multiValue'] {
@@ -69,6 +69,7 @@
 
 .form-multiselect *[class*='-multiValue'] > *:last-child:hover {
   background-color: var(--button-hover);
+  border-radius: calc(var(--border-radius) * 0.75);
   color: $color-white;
   cursor: pointer;
 }
@@ -86,4 +87,10 @@
 
 .form-multiselect *[class*='-placeholder'] {
   color: $form-multiselect-color;
+}
+
+// State: Disabled
+
+.isDisabled .form-multiselect {
+  background-color: $form-disabled;
 }
