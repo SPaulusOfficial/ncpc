@@ -25,12 +25,12 @@ function sayHello() {
 
 //  pull delta's / inserts for contact, lead, campaignmember from postgres tables
 //  upsert into the respective tables
-
+/*
 function getRecords(){
     const profile = await db.query("SELECT prof.sfid as profid, prof.ncpc__field_type__c as fieldType, prof.ncpc__editable__c as disabled, prof.ncpc__order__c as order, variant.ncpc__field_text__c as label, variant.ncpc__field_placeholder_text__c as placeholder, pOption.ncpc__order__c as optionorder, pvOption.ncpc__value__c as optionvalue, pvOption.ncpc__option__c as optionlabel, pOption.sfid as optionid, * FROM "+schema+".ncpc__pc_profile_field__c as prof INNER JOIN "+schema+".ncpc__profile_field_variant__c as variant ON prof.sfid = variant.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__pc_profile_option__c as pOption ON prof.sfid = pOption.ncpc__profile_field__c LEFT JOIN "+schema+".ncpc__profile_option_variant__c as pvOption ON pOption.sfid = pvOption.ncpc__profile_option__c AND "+vpOptionLangBUClause+" WHERE prof.ncpc__status__c = true AND "+variantLangBUClause+" ORDER BY prof.ncpc__order__c");
     var profileRows = profile.rows;
     batchRecords(records, 'contact', 'update');
-}
+}*/
 
 //records, object, type
 function batchRecords(){
