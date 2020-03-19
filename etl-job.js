@@ -8,6 +8,9 @@ var conn = new jsforce.Connection({
         redirectUri : process.env.ENV_URL
     }
 });
+conn.login("shanesmyth8+nocodepc@gmail.com", "cM375!355nlPhuRyiZh1E7fXQogrj5QD5", function(err, userInfo) {
+    if (err) { return console.error(err); }
+});
 //
 // Get authorization url and redirect to it.
 //
@@ -29,18 +32,19 @@ function getRecords(){
     batchRecords(records, 'contact', 'update');
 }
 
-function batchRecords(records, object, type){
+//records, object, type
+function batchRecords(){
     // Provide records
-    var accounts = [
-        { Name : 'Account #1' },
-        { Name : 'Account #2' },
-        { Name : 'Account #3' },
+    var subs = [
+        { id : 'a022E00000XerA0QAJ', ncpc__Contact__c: "0032E00002SKfXdQAL", ncpc__Related_Subscription_Interest__c: "a012E00000jdwlsQAA", ncpc__Opt_In__c: "false"},
+        { id : 'a022E00000Xf1LoQAJ', ncpc__Contact__c: "0032E00002SKfXkQAL", ncpc__Related_Subscription_Interest__c: "a012E00000hJ2uPQAS", ncpc__Opt_In__c: "true"},
+        { id : '', ncpc__Contact__c: "0032E00002jqaniQAA", ncpc__Related_Subscription_Interest__c: "a012E00000hJ2uKQAS", ncpc__Opt_In__c: "true"}
     ];
     // Create job and batch
-    var job = conn.bulk.createJob("Account", "insert");
+    var job = conn.bulk.createJob("ncpc__PC_Subscription__c", "upsert");
     var batch = job.createBatch();
     // start job
-    batch.execute(accounts);
+    batch.execute(subs);
     // listen for events
     batch.on("error", function(batchInfo) { // fired when batch request is queued in server.
         console.log('Error, batchInfo:', batchInfo);
@@ -62,3 +66,4 @@ function batchRecords(records, object, type){
 }
 
 sayHello();
+batchRecords()
